@@ -5,11 +5,13 @@ import com.geekbrains.spring.web.api.dto.StringResponse;
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
 import com.geekbrains.spring.web.booking.services.BookingService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/booking")
 @RequiredArgsConstructor
+@Slf4j
 public class BookingsController {
     private final BookingService bookingService;
     private final BookingConverter bookingConverter;
@@ -26,6 +28,7 @@ public class BookingsController {
 
     @GetMapping("/{uuid}/add/{productId}")
     public void add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
+        log.info("Пришел запрос на добавление");
         bookingService.addToBooking(getCurrentBookingUuid(username, uuid), productId);
     }
 

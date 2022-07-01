@@ -1,7 +1,7 @@
 server:
   port: 8188
   servlet:
-    context-path: /web-market-auth
+    context-path: /web-new-booking-auth
 spring:
   datasource:
     driver-class-name: org.h2.Driver

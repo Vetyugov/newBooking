@@ -1,9 +1,9 @@
 server:
   port: 8189
   servlet:
-    context-path: /web-newbooking-core
+    context-path: /web-new-booking-core
 utils:
-  cart:
+  booking:
     prefix: SPRING_WEB_
 spring:
   datasource:
@@ -22,8 +22,8 @@ spring:
       settings:
         web-allow-others: false
 integrations:
-  cart-service:
-    url: http://localhost:5555/cart
+  booking-service:
+    url: http://localhost:5555/booking
     connect-timeout: 2000
     read-timeout: 10000
     write-timeout: 2000

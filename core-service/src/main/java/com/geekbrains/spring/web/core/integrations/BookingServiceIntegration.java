@@ -4,13 +4,16 @@ import com.geekbrains.spring.web.api.bookings.BookingDto;
 import com.geekbrains.spring.web.api.exceptions.BookingServiceAppError;
 import com.geekbrains.spring.web.core.exceptions.BookingServiceIntegrationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class BookingServiceIntegration {
     private final WebClient bookingServiceWebClient;
+
 
     public void clearUserBooking(String username) {
         bookingServiceWebClient.get()
@@ -22,6 +25,7 @@ public class BookingServiceIntegration {
     }
 
     public BookingDto getUserBooking(String username) {
+        log.debug("bookingServiceWebClient");
         BookingDto booking = bookingServiceWebClient.get()
                 .uri("/api/v1/booking/0")
                 .header("username", username)

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/apartments")
 @RequiredArgsConstructor
 @Tag(name = "Продукты", description = "Методы работы с продуктами")
+@Slf4j
 public class ApartmentsController {
     private final ApartmentsService apartmentsService;
     private final ApartmentConverter apartmentConverter;
@@ -41,6 +43,7 @@ public class ApartmentsController {
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
             @RequestParam(name = "title_part", required = false) String titlePart
     ) {
+        log.info("Запрос на получение списка апартаментов");
         if (page < 1) {
             page = 1;
         }

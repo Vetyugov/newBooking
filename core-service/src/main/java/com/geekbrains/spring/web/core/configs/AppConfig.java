@@ -24,7 +24,7 @@ public class AppConfig {
     private final BookingServiceIntegrationProperties bookingServiceIntegrationProperties;
 
     @Bean
-    public WebClient cartServiceWebClient() {
+    public WebClient bookingServiceWebClient() {
         TcpClient tcpClient = TcpClient
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, bookingServiceIntegrationProperties.getConnectTimeout())
