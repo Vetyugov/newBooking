@@ -26,6 +26,14 @@
                 templateUrl: 'order_pay/order_pay.html',
                 controller: 'orderPayController'
             })
+            .when('/host_account', {
+                templateUrl: 'host_account/host_account.html',
+                controller: 'hostAccountsController'
+            })
+            .when('/guest_account', {
+                templateUrl: 'guest_account/guest_account.html',
+                controller: 'guestAccountsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -97,4 +105,22 @@ angular.module('new-booking-front').controller('indexController', function ($roo
             return false;
         }
     };
+/*
+    $rootScope.isUserHost = function () {
+        if ($localStorage.springWebUser && $scope.user.role == 'host') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.isUserGuest = function () {
+        if ($localStorage.springWebUser && $scope.user.role == 'guest') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+ */
 });
