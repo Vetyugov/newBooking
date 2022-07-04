@@ -4,9 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-@Schema(description = "Модель для создания и отображения апартамента")
-public class ApartmentDto {
-
+@Schema(description = "Модель для бронирования апартамента")
+public class BookingApartmentDto {
     @Schema(description = "ID апартамента", required = true, example = "1")
     private Long id;
 
@@ -40,6 +39,11 @@ public class ApartmentDto {
     @Schema(description = "Кол-во спальных мест", required = true, example = "4")
     private Integer numberOfBeds;
 
+    @Schema(description = "Начальная дата бронирования", required = true, example = "4")
+    private String bookingStartDate;
+
+    @Schema(description = "Конечная дата бронирования", required = true, example = "4")
+    private String bookingFinishDate;
 
     public Long getId() {
         return id;
@@ -85,10 +89,18 @@ public class ApartmentDto {
         return numberOfBeds;
     }
 
+    public String getBookingStartDate() {
+        return bookingStartDate;
+    }
+
+    public String getBookingFinishDate() {
+        return bookingFinishDate;
+    }
+
     @Override
     public String toString() {
-        return "ApartmentDto{" +
-                ", title='" + title + '\'' +
+        return "BookingApartmentDto{" +
+                "title='" + title + '\'' +
                 ", pricePerNight=" + pricePerNight +
                 ", category='" + category + '\'' +
                 ", city='" + city + '\'' +
@@ -98,73 +110,85 @@ public class ApartmentDto {
                 ", numberOfGuests=" + numberOfGuests +
                 ", numberOfRooms=" + numberOfRooms +
                 ", numberOfBeds=" + numberOfBeds +
+                ", bookingStartDate='" + bookingStartDate + '\'' +
+                ", bookingFinishDate='" + bookingFinishDate + '\'' +
                 '}';
     }
 
     public static class Builder {
-        private final ApartmentDto apartmentDto;
+        private final BookingApartmentDto bookingApartmentDto;
 
         public Builder() {
-            this.apartmentDto = new ApartmentDto();
+            this.bookingApartmentDto = new BookingApartmentDto();
         }
 
         public Builder id(Long id) {
-            apartmentDto.id = id;
+            bookingApartmentDto.id = id;
             return this;
         }
 
         public Builder title(String title) {
-            apartmentDto.title = title;
+            bookingApartmentDto.title = title;
             return this;
         }
 
         public Builder pricePerNight(BigDecimal pricePerNight) {
-            apartmentDto.pricePerNight = pricePerNight;
+            bookingApartmentDto.pricePerNight = pricePerNight;
             return this;
         }
 
         public Builder category(String category) {
-            apartmentDto.category = category;
+            bookingApartmentDto.category = category;
             return this;
         }
 
         public Builder city(String city) {
-            apartmentDto.city = city;
+            bookingApartmentDto.city = city;
             return this;
         }
 
         public Builder street(String street) {
-            apartmentDto.street = street;
+            bookingApartmentDto.street = street;
             return this;
         }
 
         public Builder buildingNumber(Integer buildingNumber) {
-            apartmentDto.buildingNumber = buildingNumber;
+            bookingApartmentDto.buildingNumber = buildingNumber;
             return this;
         }
 
         public Builder squareMeters(Integer squareMeters) {
-            apartmentDto.squareMeters = squareMeters;
+            bookingApartmentDto.squareMeters = squareMeters;
             return this;
         }
 
         public Builder numberOfGuests(Integer numberOfGuests) {
-            apartmentDto.numberOfGuests = numberOfGuests;
+            bookingApartmentDto.numberOfGuests = numberOfGuests;
             return this;
         }
 
         public Builder numberOfRooms(Integer numberOfRooms) {
-            apartmentDto.numberOfRooms = numberOfRooms;
+            bookingApartmentDto.numberOfRooms = numberOfRooms;
             return this;
         }
 
         public Builder numberOfBeds(Integer numberOfBeds) {
-            apartmentDto.numberOfBeds = numberOfBeds;
+            bookingApartmentDto.numberOfBeds = numberOfBeds;
             return this;
         }
 
-        public ApartmentDto build() {
-            return apartmentDto;
+        public Builder bookingStartDate(String bookingStartDate) {
+            bookingApartmentDto.bookingStartDate = bookingStartDate;
+            return this;
+        }
+
+        public Builder bookingFinishDate(String bookingFinishDate) {
+            bookingApartmentDto.bookingFinishDate = bookingFinishDate;
+            return this;
+        }
+
+        public BookingApartmentDto build() {
+            return bookingApartmentDto;
         }
     }
 }

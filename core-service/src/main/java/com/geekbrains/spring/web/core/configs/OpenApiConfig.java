@@ -12,7 +12,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("GeekBrains - Spring-Web - Продуктовый сервис")
+                                .title("GeekBrains - Spring-Web - Booking service")
                                 .version("1")
                 );
     }

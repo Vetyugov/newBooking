@@ -15,4 +15,8 @@ public class ApartmentsSpecifications {
     public static Specification<Apartment> titleLike(String titlePart) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
     }
+
+    public static Specification<Apartment> categoryLike(String categoryPart) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("category").get("title"), String.format("%%%s%%", categoryPart));
+    }
 }
