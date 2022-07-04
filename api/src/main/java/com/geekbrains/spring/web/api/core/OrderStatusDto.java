@@ -11,13 +11,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Schema(description = "Статус заказа")
 @ToString
+@Data
+@Builder
 public class OrderStatusDto {
     @Schema(description = "Идентификатор", example = "123")
     private Long id;
 
-    @Schema(description = "Описание статуса заказа на английском", example = "booked")
+    @Schema(description = "Описание статуса заказа", example = "booked")
     private String description;
-
-    @Schema(description = "Описание статуса заказа на русском", example = "забронирован")
-    private String descriptionRU;
 }
