@@ -1,6 +1,7 @@
 package com.geekbrains.spring.web.core.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,26 +17,31 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String username;
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<OrderItem> items;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "apartment_id")
+    private Apartment apartment;
+
+    @Column(name = "apartment_check_in")
+    private LocalDateTime apartmentCheckIn;
+
+    @Column(name = "apartment_check_out")
+    private LocalDateTime apartmentCheckOut;
+
+    @Column (name = "price")
+    private BigDecimal price;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "phone")
-    private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -44,4 +50,8 @@ public class Order {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "status_id")
+    private OrderStatus status;
 }
