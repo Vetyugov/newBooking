@@ -11,6 +11,7 @@
         <module>auth-service</module>
         <module>api</module>
 		<module>booking-service</module>
+		<module>personal-account-service</module>
 	</modules>
 
     <parent>
