@@ -12,7 +12,7 @@ import java.util.List;
 public class ApartmentValidator {
     public void validate(ApartmentDto apartmentDto) {
         List<String> errors = new ArrayList<>();
-        if (apartmentDto.getPrice().compareTo(BigDecimal.ONE) < 0) {
+        if (apartmentDto.getPricePerNight().compareTo(BigDecimal.ONE) < 0) {
             errors.add("Цена апартамента не может быть меньше 1");
         }
         if (apartmentDto.getTitle().isBlank()) {
