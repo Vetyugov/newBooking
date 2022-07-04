@@ -1,26 +1,30 @@
-package com.geekbrains.spring.web.auth.entities;
+package com.geekbrains.spring.web.core.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
+@Table (name = "apartment_categories")
 @Data
-@Table(name = "roles")
-@NoArgsConstructor
-public class Role {
+public class ApartmentCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column (name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column (name = "title")
+    private String title;
+
+    @OneToMany (mappedBy = "apartmentCategory", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Apartment> apartments;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -30,6 +34,4 @@ public class Role {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-//    private Collection<GrantedAuthority> authorities;
 }
