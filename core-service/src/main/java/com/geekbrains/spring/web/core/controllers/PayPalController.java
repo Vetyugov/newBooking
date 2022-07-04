@@ -27,14 +27,14 @@ public class PayPalController {
     private final OrderService orderService;
     private final PayPalService payPalService;
 
-    @PostMapping("/create/{orderId}")
-    public ResponseEntity<?> createOrder(@PathVariable Long orderId) throws IOException {
-        OrdersCreateRequest request = new OrdersCreateRequest();
-        request.prefer("return=representation");
-        request.requestBody(payPalService.createOrderRequest(orderId));
-        HttpResponse<Order> response = payPalClient.execute(request);
-        return new ResponseEntity<>(response.result().id(), HttpStatus.valueOf(response.statusCode()));
-    }
+//    @PostMapping("/create/{orderId}")
+//    public ResponseEntity<?> createOrder(@PathVariable Long orderId) throws IOException {
+//        OrdersCreateRequest request = new OrdersCreateRequest();
+//        request.prefer("return=representation");
+//        request.requestBody(payPalService.createOrderRequest(orderId));
+//        HttpResponse<Order> response = payPalClient.execute(request);
+//        return new ResponseEntity<>(response.result().id(), HttpStatus.valueOf(response.statusCode()));
+//    }
 
     @PostMapping("/capture/{payPalId}")
     public ResponseEntity<?> captureOrder(@PathVariable String payPalId) throws IOException {

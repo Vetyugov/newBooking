@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.core.converters;
 
-import com.geekbrains.spring.web.api.core.OrderDto;
+import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.core.entities.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,20 +10,22 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class OrderConverter {
-    private final OrderItemConverter orderItemConverter;
 
-    public Order dtoToEntity(OrderDto orderDto) {
+    public Order dtoToEntity(OrderDtoInfo orderDto) {
         throw new UnsupportedOperationException();
     }
 
-    public OrderDto entityToDto(Order order) {
-        OrderDto out = new OrderDto();
-        out.setId(order.getId());
-        out.setAddress(order.getAddress());
-        out.setPhone(order.getPhone());
-        out.setTotalPrice(order.getTotalPrice());
-        out.setUsername(order.getUsername());
-        out.setItems(order.getItems().stream().map(orderItemConverter::entityToDto).collect(Collectors.toList()));
+    public OrderDtoInfo entityToDtoInfo(Order order) {
+        OrderDtoInfo out = OrderDtoInfo.builder()
+                .id(order.getId())
+                .username(order.getUsername())
+                .apartment_id(order.getApartment().getId())
+                .apartmentCheckIn(order.getApartmentCheckIn())
+                .apartmentCheckOut(order.getApartmentCheckOut())
+                .price(order.getPrice())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus().getDescriptionRU())
+                .build();
         return out;
     }
 }
