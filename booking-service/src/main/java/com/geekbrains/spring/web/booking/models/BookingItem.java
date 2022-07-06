@@ -21,8 +21,8 @@ public class BookingItem {
         this.apartmentId = apartmentDto.getId();
         this.apartmentTitle = apartmentDto.getTitle();
         this.quantity = 1;
-        this.pricePerApartment = apartmentDto.getPrice();
-        this.price = apartmentDto.getPrice();
+//        this.pricePerApartment = apartmentDto.getPrice();
+//        this.price = apartmentDto.getPrice();
     }
 
     public void changeQuantity(int delta) {
