@@ -1,14 +1,11 @@
-package com.geekbrains.spring.web.personalaccounts.controllers;
+package com.geekbrains.spring.web.auth.controllers;
 
+import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
-//import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import com.geekbrains.spring.web.personalaccounts.converters.GuestConverter;
-import com.geekbrains.spring.web.personalaccounts.dto.GuestDto;
-import com.geekbrains.spring.web.personalaccounts.dto.IndividualHostDto;
-import com.geekbrains.spring.web.personalaccounts.entities.Guest;
-import com.geekbrains.spring.web.personalaccounts.entities.Host;
-import com.geekbrains.spring.web.personalaccounts.repositories.GuestRepository;
-import com.geekbrains.spring.web.personalaccounts.services.GuestService;
+import com.geekbrains.spring.web.auth.converters.GuestConverter;
+import com.geekbrains.spring.web.auth.entities.Guest;
+import com.geekbrains.spring.web.auth.repositories.GuestRepository;
+import com.geekbrains.spring.web.auth.services.GuestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,21 +45,21 @@ public class GuestController {
         return guestConverter.entityToGuestDto(guest);
     }
 
-//    @GetMapping("/{username}")
-//    @Operation(
-//            summary = "Получение информации о себе как о госте по username",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "Успешный ответ", responseCode = "200",
-//                            content = @Content(schema = @Schema(implementation = GuestDto.class))
-//                    )
-//            }
-//    )
-//    public GuestDto getGuestByUsername(
-//            @PathVariable @Parameter(description = "Username гостя (пользователя)", required = true) String username) {
-//        Guest guest = guestService.findByUsername(username);
-//        return guestConverter.entityToGuestDto(guest);
-//    }
+    @GetMapping("/{username}")
+    @Operation(
+            summary = "Получение информации о себе как о госте по username",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = GuestDto.class))
+                    )
+            }
+    )
+    public GuestDto getGuestByUsername(
+            @PathVariable @Parameter(description = "Username гостя (пользователя)", required = true) String username) {
+        Guest guest = guestService.findByUsername(username);
+        return guestConverter.entityToGuestDto(guest);
+    }
 
 //    public GuestDto getGuestInfo(Principal principal) {
 //        return guestConverter.entityToGuestDto(guestService.findByUsername(principal.getName()));

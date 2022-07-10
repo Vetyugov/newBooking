@@ -28,11 +28,19 @@
             })
             .when('/host_account', {
                 templateUrl: 'host_account/host_account.html',
-                controller: 'hostAccountsController'
+                controller: 'hostAccountController'
             })
             .when('/guest_account', {
                 templateUrl: 'guest_account/guest_account.html',
-                controller: 'guestAccountsController'
+                controller: 'guestAccountController'
+            })
+            .when('/profile', {
+                templateUrl: 'profile/profile.html',
+                controller: 'profileController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -68,7 +76,7 @@
 
 angular.module('new-booking-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/auth/auth', $scope.user)
+        $http.post('http://localhost:5555/auth//api/v1/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -104,6 +112,11 @@ angular.module('new-booking-front').controller('indexController', function ($roo
         } else {
             return false;
         }
+    };
+
+    $scope.navToRegistration = function () {
+            $location.path('/registration');
+
     };
 /*
     $rootScope.isUserHost = function () {

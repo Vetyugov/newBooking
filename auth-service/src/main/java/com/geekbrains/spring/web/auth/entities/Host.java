@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.personalaccounts.entities;
+package com.geekbrains.spring.web.auth.entities;
 
 import com.geekbrains.spring.web.auth.entities.Role;
 import lombok.AllArgsConstructor;

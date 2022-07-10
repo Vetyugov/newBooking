@@ -49,6 +49,9 @@
                             <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm"
                                     style="margin-left: 10px;" type="submit">Войти
                             </button>
+                            <button ng-show="!isUserLoggedIn()"
+                                    class="btn btn-outline-warning" ng-click="navToRegistration()">Зарегистрироваться
+                            </button>
                         </div>
                     </form>
                 </li>
@@ -58,7 +61,8 @@
 <!--                        <a class="nav-link" href="#!/host_account">Личный кабинет</a>-->
 <!--                    </li>-->
 <!--                    <li class="nav-item" ng-show="isUserGuest()" style="padding: 4px;">-->
-                        <a class="nav-link" href="#!/guest_account">Личный кабинет</a>
+<!--                        <a class="nav-link" href="#!/profile">Личный кабинет</a>-->
+                    <a class="nav-link" href="#!/profile">Личный кабинет</a>
 <!--                    </li>-->
 
                 </li>
@@ -73,6 +77,9 @@
     <script src="booking/booking.js"></script>
     <script src="orders/orders.js"></script>
     <script src="order_pay/order_pay.js"></script>
+    <script src="registration/registration.js"></script>
+    <script src="guest_account/guest_account.js"></script>
+    <script src="profile/profile.js"></script>
     <script src="welcome/welcome.js"></script>
     <script
             src="https://www.paypal.com/sdk/js?client-id=AZX9sEz_m_KSN8L6yOcKLZMq4BJ5bJ1uRpNzPE_5PqswQIRysphIDBii578puqKFxEEP-3QoK5O6Kk94&currency=RUB">

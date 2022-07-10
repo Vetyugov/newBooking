@@ -1,8 +1,8 @@
-package com.geekbrains.spring.web.personalaccounts.converters;
+package com.geekbrains.spring.web.auth.converters;
 
-import com.geekbrains.spring.web.personalaccounts.dto.IndividualHostDto;
-import com.geekbrains.spring.web.personalaccounts.dto.LegalHostDto;
-import com.geekbrains.spring.web.personalaccounts.entities.Host;
+import com.geekbrains.spring.web.api.dto.IndividualHostDto;
+import com.geekbrains.spring.web.api.dto.LegalHostDto;
+import com.geekbrains.spring.web.auth.entities.Host;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

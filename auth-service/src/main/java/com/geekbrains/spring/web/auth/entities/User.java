@@ -1,16 +1,26 @@
 package com.geekbrains.spring.web.auth.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
 @Data
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,26 +36,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    @Column(name = "title_firm")
-//    private String titleFirm;
-//
-//    @Column(name = "country")
-//    private String country;
-//
-//    @Column(name = "address")
-//    private String address;
-//
-//    @Column(name = "office_address")
-//    private String officeAddress;
-//
-//    @Column(name = "postcode")
-//    private Integer postcode;
-//
-//    @Column(name = "inn")
-//    private Integer inn;
-//
-//    @Column(name = "account")// или отдельная таблица со счетами
-//    private Integer account;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "patronymic")
+    private String patronymic;
+
+    @Column(name = "surname")
+    private String surname;
 
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -60,4 +58,17 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public User(Long id, String username, String password, String email, String name, String patronymic, String surname) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.surname = surname;
+    }
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Collection<GrantedAuthority> authorities;
 }

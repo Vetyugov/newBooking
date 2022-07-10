@@ -1,16 +1,13 @@
-package com.geekbrains.spring.web.personalaccounts.dto;
+package com.geekbrains.spring.web.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -81,7 +78,6 @@ public class IndividualHostDto {
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен ИНН")
     Integer inn;
 
-    @Column(name = "account")// или отдельная таблица со счетами
     @NotBlank(message = "Укажите номер счета. Обязательное поле")
     @Size(min = 16, max = 20, message = "Номер счета должен содержать от 16 до 20 символов")
     @Schema(description = "Номер счета пользователя (хозяина)", example = "55123456785434346789", required = true)
@@ -90,21 +86,6 @@ public class IndividualHostDto {
 
 //    @Schema(description = "Список ролей пользователя(хозяина)", implementation = List.class)// по этой теме есть вопросы
 //    Collection<String> roles;
-
-//    public IndividualHostDto(Long id, String name, String patronymic, String surname, String email, String username, String password, Integer postcode, String country, String address, Integer inn, Integer account) {
-//        this.id = id;
-//        this.name = name;
-//        this.patronymic = patronymic;
-//        this.surname = surname;
-//        this.email = email;
-//        this.username = username;
-//        this.password = password;
-//        this.country = country;
-//        this.address = address;
-//        this.postcode = postcode;
-//        this.inn = inn;
-//        this.account = account;
-//    }
 
     public IndividualHostDto(Long id, String name, String patronymic, String surname, String email, String username, String password, Integer postcode, String country, String address, Integer inn, Integer account) {
         this.id = id;

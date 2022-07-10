@@ -1,16 +1,13 @@
-package com.geekbrains.spring.web.personalaccounts.dto;
+package com.geekbrains.spring.web.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -88,7 +85,6 @@ public class LegalHostDto {
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен ИНН")
     Integer inn;
 
-    @Column(name = "account")// или отдельная таблица со счетами
     @NotBlank(message = "номер счета. Обязательное поле")
     @Size(min = 16, max = 20, message = "Номер счета должен содержать от 16 до 20 символов")
     @Schema(description = "Номер счета пользователя (хозяина)", example = "55123456785434346789", required = true)

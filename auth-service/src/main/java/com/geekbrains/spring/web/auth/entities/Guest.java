@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.personalaccounts.entities;
+package com.geekbrains.spring.web.auth.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +21,10 @@ public class Guest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "name")
     private String name;
@@ -50,6 +54,16 @@ public class Guest {
 
     public Guest(Long id, String name, String patronymic, String surname, String email, String username, String password) {
         this.id = id;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.surname = surname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Guest(User user, String name, String patronymic, String surname, String email, String username, String password) {
+        this.user = user;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;

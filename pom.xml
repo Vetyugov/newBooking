@@ -11,7 +11,6 @@
         <module>auth-service</module>
         <module>api</module>
 		<module>booking-service</module>
-		<module>personal-account-service</module>
 	</modules>
 
     <parent>
@@ -36,7 +35,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
