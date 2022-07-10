@@ -24,6 +24,17 @@ angular.module('new-booking-front').controller('ordersController', function ($sc
         $location.path('/order_pay/' + orderId);
     }
 
+    $scope.cancelOrder = function (orderId) {
+        $http({
+           url: contextPath + 'api/v1/orders/cancel/'+orderId,
+           method: 'GET'
+        }).then(function (response) {
+           $scope.loadOrders();
+           $scope.loadOrdersHistory();
+        });
+
+    }
+
 
     $scope.loadOrders();
     $scope.loadOrdersHistory();

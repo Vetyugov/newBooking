@@ -54,6 +54,11 @@ public class OrdersController {
                             @RequestBody @Parameter(description = "Структура заказа", required = true) OrderDtoCreate orderDetailsDto) {
         orderService.createOrder(username, orderDetailsDto);
     }
+    @GetMapping("/cancel/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        orderService.setStatusCanceledToOrder(orderId);
+    }
 
     @Operation(
             summary = "Запрос на получение списка активных заказов пользователя",

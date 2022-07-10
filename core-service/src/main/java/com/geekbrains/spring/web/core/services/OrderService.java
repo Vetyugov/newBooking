@@ -74,4 +74,10 @@ public class OrderService {
     public Optional<Order> findById(Long id) {
         return ordersRepository.findById(id);
     }
+
+    public void setStatusCanceledToOrder(Long id){
+        Order order = ordersRepository.getById(id);
+        order.setStatus(orderStatusService.findByDesc("canceled").get());
+        ordersRepository.saveAndFlush(order);
+    }
 }
