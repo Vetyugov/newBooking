@@ -6,7 +6,7 @@
     <table class="table table-hover">
         <tr>
             <td>ID заказа</td>
-            <td>ID жилья</td>
+            <td>Название жилья</td>
             <td>Дата заселения</td>
             <td>Дата выселения</td>
             <td>Цена за одну ночь</td>
@@ -17,7 +17,7 @@
         <tbody>
         <tr ng-repeat="order in MyOrders">
             <td>{{order.id}}</td>
-            <td>{{order.apartment_id}}</td>
+            <td>{{order.apartmentTitle}}</td>
             <td>{{order.apartmentCheckIn}}</td>
             <td>{{order.apartmentCheckOut}}</td>
             <td>{{order.price}}</td>
@@ -37,7 +37,7 @@
     <table class="table table-hover">
         <tr>
             <td>ID заказа</td>
-            <td>ID жилья</td>
+            <td>Название жилья</td>
             <td>Дата заселения</td>
             <td>Дата выселения</td>
             <td>Цена за одну ночь</td>
@@ -47,7 +47,7 @@
         <tbody>
         <tr ng-repeat="orderH in MyOrdersHistory">
             <td>{{orderH.id}}</td>
-            <td>{{orderH.apartment_id}}</td>
+            <td>{{orderH.apartmentTitle}}</td>
             <td>{{orderH.apartmentCheckIn}}</td>
             <td>{{orderH.apartmentCheckOut}}</td>
             <td>{{orderH.price}}</td>
