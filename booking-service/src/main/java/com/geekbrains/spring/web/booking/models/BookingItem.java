@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
 @Data
 @NoArgsConstructor
@@ -13,20 +15,24 @@ import java.math.BigDecimal;
 public class BookingItem {
     private Long apartmentId;
     private String apartmentTitle;
-    private int quantity;
+    private LocalDateTime apartmentCheckIn;
+    private LocalDateTime apartmentCheckOut;
+    private BigDecimal pricePerNight;
     private BigDecimal pricePerApartment;
-    private BigDecimal price;
+    private Boolean selector;
 
     public BookingItem(ApartmentDto apartmentDto) {
         this.apartmentId = apartmentDto.getId();
         this.apartmentTitle = apartmentDto.getTitle();
-        this.quantity = 1;
-//        this.pricePerApartment = apartmentDto.getPrice();
-//        this.price = apartmentDto.getPrice();
+        this.pricePerNight = apartmentDto.getPricePerNight();
+        this.selector = false;
+        recalculatePrice();
     }
 
-    public void changeQuantity(int delta) {
-        this.quantity += delta;
-        this.price = this.pricePerApartment.multiply(BigDecimal.valueOf(this.quantity));
+    public void recalculatePrice() {
+        long durationInDays = Duration.between(this.apartmentCheckIn, this.apartmentCheckOut).toDays();
+        if(durationInDays <= 1) durationInDays = 1;
+        this.pricePerApartment = this.pricePerNight.multiply(BigDecimal.valueOf(durationInDays));
     }
+
 }

@@ -1,62 +1,34 @@
 package com.geekbrains.spring.web.api.bookings;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+@Data
+@NoArgsConstructor
 
 public class BookingItemDto {
     private Long apartmentId;
     private String apartmentTitle;
-    private int quantity;
+    private LocalDateTime apartmentCheckIn;
+    private LocalDateTime apartmentCheckOut;
+    private BigDecimal pricePerNight;
     private BigDecimal pricePerApartment;
-    private BigDecimal price;
+    private Boolean status;
 
-    public Long getApartmentId() {
-        return apartmentId;
-    }
-
-    public void setApartmentId(Long apartmentId) {
-        this.apartmentId = apartmentId;
-    }
-
-    public String getApartmentTitle() {
-        return apartmentTitle;
-    }
-
-    public void setApartmentTitle(String apartmentTitle) {
-        this.apartmentTitle = apartmentTitle;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPricePerApartment() {
-        return pricePerApartment;
-    }
-
-    public void setPricePerApartment(BigDecimal pricePerApartment) {
-        this.pricePerApartment = pricePerApartment;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BookingItemDto() {
-    }
-
-    public BookingItemDto(Long apartmentId, String apartmentTitle, int quantity, BigDecimal pricePerApartment, BigDecimal price) {
+    public BookingItemDto(Long apartmentId, String apartmentTitle,
+                          LocalDateTime apartmentCheckIn,
+                          LocalDateTime apartmentCheckOut,
+                          BigDecimal pricePerNight, BigDecimal pricePerApartment,
+                          Boolean status) {
         this.apartmentId = apartmentId;
         this.apartmentTitle = apartmentTitle;
-        this.quantity = quantity;
+        this.apartmentCheckIn = apartmentCheckIn;
+        this.apartmentCheckOut = apartmentCheckOut;
+        this.pricePerNight = pricePerNight;
         this.pricePerApartment = pricePerApartment;
-        this.price = price;
+        this.status = status;
     }
 }
