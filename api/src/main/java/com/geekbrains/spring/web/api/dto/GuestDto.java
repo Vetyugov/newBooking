@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.personalaccounts.dto;
+package com.geekbrains.spring.web.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -8,8 +8,6 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +21,9 @@ public class GuestDto {
 
     @Schema(description = "Идентификатор", example = "123")
     Long id;
+
+    @Schema(description = "Идентификатор юзера", example = "123")
+    Long userId;
 
     @Schema(description = "Имя", example = "Александр")
     String name;
@@ -51,10 +52,9 @@ public class GuestDto {
     @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректный пароль")
     String password;
 
-//    @Schema(description = "Список ролей пользователя", implementation = List.class)// по этой теме есть вопросы для обсуждения с командой
-//    Collection<String> roles;
-    public GuestDto(Long id, String name, String patronymic, String surname, String email, String username, String password) {
+    public GuestDto(Long id, Long userId, String name, String patronymic, String surname, String email, String username, String password) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;

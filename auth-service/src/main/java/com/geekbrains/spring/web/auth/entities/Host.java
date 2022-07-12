@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.personalaccounts.entities;
+package com.geekbrains.spring.web.auth.entities;
 
 import com.geekbrains.spring.web.auth.entities.Role;
 import lombok.AllArgsConstructor;
@@ -23,6 +23,14 @@ public class Host {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "role_id", unique = true)
+    private Role role;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     @Column(name = "name")
     private String name;
@@ -55,7 +63,7 @@ public class Host {
     private String officeAddress;
 
     @Column(name = "postcode")
-    private Integer postcode;
+    private String postcode;
 
     @Column(name = "inn")
     private Integer inn;
@@ -77,8 +85,10 @@ public class Host {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Host(Long id, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, Integer postcode, Integer inn, Integer account) {
+    public Host(Long id, Role role, User user, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, String postcode, Integer inn, Integer account) {
         this.id = id;
+        this.role = role;
+        this.user = user;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
@@ -88,21 +98,6 @@ public class Host {
         this.titleFirm = titleFirm;
         this.country = country;
         this.officeAddress = officeAddress;
-        this.postcode = postcode;
-        this.inn = inn;
-        this.account = account;
-    }
-
-    public Host(Long id, String name, String patronymic, String surname, String email, String username, String password, String country, String address, Integer postcode, Integer inn, Integer account) {
-        this.id = id;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.country = country;
-        this.address = address;
         this.postcode = postcode;
         this.inn = inn;
         this.account = account;

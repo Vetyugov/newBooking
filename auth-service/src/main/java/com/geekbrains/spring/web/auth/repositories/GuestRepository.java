@@ -1,6 +1,6 @@
-package com.geekbrains.spring.web.personalaccounts.repositories;
+package com.geekbrains.spring.web.auth.repositories;
 
-import com.geekbrains.spring.web.personalaccounts.entities.Guest;
+import com.geekbrains.spring.web.auth.entities.Guest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,6 @@
-package com.geekbrains.spring.web.personalaccounts.repositories;
+package com.geekbrains.spring.web.auth.repositories;
 
-import com.geekbrains.spring.web.personalaccounts.dto.LegalHostDto;
-import com.geekbrains.spring.web.personalaccounts.entities.Host;
+import com.geekbrains.spring.web.auth.entities.Host;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
