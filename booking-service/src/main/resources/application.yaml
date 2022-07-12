@@ -1,0 +1,10 @@
+server:
+  port: 8166
+  servlet:
+    context-path: /web-new-booking-bookings
+utils:
+  booking:
+    prefix: SPRING_WEB_APP_
+integrations:
+  core-service:
+    url: http://localhost:5555/core
