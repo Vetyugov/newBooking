@@ -21,6 +21,12 @@ public class IndividualHostDto {
     @Schema(description = "Идентификатор", example = "123")
     Long id;
 
+    @Schema(description = "Идентификатор роли", example = "123")
+    Long roleId;
+
+    @Schema(description = "Идентификатор юзера", example = "123")
+    Long userId;
+
     @Schema(description = "Имя хозяина", example = "Александр")
     String name;
 
@@ -70,7 +76,7 @@ public class IndividualHostDto {
     @Size(min = 5, max = 6, message = "Индекс должен содержать от 5 до 6 символов")
     @Schema(description = "почтовый индекс пользователя (хозяина)", example = "23100", required = true)
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен почтовый индекс")
-    Integer postcode;
+    String postcode;
 
     @NotBlank(message = "ИНН. Обязательное поле")
     @Size(min = 10, max = 10, message = "ИНН должен содержать 10 символов")
@@ -84,20 +90,19 @@ public class IndividualHostDto {
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен почтовый индекс")
     Integer account;
 
-//    @Schema(description = "Список ролей пользователя(хозяина)", implementation = List.class)// по этой теме есть вопросы
-//    Collection<String> roles;
-
-    public IndividualHostDto(Long id, String name, String patronymic, String surname, String email, String username, String password, Integer postcode, String country, String address, Integer inn, Integer account) {
+    public IndividualHostDto(Long id, Long roleId, Long userId, String name, String patronymic, String surname, String email, String username, String password, String country, String address, String postcode, Integer inn, Integer account) {
         this.id = id;
+        this.roleId = roleId;
+        this.userId = userId;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.postcode = postcode;
         this.country = country;
         this.address = address;
+        this.postcode = postcode;
         this.inn = inn;
         this.account = account;
     }

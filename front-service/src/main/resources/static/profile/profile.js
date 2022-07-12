@@ -4,11 +4,10 @@ angular.module('new-booking-front').controller('profileController', function ($s
         $http({
             url: 'http://localhost:5555/auth/api/v1/profile/me',
             method: 'GET'
-        }).then(function (response) {
+            }).then(function (response) {
             $scope.userProfile = response.data;
         });
     };
-
 
 
     $scope.loadAccount();

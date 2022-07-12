@@ -22,6 +22,9 @@ public class ProfileDto {
     @Schema(description = "Идентификатор", example = "123")
     Long id;
 
+    @Schema(description = "Идентификатор роли", example = "123")
+    Long roleId;
+
     @NotBlank(message = "логин. Обязательное поле")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
     @Schema(description = "Уникальное имя пользователя", example = "pushkin", required = true)
@@ -46,28 +49,15 @@ public class ProfileDto {
     @Pattern(regexp = ".+@.+.[a-zA-Z0-9]", message = "Некорректный адрес электронной почты")
     String email;
 
-    @Schema(description = "Имя", example = "Александр")
-    String name;
-
-    @Schema(description = "Отчество", example = "Сергеевич")
-    String patronymic;
-
-    @Schema(description = "Фамилия", example = "Пушкин")
-    String surname;
-
-    @Schema(description = "Список ролей пользователя", implementation = List.class)
-    Collection<String> roles;
-
     public ProfileDto(String username) {
         this.username = username;
     }
-    public ProfileDto(Long id, String username, String password, String email, String name, String patronymic, String surname) {
+
+    public ProfileDto(Long id, Long roleId, String username, String password, String email) {
         this.id = id;
+        this.roleId = roleId;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.surname = surname;
     }
 }

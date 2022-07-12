@@ -36,9 +36,8 @@ public class ProfileController {
     public ProfileDto aboutCurrentUser (@RequestHeader String username){
         User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
                 ("Не удалось найти в базе пользователя с именем " + username));
-        return new ProfileDto(user.getId(), user.getUsername(), user.getPassword(), user.getName(), user.getPatronymic(), user.getSurname(), user.getEmail());
+        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
     }
-
 
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponse(responseCode = "201",
@@ -46,7 +45,7 @@ public class ProfileController {
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping
+    @PostMapping("/reg/")
     public ResponseEntity<?> registerNewUser(@Valid @RequestBody ProfileDto profileDto) {
         if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
             return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);

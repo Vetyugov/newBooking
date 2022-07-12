@@ -24,13 +24,10 @@ public class UserConverter {
 
     public User profileDtoToUserConverter(ProfileDto profileDto) {
         return new User(profileDto.getId(), profileDto.getUsername(),
-                profileDto.getPassword(), profileDto.getEmail(),
-                profileDto.getName(), profileDto.getPatronymic(),
-                profileDto.getSurname());
+                profileDto.getPassword(), profileDto.getEmail());
     }
 
     public ProfileDto userToProfileDtoConverter(User user) {
-        return new ProfileDto(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(),
-                user.getName(), user.getPatronymic(), user.getSurname());
+        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
     }
 }

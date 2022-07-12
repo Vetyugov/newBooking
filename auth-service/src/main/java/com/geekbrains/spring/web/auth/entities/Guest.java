@@ -23,7 +23,7 @@ public class Guest {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @Column(name = "name")
@@ -52,17 +52,8 @@ public class Guest {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Guest(Long id, String name, String patronymic, String surname, String email, String username, String password) {
+    public Guest(Long id, User user, String name, String patronymic, String surname, String email, String username, String password) {
         this.id = id;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Guest(User user, String name, String patronymic, String surname, String email, String username, String password) {
         this.user = user;
         this.name = name;
         this.patronymic = patronymic;

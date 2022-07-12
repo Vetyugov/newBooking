@@ -1,9 +1,11 @@
 package com.geekbrains.spring.web.auth.controllers;
 
+import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.GuestConverter;
 import com.geekbrains.spring.web.auth.entities.Guest;
+import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.GuestRepository;
 import com.geekbrains.spring.web.auth.services.GuestService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,12 +15,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/guest_account")
@@ -60,7 +59,6 @@ public class GuestController {
         Guest guest = guestService.findByUsername(username);
         return guestConverter.entityToGuestDto(guest);
     }
-
 //    public GuestDto getGuestInfo(Principal principal) {
 //        return guestConverter.entityToGuestDto(guestService.findByUsername(principal.getName()));
 //    }

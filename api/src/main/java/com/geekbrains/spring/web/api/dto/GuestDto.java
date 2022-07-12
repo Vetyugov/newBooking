@@ -19,10 +19,10 @@ import javax.validation.constraints.Size;
 @Builder
 public class GuestDto {
 
-//    @Schema(description = "Идентификатор", example = "123")
-//    Long id;
-
     @Schema(description = "Идентификатор", example = "123")
+    Long id;
+
+    @Schema(description = "Идентификатор юзера", example = "123")
     Long userId;
 
     @Schema(description = "Имя", example = "Александр")
@@ -52,10 +52,8 @@ public class GuestDto {
     @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректный пароль")
     String password;
 
-//    @Schema(description = "Список ролей пользователя", implementation = List.class)// по этой теме есть вопросы для обсуждения с командой
-//    Collection<String> roles;
-
-    public GuestDto(Long userId, String name, String patronymic, String surname, String email, String username, String password) {
+    public GuestDto(Long id, Long userId, String name, String patronymic, String surname, String email, String username, String password) {
+        this.id = id;
         this.userId = userId;
         this.name = name;
         this.patronymic = patronymic;

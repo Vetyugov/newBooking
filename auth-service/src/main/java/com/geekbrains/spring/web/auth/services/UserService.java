@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +33,9 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        ArrayList<Role> userArrayRole = new ArrayList();
+        userArrayRole.add(user.getRole());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(userArrayRole));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
@@ -43,9 +46,6 @@ public class UserService implements UserDetailsService {
     public void saveUser(ProfileDto profileDto) {
         if (profileDto.getId() != null && userRepository.existsById(profileDto.getId())) {
             User user = userRepository.getById(profileDto.getId());
-            user.setName(profileDto.getName());
-            user.setPatronymic(profileDto.getPatronymic());
-            user.setSurname(profileDto.getSurname());
             user.setEmail(profileDto.getEmail());
             userRepository.save(user);
             return;

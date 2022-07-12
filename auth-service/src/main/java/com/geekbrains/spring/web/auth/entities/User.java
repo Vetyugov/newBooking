@@ -36,20 +36,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "patronymic")
-    private String patronymic;
-
-    @Column(name = "surname")
-    private String surname;
-
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+//    @ManyToMany
+//    @JoinTable(name = "users_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Collection<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id", unique = true)
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -59,16 +53,19 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public User(Long id, String username, String password, String email, String name, String patronymic, String surname) {
+    public User(Long id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.surname = surname;
     }
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Collection<GrantedAuthority> authorities;
+    public User(Long id, String username, String password, String email, Role role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
 }

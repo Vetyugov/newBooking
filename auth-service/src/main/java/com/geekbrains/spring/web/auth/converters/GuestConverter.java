@@ -17,15 +17,8 @@ public class GuestConverter {
         throw new UnsupportedOperationException();
     }
 
-//    public Guest guestDtoToEntity(GuestDto guestDto) {
-//        return new Guest(guestDto.setUserId(), guestDto.getName(),
-//                guestDto.getPatronymic(), guestDto.getSurname(),
-//                guestDto.getEmail(), guestDto.getUsername(),
-//                guestDto.getPassword());
-//    }
-
     public GuestDto entityToGuestDto(Guest guest) {
-        return new GuestDto(guest.getUser().getId(), guest.getName(),
+        return new GuestDto(guest.getId(), guest.getUser().getId(), guest.getName(),
                 guest.getPatronymic(), guest.getSurname(),
                 guest.getEmail(), guest.getUsername(),
                 guest.getPassword());
