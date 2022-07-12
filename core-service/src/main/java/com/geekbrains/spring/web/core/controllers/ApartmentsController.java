@@ -43,13 +43,15 @@ public class ApartmentsController {
             @RequestParam(name = "min_price", required = false) @Parameter(description = "Минимальная цена") Integer minPrice,
             @RequestParam(name = "max_price", required = false) @Parameter(description = "Максимальная цена") Integer maxPrice,
             @RequestParam(name = "title_part", required = false) @Parameter(description = "Часть названия апартамента") String titlePart,
-            @RequestParam(name = "category_part", required = false) @Parameter(description = "Часть названия категории") String categoryPart
+            @RequestParam(name = "category_part", required = false) @Parameter(description = "Часть названия категории") String categoryPart,
+            @RequestParam(name = "start_date", required = false) @Parameter(description = "Дата начала бронирования") String startDate,
+            @RequestParam(name = "finish_date", required = false) @Parameter(description = "Дата конца бронирования") String finishDate
     ) {
         log.info("Запрос на получение списка апартаментов");
         if (page < 1) {
             page = 1;
         }
-        return apartmentsService.findAll(minPrice, maxPrice, titlePart, categoryPart, page).map(
+        return apartmentsService.findAll(minPrice, maxPrice, titlePart, categoryPart, startDate, finishDate, page).map(
                 apartmentConverter::entityToApartmentDto
         );
     }
@@ -108,17 +110,15 @@ public class ApartmentsController {
             summary = "Запрос на добавление дат бронирования апартамента",
             responses = {
                     @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = Integer.class))
+                            description = "Успешный ответ", responseCode = "200"
                     )
             }
 
     )
-    @PutMapping
-    public Integer createDateOfBooking(@RequestBody @Parameter(description = "Dto для изменения дат бронирования апартамента", required = true) BookingApartmentDto bookingApartmentDto) {
+    @PatchMapping
+    public void createDateOfBooking(@RequestBody @Parameter(description = "Dto, содержащий даты бронирования апартамента", required = true) BookingApartmentDto bookingApartmentDto) {
        // apartmentValidator.validate(apartmentDto);
-        Integer numberOfBookedDays = apartmentsService.createDateOfBooking(bookingApartmentDto);
-        return numberOfBookedDays;
+        apartmentsService.createDateOfBooking(bookingApartmentDto);
     }
 
     @Operation(
@@ -132,6 +132,7 @@ public class ApartmentsController {
     )
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id) {
+        //добавить проверку принадлежности объекта юзеру, который хочет удалить объект
         apartmentsService.deleteById(id);
     }
 }
