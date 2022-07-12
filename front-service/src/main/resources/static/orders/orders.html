@@ -1,12 +1,12 @@
 <div>
     <p></p>
-    <h3>Мои заказы</h3>
+    <h3>Активные заказы</h3>
     <p></p>
 
     <table class="table table-hover">
         <tr>
             <td>ID заказа</td>
-            <td>ID жилья</td>
+            <td>Название жилья</td>
             <td>Дата заселения</td>
             <td>Дата выселения</td>
             <td>Цена за одну ночь</td>
@@ -17,7 +17,7 @@
         <tbody>
         <tr ng-repeat="order in MyOrders">
             <td>{{order.id}}</td>
-            <td>{{order.apartment_id}}</td>
+            <td>{{order.apartmentTitle}}</td>
             <td>{{order.apartmentCheckIn}}</td>
             <td>{{order.apartmentCheckOut}}</td>
             <td>{{order.price}}</td>
@@ -25,7 +25,35 @@
             <td>{{order.status}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="goToPay(order.id)">Оплатить</button>
+                <button class="btn btn-danger" ng-click="cancelOrder(order.id)">Отменить</button>
             </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p></p>
+    <h3>История заказов</h3>
+    <p></p>
+
+    <table class="table table-hover">
+        <tr>
+            <td>ID заказа</td>
+            <td>Название жилья</td>
+            <td>Дата заселения</td>
+            <td>Дата выселения</td>
+            <td>Цена за одну ночь</td>
+            <td>Полная стоимость</td>
+            <td>Статус заказа</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="orderH in MyOrdersHistory">
+            <td>{{orderH.id}}</td>
+            <td>{{orderH.apartmentTitle}}</td>
+            <td>{{orderH.apartmentCheckIn}}</td>
+            <td>{{orderH.apartmentCheckOut}}</td>
+            <td>{{orderH.price}}</td>
+            <td>{{orderH.totalPrice}}</td>
+            <td>{{orderH.status}}</td>
         </tr>
         </tbody>
     </table>
