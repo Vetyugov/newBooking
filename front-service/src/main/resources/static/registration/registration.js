@@ -1,7 +1,8 @@
-angular.module('tools').controller('registrationController', function ($scope, $http, $routeParams, $location) {
+
+angular.module('new-booking-front').controller('registrationController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/api/v1/profile';
 
-    $scope.registerUser = function () {
+    $scope.tryToRegistration = function () {
         $http.post(contextPath, $scope.new_user)
             .then(function successCallback(response) {
                 $scope.new_user = null;
@@ -21,4 +22,3 @@ angular.module('tools').controller('registrationController', function ($scope, $
                 }
             });
     };
-});
