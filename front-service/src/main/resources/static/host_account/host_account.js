@@ -1,12 +1,12 @@
 angular.module('new-booking-front').controller('hostAccountController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/host_account/';
+    //const contextPath = 'http://localhost:5555/auth/';
 
     $scope.loadHostAccount = function () {
         $http({
-            url: contextPath + 'api/v1/account' + $scope.user.username,
+            url: 'http://localhost:5555/auth/api/v1/host_account/' + $scope.hostAccount.id,
             method: 'GET'
         }).then(function (response) {
-            $scope.HostAccount = response.data;
+            $scope.hostAccount = response.data;
         });
     };
 

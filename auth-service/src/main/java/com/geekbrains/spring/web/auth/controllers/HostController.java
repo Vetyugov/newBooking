@@ -1,13 +1,12 @@
-package com.geekbrains.spring.web.personalaccounts.controllers;
+package com.geekbrains.spring.web.auth.controllers;
 
+import com.geekbrains.spring.web.api.dto.IndividualHostDto;
+import com.geekbrains.spring.web.api.dto.LegalHostDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
-//import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import com.geekbrains.spring.web.personalaccounts.converters.HostConverter;
-import com.geekbrains.spring.web.personalaccounts.dto.IndividualHostDto;
-import com.geekbrains.spring.web.personalaccounts.dto.LegalHostDto;
-import com.geekbrains.spring.web.personalaccounts.entities.Host;
-import com.geekbrains.spring.web.personalaccounts.repositories.HostRepository;
-import com.geekbrains.spring.web.personalaccounts.services.HostService;
+import com.geekbrains.spring.web.auth.converters.HostConverter;
+import com.geekbrains.spring.web.auth.entities.Host;
+import com.geekbrains.spring.web.auth.repositories.HostRepository;
+import com.geekbrains.spring.web.auth.services.HostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

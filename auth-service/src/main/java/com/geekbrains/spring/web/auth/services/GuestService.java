@@ -1,7 +1,7 @@
-package com.geekbrains.spring.web.personalaccounts.services;
+package com.geekbrains.spring.web.auth.services;
 
-import com.geekbrains.spring.web.personalaccounts.entities.Guest;
-import com.geekbrains.spring.web.personalaccounts.repositories.GuestRepository;
+import com.geekbrains.spring.web.auth.entities.Guest;
+import com.geekbrains.spring.web.auth.repositories.GuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

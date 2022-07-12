@@ -1,12 +1,11 @@
-package com.geekbrains.spring.web.personalaccounts.services;
+package com.geekbrains.spring.web.auth.services;
 
+import com.geekbrains.spring.web.api.dto.IndividualHostDto;
+import com.geekbrains.spring.web.api.dto.LegalHostDto;
+import com.geekbrains.spring.web.auth.entities.Host;
 import com.geekbrains.spring.web.auth.entities.Role;
+import com.geekbrains.spring.web.auth.repositories.HostRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
-import com.geekbrains.spring.web.personalaccounts.converters.HostConverter;
-import com.geekbrains.spring.web.personalaccounts.dto.IndividualHostDto;
-import com.geekbrains.spring.web.personalaccounts.dto.LegalHostDto;
-import com.geekbrains.spring.web.personalaccounts.entities.Host;
-import com.geekbrains.spring.web.personalaccounts.repositories.HostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -50,5 +49,4 @@ public class HostService {
     public Boolean emailBelongsToIndividualHost (IndividualHostDto individualHostDto){
         return findByUsername(individualHostDto.getUsername()).getEmail().equals(individualHostDto.getEmail());
     }
-
 }

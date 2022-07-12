@@ -4,22 +4,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
+@Table(name = "granted_authorities")
 @Entity
 @Data
-@Table(name = "roles")
 @NoArgsConstructor
-public class Role {
+public class GrantedAuthority {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "role_role_id")
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -28,7 +34,4 @@ public class Role {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-//    private Collection<GrantedAuthority> authorities;
 }

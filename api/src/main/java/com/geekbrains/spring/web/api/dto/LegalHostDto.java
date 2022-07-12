@@ -1,28 +1,32 @@
-package com.geekbrains.spring.web.personalaccounts.dto;
+package com.geekbrains.spring.web.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)//все поля приватные
 @Schema(description = "Модель пользователя")
 @ToString
 @NoArgsConstructor
-public class IndividualHostDto {
+@Builder
+public class LegalHostDto {
 
     @Schema(description = "Идентификатор", example = "123")
     Long id;
+
+    @Schema(description = "Идентификатор роли", example = "123")
+    Long roleId;
+
+    @Schema(description = "Идентификатор юзера", example = "123")
+    Long userId;
 
     @Schema(description = "Имя хозяина", example = "Александр")
     String name;
@@ -57,23 +61,29 @@ public class IndividualHostDto {
 //    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректное подтверждение пароля")
 //    String passwordConfirmation;
 
+    @NotBlank(message = "название компании или ИП")
+    @Size(min = 1, max = 255, message = "максимум 255 символов")
+    @Schema(description = "Название компании/ИП (хозяина)", example = "ИП А.С. Пушкин", required = true)
+    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректно введено название")
+    String titleFirm;
+
     @NotBlank(message = "страна. Обязательное поле")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
     @Schema(description = "Страна пользователя (хозяина)", example = "Russia", required = true)
     @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректно указана страна")
     String country;
 
-    @NotBlank(message = "Адрес. Обязательное поле")
+    @NotBlank(message = "адрес офиса. Обязательное поле")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
-    @Schema(description = "Адрес пользователя (хозяина)", example = "Москва, Нахимовский проспект, д 61, к 30", required = true)
-    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректно указан адрес")
-    String address;
+    @Schema(description = "Адрес офиса пользователя (хозяина)", example = "Москва, Нахимовский проспект, д 61, к 30", required = true)
+    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректно указан адрес офиса")
+    String officeAddress;
 
     @NotBlank(message = "почтовый индекс. Обязательное поле")
     @Size(min = 5, max = 6, message = "Индекс должен содержать от 5 до 6 символов")
     @Schema(description = "почтовый индекс пользователя (хозяина)", example = "23100", required = true)
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен почтовый индекс")
-    Integer postcode;
+    String postcode;
 
     @NotBlank(message = "ИНН. Обязательное поле")
     @Size(min = 10, max = 10, message = "ИНН должен содержать 10 символов")
@@ -81,42 +91,26 @@ public class IndividualHostDto {
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен ИНН")
     Integer inn;
 
-    @Column(name = "account")// или отдельная таблица со счетами
-    @NotBlank(message = "Укажите номер счета. Обязательное поле")
+    @NotBlank(message = "номер счета. Обязательное поле")
     @Size(min = 16, max = 20, message = "Номер счета должен содержать от 16 до 20 символов")
     @Schema(description = "Номер счета пользователя (хозяина)", example = "55123456785434346789", required = true)
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен почтовый индекс")
     Integer account;
 
-//    @Schema(description = "Список ролей пользователя(хозяина)", implementation = List.class)// по этой теме есть вопросы
-//    Collection<String> roles;
-
-//    public IndividualHostDto(Long id, String name, String patronymic, String surname, String email, String username, String password, Integer postcode, String country, String address, Integer inn, Integer account) {
-//        this.id = id;
-//        this.name = name;
-//        this.patronymic = patronymic;
-//        this.surname = surname;
-//        this.email = email;
-//        this.username = username;
-//        this.password = password;
-//        this.country = country;
-//        this.address = address;
-//        this.postcode = postcode;
-//        this.inn = inn;
-//        this.account = account;
-//    }
-
-    public IndividualHostDto(Long id, String name, String patronymic, String surname, String email, String username, String password, Integer postcode, String country, String address, Integer inn, Integer account) {
+    public LegalHostDto(Long id, Long roleId, Long userId, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, String postcode, Integer inn, Integer account) {
         this.id = id;
+        this.roleId = roleId;
+        this.userId = userId;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.postcode = postcode;
+        this.titleFirm = titleFirm;
         this.country = country;
-        this.address = address;
+        this.officeAddress = officeAddress;
+        this.postcode = postcode;
         this.inn = inn;
         this.account = account;
     }

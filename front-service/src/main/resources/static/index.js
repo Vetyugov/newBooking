@@ -28,11 +28,19 @@
             })
             .when('/host_account', {
                 templateUrl: 'host_account/host_account.html',
-                controller: 'hostAccountsController'
+                controller: 'hostAccountController'
             })
             .when('/guest_account', {
                 templateUrl: 'guest_account/guest_account.html',
-                controller: 'guestAccountsController'
+                controller: 'guestAccountController'
+            })
+            .when('/profile', {
+                templateUrl: 'profile/profile.html',
+                controller: 'profileController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -68,14 +76,15 @@
 
 angular.module('new-booking-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/auth/auth', $scope.user)
+        $http.post('http://localhost:5555/auth//api/v1/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.springWebUser = {username: $scope.user.username, token: response.data.token};
+                    $localStorage.springWebUser = {username: $scope.user.username, role: $scope.user.role, token: response.data.token};
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+                    $scope.user.role = null;
 
                     $http.get('http://localhost:5555/booking/api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/merge')
                         .then(function successCallback(response) {
@@ -105,9 +114,15 @@ angular.module('new-booking-front').controller('indexController', function ($roo
             return false;
         }
     };
-/*
+
+    $scope.navToRegistration = function () {
+            $location.path('/registration');
+
+    };
+
     $rootScope.isUserHost = function () {
-        if ($localStorage.springWebUser && $scope.user.role == 'host') {
+        console.log($scope.user.role)
+        if ($localStorage.springWebUser && $scope.user.role == 'ROLE_GUEST') {
             return true;
         } else {
             return false;
@@ -115,12 +130,13 @@ angular.module('new-booking-front').controller('indexController', function ($roo
     };
 
     $rootScope.isUserGuest = function () {
-        if ($localStorage.springWebUser && $scope.user.role == 'guest') {
+        console.log($scope.user.role)
+        if ($localStorage.springWebUser && $scope.user.role == 'ROLE_GUEST') {
+
             return true;
         } else {
             return false;
         }
     };
 
- */
 });
