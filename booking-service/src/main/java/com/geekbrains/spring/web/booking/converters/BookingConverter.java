@@ -12,7 +12,11 @@ import java.util.stream.Collectors;
 public class BookingConverter {
     public BookingDto modelToDto(Booking booking) {
         List<BookingItemDto> bookingItemDtos = booking.getItems().stream().map(it ->
-                new BookingItemDto(it.getApartmentId(), it.getApartmentTitle(), it.getQuantity(), it.getPricePerApartment(), it.getPrice())
+                new BookingItemDto(it.getApartmentId(), it.getApartmentTitle()
+//                        , it.getQuantity()
+                        , it.getPricePerApartment()
+//                        , it.getPrice()
+                )
         ).collect(Collectors.toList());
         BookingDto bookingDto = new BookingDto(bookingItemDtos, booking.getTotalPrice());
         return bookingDto;

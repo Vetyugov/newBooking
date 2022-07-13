@@ -28,7 +28,8 @@ public class Booking {
     public boolean add(Long id) {
         for (BookingItem o : items) {
             if (o.getApartmentId().equals(id)) {
-                o.changeQuantity(1);
+                //TODO ЖЕНЯ
+//                o.changeQuantity(1);
                 recalculate();
                 return true;
             }
@@ -41,11 +42,12 @@ public class Booking {
         while (iter.hasNext()) {
             BookingItem o = iter.next();
             if (o.getApartmentId().equals(apartmentId)) {
-                o.changeQuantity(-1);
-                if (o.getQuantity() <= 0) {
-                    iter.remove();
-                }
-                recalculate();
+                //TODO ЖЕНЯ
+//                o.changeQuantity(-1);
+//                if (o.getQuantity() <= 0) {
+//                    iter.remove();
+//                }
+//                recalculate();
                 return;
             }
         }
@@ -64,7 +66,8 @@ public class Booking {
     private void recalculate() {
         totalPrice = BigDecimal.ZERO;
         for (BookingItem o : items) {
-            totalPrice = totalPrice.add(o.getPrice());
+            //TODO ЖЕНЯ
+//            totalPrice = totalPrice.add(o.getPrice());
         }
     }
 
@@ -73,7 +76,8 @@ public class Booking {
             boolean merged = false;
             for (BookingItem myItem : items) {
                 if (myItem.getApartmentId().equals(anotherItem.getApartmentId())) {
-                    myItem.changeQuantity(anotherItem.getQuantity());
+                    //TODO ЖЕНЯ
+//                    myItem.changeQuantity(anotherItem.getQuantity());
                     merged = true;
                     break;
                 }

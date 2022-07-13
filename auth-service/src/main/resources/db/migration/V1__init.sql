@@ -66,7 +66,7 @@ create table if not exists guests
         updated_at      timestamp default current_timestamp
    );
 
-insert into guests (user_id, name, patronymic, surname, email, username, password)
+insert into guests (user_id, name, patronymic, surname,  username, email, password)
 values (1, 'Bob', 'bobovich', 'bobov', 'bob', 'bob_johnson@gmail.com',  '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i'),
         (3, 'platonova', 'Наталья', 'Петровна', 'Платонова', 'platonova@gmail.com',  '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i'), --100
        (4, 'petrova', 'Юлия', 'Сергеевна', 'Петрова', 'petrova@gmail.com',  '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i');

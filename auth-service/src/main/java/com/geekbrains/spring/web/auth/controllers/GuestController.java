@@ -28,21 +28,21 @@ public class GuestController {
     private final GuestService guestService;
     private final GuestConverter guestConverter;
 
-    @GetMapping("/{id}")
-    @Operation(
-            summary = "Получение информации о себе как о госте по id",
-            responses = {
-                    @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = GuestDto.class))
-                    )
-            }
-    )
-    public GuestDto getGuestById(
-            @PathVariable @Parameter(description = "ID гостя", required = true) Long id) {
-        Guest guest = guestService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Guest not found, id: " + id));
-        return guestConverter.entityToGuestDto(guest);
-    }
+//    @GetMapping("/{id}")
+//    @Operation(
+//            summary = "Получение информации о себе как о госте по id",
+//            responses = {
+//                    @ApiResponse(
+//                            description = "Успешный ответ", responseCode = "200",
+//                            content = @Content(schema = @Schema(implementation = GuestDto.class))
+//                    )
+//            }
+//    )
+//    public GuestDto getGuestById(
+//            @PathVariable @Parameter(description = "ID гостя", required = true) Long id) {
+//        Guest guest = guestService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Guest not found, id: " + id));
+//        return guestConverter.entityToGuestDto(guest);
+//    }
 
     @GetMapping("/{username}")
     @Operation(
@@ -56,7 +56,9 @@ public class GuestController {
     )
     public GuestDto getGuestByUsername(
             @PathVariable @Parameter(description = "Username гостя (пользователя)", required = true) String username) {
+        log.info("ПОПАЛ");
         Guest guest = guestService.findByUsername(username);
+        log.info("НАШЕЛ " + guest);
         return guestConverter.entityToGuestDto(guest);
     }
 //    public GuestDto getGuestInfo(Principal principal) {

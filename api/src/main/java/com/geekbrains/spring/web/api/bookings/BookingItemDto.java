@@ -18,11 +18,14 @@ public class BookingItemDto {
     private BigDecimal pricePerApartment;
     private Boolean status;
 
-    public BookingItemDto(Long apartmentId, String apartmentTitle,
-                          LocalDateTime apartmentCheckIn,
-                          LocalDateTime apartmentCheckOut,
-                          BigDecimal pricePerNight, BigDecimal pricePerApartment,
-                          Boolean status) {
+    public BookingItemDto(Long apartmentId, String apartmentTitle
+//            ,LocalDateTime apartmentCheckIn,
+//             LocalDateTime apartmentCheckOut
+                          //TODO ЖЕНЯ
+//            ,BigDecimal pricePerNight
+            , BigDecimal pricePerApartment
+//            ,Boolean status
+    ) {
         this.apartmentId = apartmentId;
         this.apartmentTitle = apartmentTitle;
         this.apartmentCheckIn = apartmentCheckIn;
