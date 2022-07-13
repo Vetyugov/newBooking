@@ -9,22 +9,27 @@ import com.geekbrains.spring.web.core.repositories.specifications.ApartmentsSpec
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ApartmentsService {
     private final ApartmentsRepository apartmentsRepository;
+    private final BookingDatesService bookingDatesService;
 
-    public Page<Apartment> findAll(Integer minPrice, Integer maxPrice, String titlePart, String categoryPart, Integer page) {
+    public Page<Apartment> findAll(Integer minPrice, Integer maxPrice, String titlePart, String categoryPart, String startDate, String finishDate, Integer page) {
         Specification<Apartment> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ApartmentsSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -38,7 +43,6 @@ public class ApartmentsService {
         if (categoryPart != null) {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
-
         return apartmentsRepository.findAll(spec, PageRequest.of(page - 1, 8));
     }
 
@@ -62,26 +66,37 @@ public class ApartmentsService {
         return apartment;
     }*/
 
+    /**
+     * Добавление новых дат бронирования если они не заняты
+     * @param bookingApartmentDto
+     */
+
     @Transactional
-    public Integer createDateOfBooking(BookingApartmentDto bookingApartmentDto) {
-        LocalDateTime startDate = LocalDateTime.parse(bookingApartmentDto.getBookingStartDate());
-        LocalDateTime finishDate = LocalDateTime.parse(bookingApartmentDto.getBookingFinishDate());
-        Apartment apartment = apartmentsRepository.findById(bookingApartmentDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDto.getId()));
-        List<BookingDate> bookingDates = apartment.getBookingDates();
-        LocalDateTime currentDate = startDate;
-        Integer numberOfBookedDays = 0;
-        while(!currentDate.equals(finishDate)){
-            LocalDateTime finalCurrentDate = currentDate;
+    public void createDateOfBooking(BookingApartmentDto bookingApartmentDto) {
+        LocalDate startDate = LocalDate.parse(bookingApartmentDto.getBookingStartDate());
+        LocalDate finishDate = LocalDate.parse(bookingApartmentDto.getBookingFinishDate());
+        if(!checkBookingDatesIsFree(bookingApartmentDto.getId(), startDate, finishDate)) {
+            Apartment apartment = apartmentsRepository.findById(bookingApartmentDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDto.getId()));
+            List<BookingDate> bookingDates = apartment.getBookingDates();
             BookingDate bookingDate = new BookingDate();
             bookingDate.setApartment(apartment);
-            bookingDate.setDate(finalCurrentDate);
+            bookingDate.setStartDate(startDate);
+            bookingDate.setFinishDate(finishDate);
             bookingDates.add(bookingDate);
-            numberOfBookedDays++;
-            currentDate = finalCurrentDate.plusDays(1L);
+            apartment.setBookingDates(bookingDates);
+            apartmentsRepository.save(apartment);
         }
-        apartment.setBookingDates(bookingDates);
-        apartmentsRepository.save(apartment);
-        return numberOfBookedDays;
+    }
+
+    /**
+     * Проверка занятости дат бронирования
+     * @param apartmentId
+     * @param startDate
+     * @param finishDate
+     * @return boolean
+     */
+    private boolean checkBookingDatesIsFree(Long apartmentId, LocalDate startDate, LocalDate finishDate) {
+       return bookingDatesService.checkBookingDates(apartmentId, startDate, finishDate);
     }
 
 }

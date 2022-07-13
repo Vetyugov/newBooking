@@ -3,6 +3,7 @@ package com.geekbrains.spring.web.core.converters;
 import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.core.entities.Order;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -19,7 +20,8 @@ public class OrderConverter {
         OrderDtoInfo out = OrderDtoInfo.builder()
                 .id(order.getId())
                 .username(order.getUsername())
-                .apartment_id(order.getApartment().getId())
+                .apartmentId(order.getApartment().getId())
+                .apartmentTitle(order.getApartment().getTitle())
                 .apartmentCheckIn(order.getApartmentCheckIn())
                 .apartmentCheckOut(order.getApartmentCheckOut())
                 .price(order.getPrice())

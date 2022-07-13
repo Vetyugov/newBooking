@@ -11,4 +11,10 @@ import java.util.List;
 public interface OrdersRepository extends JpaRepository<Order, Long> {
     @Query("select o from Order o where o.username = ?1")
     List<Order> findAllByUsername(String username);
+
+    @Query("select o from Order o where o.username = ?1 and o.status.description in ('selected', 'unselected', 'awaiting payment', 'booked')")
+    List<Order> findActiveByUsername(String username);
+
+    @Query("select o from Order o where o.username = ?1 and o.status.description in ('canceled', 'completed')")
+    List<Order> findInactiveByUsername(String username);
 }

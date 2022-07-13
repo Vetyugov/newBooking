@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/orders")
 @Tag(name = "Заказы", description = "Методы работы с заказами")
 @RequiredArgsConstructor
+@Slf4j
 public class OrdersController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
@@ -52,9 +54,14 @@ public class OrdersController {
                             @RequestBody @Parameter(description = "Структура заказа", required = true) OrderDtoCreate orderDetailsDto) {
         orderService.createOrder(username, orderDetailsDto);
     }
+    @GetMapping("/cancel/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        orderService.setStatusCanceledToOrder(orderId);
+    }
 
     @Operation(
-            summary = "Запрос на получение списка заказов пользователя",
+            summary = "Запрос на получение списка активных заказов пользователя",
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
@@ -63,8 +70,25 @@ public class OrdersController {
             }
     )
     @GetMapping
-    public List<OrderDtoInfo> getCurrentUserOrders(@RequestHeader @Parameter(description = "Никнейм пользователя", required = true) String username) {
-        return orderService.findOrdersByUsername(username).stream()
+    public List<OrderDtoInfo> getCurrentUserActiveOrders(@RequestHeader @Parameter(description = "Никнейм пользователя", required = true) String username) {
+        log.info("Запрос на получение заказа");
+        return orderService.findActiveOrdersByUsername(username).stream()
+                .map(orderConverter::entityToDtoInfo).collect(Collectors.toList());
+    }
+
+    @Operation(
+            summary = "Запрос на получение истоии заказов пользователя",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ArrayList.class))
+                    )
+            }
+    )
+    @GetMapping("/history")
+    public List<OrderDtoInfo> getCurrentUserOrdersHistory(@RequestHeader @Parameter(description = "Никнейм пользователя", required = true) String username) {
+        log.info("Запрос на получение истории заказа");
+        return orderService.findInactiveOrdersByUsername(username).stream()
                 .map(orderConverter::entityToDtoInfo).collect(Collectors.toList());
     }
 
