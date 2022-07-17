@@ -1,7 +1,6 @@
 package com.geekbrains.spring.web.core.validators;
 
-import com.geekbrains.spring.web.api.core.ApartmentDto;
-import com.geekbrains.spring.web.api.core.OrderDtoCreate;
+import com.geekbrains.spring.web.api.core.OrderCreateRq;
 import com.geekbrains.spring.web.core.exceptions.ValidationException;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Component
 public class OrderValidator {
-        public void validate(OrderDtoCreate orderDto) {
+        public void validate(OrderCreateRq orderDto) {
             List<String> errors = new ArrayList<>();
             if (orderDto.getPrice().compareTo(BigDecimal.ONE) < 0) {
                 errors.add("Цена апартамента не может быть меньше 1");

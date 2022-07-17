@@ -1,14 +1,15 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.ApartmentDto;
-import com.geekbrains.spring.web.api.core.OrderDtoCreate;
+import com.geekbrains.spring.web.api.core.BookingApartmentDto;
+import com.geekbrains.spring.web.api.core.OrderCreateRq;
 import com.geekbrains.spring.web.api.core.OrderStatusDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
-import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
+import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
+import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
 import com.geekbrains.spring.web.core.validators.OrderValidator;
@@ -20,7 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +37,11 @@ public class OrdersController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
     private final OrderStatusConverter orderStatusConverter;
+
+    private final ApartmentsService apartmentsService;
     private final OrderValidator orderValidator;
     private final OrderStatusService orderStatusService;
+
 
     @Operation(
             summary = "Запрос на создание заказа",
@@ -50,9 +53,18 @@ public class OrdersController {
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestHeader @Parameter(description = "Никнейм пользователя", required = true)  String username,
-                            @RequestBody @Parameter(description = "Структура заказа", required = true) OrderDtoCreate orderDetailsDto) {
-        orderService.createOrder(username, orderDetailsDto);
+    public void createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateRq orderCreateRq){
+        //Проверяем свободны ли даты
+        BookingApartmentDto.Builder builder = new BookingApartmentDto.Builder();
+        BookingApartmentDto bookingApartmentDto =  builder
+                .id(orderCreateRq.getApartmentId())
+                .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
+                .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
+                .build();
+//        if(!apartmentsService.createDateOfBooking(bookingApartmentDto)){
+//            throw new OrderIsNotCreatedException("This dates are invalid");
+//        }
+        orderService.createOrder(orderCreateRq);
     }
     @GetMapping("/cancel/{orderId}")
     @ResponseStatus(HttpStatus.OK)

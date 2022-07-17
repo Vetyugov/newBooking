@@ -1,7 +1,8 @@
 package com.geekbrains.spring.web.core.services;
 
 import com.geekbrains.spring.web.api.bookings.BookingDto;
-import com.geekbrains.spring.web.api.core.OrderDtoCreate;
+import com.geekbrains.spring.web.api.core.OrderCreateRq;
+import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.integrations.BookingServiceIntegration;
 import com.geekbrains.spring.web.core.repositories.OrdersRepository;
@@ -21,38 +22,33 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final BookingServiceIntegration bookingServiceIntegration;
     private final ApartmentsService apartmentsService;
-
-    private final OrderStatusService orderStatusService;
+    private OrderStatusService orderStatusService;
 
     @Transactional
-    public void createOrder(String username, OrderDtoCreate orderDto) {
-        BookingDto currentBooking = bookingServiceIntegration.getUserBooking(username);
-        log.debug("bookingServiceIntegration - ok");
+    public void createOrder(OrderCreateRq orderDto) {
         Order order = Order.builder()
                 .username(orderDto.getUsername())
-                .apartment(apartmentsService.findById(orderDto.getApartment().getId()).get())
-                .apartmentCheckIn(orderDto.getApartmentCheckIn())
-                .apartmentCheckOut(orderDto.getApartmentCheckOut())
-                .price(orderDto.getPrice())
-                .totalPrice(orderDto.getTotalPrice())
-                .status(orderStatusService.findById(orderDto.getStatus().getId()).get())
+                .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())
+                .apartmentCheckIn(orderDto.getBookingStartDate())
+                .apartmentCheckOut(orderDto.getBookingFinishDate())
+                .price(orderDto.getPricePerNight())
+                .totalPrice(orderDto.getPricePerOrder())
+                .status(orderStatusService.findByDesc("booked").get())
                 .build();
         ordersRepository.save(order);
         log.debug("ordersRepository.save - ok");
-        bookingServiceIntegration.clearUserBooking(username);
-        log.debug("clearUserBooking - ok");
     }
 
     @Transactional
-    public Order updateOrder(OrderDtoCreate orderDto) {
-        log.debug("bookingServiceIntegration - ok");
+    public Order updateOrder(OrderUpdateRq orderDto) {
         Order order = Order.builder()
+                .id(orderDto.getId())
                 .username(orderDto.getUsername())
-                .apartment(apartmentsService.findById(orderDto.getApartment().getId()).get())
-                .apartmentCheckIn(orderDto.getApartmentCheckIn())
-                .apartmentCheckOut(orderDto.getApartmentCheckOut())
-                .price(orderDto.getPrice())
-                .totalPrice(orderDto.getTotalPrice())
+                .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())
+                .apartmentCheckIn(orderDto.getBookingStartDate())
+                .apartmentCheckOut(orderDto.getBookingFinishDate())
+                .price(orderDto.getPricePerNight())
+                .totalPrice(orderDto.getPricePerOrder())
                 .status(orderStatusService.findById(orderDto.getStatus().getId()).get())
                 .updatedAt(LocalDateTime.now())
                 .build();
