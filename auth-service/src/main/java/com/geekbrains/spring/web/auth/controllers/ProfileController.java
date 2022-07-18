@@ -22,22 +22,22 @@ import javax.validation.Valid;
 public class ProfileController {
 
     private final UserService userService;
-    @GetMapping("/me")
-    @Operation(
-            summary = "Запрос на получение данных о пользователе",
-            responses = {
-                    @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ProfileDto.class))
-                    )
-            }
-    )
-
-    public ProfileDto aboutCurrentUser (@RequestHeader String username){
-        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
-                ("Не удалось найти в базе пользователя с именем " + username));
-        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
-    }
+//    @GetMapping("/me")
+//    @Operation(
+//            summary = "Запрос на получение данных о пользователе",
+//            responses = {
+//                    @ApiResponse(
+//                            description = "Успешный ответ", responseCode = "200",
+//                            content = @Content(schema = @Schema(implementation = ProfileDto.class))
+//                    )
+//            }
+//    )
+//
+//    public ProfileDto aboutCurrentUser (@RequestHeader String username){
+//        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
+//                ("Не удалось найти в базе пользователя с именем " + username));
+//        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
+//    }
 
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponse(responseCode = "201",
@@ -45,7 +45,7 @@ public class ProfileController {
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping("/reg/")
+    @PostMapping
     public ResponseEntity<?> registerNewUser(@Valid @RequestBody ProfileDto profileDto) {
         if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
             return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);

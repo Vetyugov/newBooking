@@ -22,9 +22,6 @@ public class LegalHostDto {
     @Schema(description = "Идентификатор", example = "123")
     Long id;
 
-    @Schema(description = "Идентификатор роли", example = "123")
-    Long roleId;
-
     @Schema(description = "Идентификатор юзера", example = "123")
     Long userId;
 
@@ -37,29 +34,11 @@ public class LegalHostDto {
     @Schema(description = "Фамилия хозяина", example = "Пушкин")
     String surname;
 
-    @NotBlank(message = "адрес электронной почты. Обязательное поле")
-    @Size(min=1, max = 255, message = "максимум 255 символов")
-    @Schema(description = "E-mail", example = "aspushkin@gmail.com", required = true)
-    @Pattern(regexp = ".+@.+.[a-zA-Z0-9]", message = "Некорректный адрес электронной почты")
-    String email;
-
     @NotBlank(message = "логин. Обязательное поле")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
     @Schema(description = "Уникальное имя пользователя(хозяина)", example = "aspushkin", required = true)
     @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректное имя пользователя")
     String username;
-
-    @NotBlank(message = "пароль. Обязательное поле")
-    @Size(min = 3, max = 12, message = "Пароль должен быть от 3х до 12-ти символов")
-    @Schema(description = "Пароль пользователя(хозяина)", example = "123456", required = true)
-    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректный пароль")
-    String password;
-
-//    @NotBlank(message = "Подтвердите пароль. Обязательное поле")
-//    @Size(min = 3, max = 16, message = "Пароль должен быть от 3х до 16-ти символов")
-//    @Schema(description = "Подтверждение пароля пользователя(хозяина)", example = "123456", required = true)
-//    @Pattern(regexp = ".+[a-zA-Z0-9]", message = "Некорректное подтверждение пароля")
-//    String passwordConfirmation;
 
     @NotBlank(message = "название компании или ИП")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
@@ -95,18 +74,15 @@ public class LegalHostDto {
     @Size(min = 16, max = 20, message = "Номер счета должен содержать от 16 до 20 символов")
     @Schema(description = "Номер счета пользователя (хозяина)", example = "55123456785434346789", required = true)
     @Pattern(regexp = ".+[Z0-9]", message = "Не корректно введен почтовый индекс")
-    Integer account;
+    String account;
 
-    public LegalHostDto(Long id, Long roleId, Long userId, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, String postcode, Integer inn, Integer account) {
+    public LegalHostDto(Long id, Long userId, String name, String patronymic, String surname, String username, String titleFirm, String country, String officeAddress, String postcode, Integer inn, String account) {
         this.id = id;
-        this.roleId = roleId;
         this.userId = userId;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
-        this.email = email;
         this.username = username;
-        this.password = password;
         this.titleFirm = titleFirm;
         this.country = country;
         this.officeAddress = officeAddress;

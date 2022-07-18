@@ -1,13 +1,11 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.core.OrderDtoCreate;
 import com.geekbrains.spring.web.api.core.OrderStatusDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
-import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
@@ -20,7 +18,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

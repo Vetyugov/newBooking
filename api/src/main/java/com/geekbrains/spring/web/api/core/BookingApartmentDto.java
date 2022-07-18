@@ -2,6 +2,9 @@ package com.geekbrains.spring.web.api.core;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+
 @Schema(description = "Модель для бронирования апартамента")
 public class BookingApartmentDto {
     @Schema(description = "ID апартамента", required = true, example = "1")
@@ -12,6 +15,16 @@ public class BookingApartmentDto {
 
     @Schema(description = "Конечная дата бронирования", required = true, example = "4")
     private String bookingFinishDate;
+
+    //цена за ночь
+    @Schema(description = "Цена за одну ночь проживания", example = "1528.40", required = true)
+    @NotBlank(message = "Укажите цену за одну ночь проживания. Обязательное поле")
+    private BigDecimal pricePerNight;
+
+    //Цена за период
+    @Schema(description = "Полная стоимость проживания за аппартамент", example = "3056.80", required = true)
+    @NotBlank(message = "Укажите полную стоимоть проживания. Обязательное поле")
+    private BigDecimal pricePerOrder;
 
     public Long getId() {
         return id;
@@ -24,6 +37,11 @@ public class BookingApartmentDto {
     public String getBookingFinishDate() {
         return bookingFinishDate;
     }
+
+    public BigDecimal getPricePerNight() { return pricePerNight; }
+
+    public BigDecimal getPricePerOrder() { return pricePerOrder; }
+
 
     @Override
     public String toString() {

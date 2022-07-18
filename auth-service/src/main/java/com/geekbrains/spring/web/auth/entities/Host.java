@@ -25,10 +25,6 @@ public class Host {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "role_id", unique = true)
-    private Role role;
-
-    @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
@@ -41,14 +37,8 @@ public class Host {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email", unique = true)
-    private String email;
-
     @Column(name = "username", unique = true)
     private String username;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name = "title_firm")
     private String titleFirm;
@@ -68,8 +58,8 @@ public class Host {
     @Column(name = "inn")
     private Integer inn;
 
-    @Column(name = "account")// или отдельная таблица со счетами
-    private Integer account;
+    @Column(name = "account")
+    private String account;
 
 //    @ManyToMany
 //    @JoinTable(name = "users_roles",
@@ -85,16 +75,13 @@ public class Host {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Host(Long id, Role role, User user, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, String postcode, Integer inn, Integer account) {
+    public Host(Long id, User user, String name, String patronymic, String surname, String username, String titleFirm, String country, String officeAddress, String postcode, Integer inn, String account) {
         this.id = id;
-        this.role = role;
         this.user = user;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
-        this.email = email;
         this.username = username;
-        this.password = password;
         this.titleFirm = titleFirm;
         this.country = country;
         this.officeAddress = officeAddress;

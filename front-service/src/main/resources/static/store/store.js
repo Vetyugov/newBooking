@@ -10,7 +10,9 @@ angular.module('new-booking-front').controller('storeController', function ($sco
                 category_part: $scope.filter ? $scope.filter.category_part : null,
                 title_part: $scope.filter ? $scope.filter.title_part : null,
                 min_price: $scope.filter ? $scope.filter.min_price : null,
-                max_price: $scope.filter ? $scope.filter.max_price : null
+                max_price: $scope.filter ? $scope.filter.max_price : null,
+                start_date: $scope.filter ? $scope.filter.start_date : null,
+                finish_date: $scope.filter ? $scope.filter.finish_date : null
             }
         }).then(function (response) {
             $scope.ApartmentsPage = response.data;
@@ -27,9 +29,16 @@ angular.module('new-booking-front').controller('storeController', function ($sco
     }
 
     $scope.addToBooking = function (apartmentId) {
-        $http.get('http://localhost:5555/booking/api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/add/' + apartmentId)
-            .then(function (response) {
-            });
+        $http({
+            url: 'http://localhost:5555/booking/api/v1/booking/'+ $localStorage.springWebIncognitoBookingId + '/add',
+            method: 'GET',
+            params: {
+                id: apartmentId,
+                start_date: "2022-08-01",//$scope.filter ? $scope.filter.start_date : null,
+                finish_date: "2022-08-03"//$scope.filter ? $scope.filter.finish_date : null
+            }
+        }).then(function (response) {
+        });
     }
 
     $scope.loadApartments();

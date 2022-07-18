@@ -1,6 +1,5 @@
 package com.geekbrains.spring.web.core.validators;
 
-import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.core.OrderDtoCreate;
 import com.geekbrains.spring.web.core.exceptions.ValidationException;
 import org.springframework.stereotype.Component;
