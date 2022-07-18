@@ -63,6 +63,11 @@ public class OrderService {
         return ordersRepository.findActiveByUsername(username);
     }
 
+    public List<Order> findHostOrdersByUsername(String username) {
+        return ordersRepository.findActiveByUsername(username);
+//        return ordersRepository.findHostOrdersByUsername(username);
+    }
+
     public List<Order> findInactiveOrdersByUsername(String username) {
         return ordersRepository.findInactiveByUsername(username);
     }

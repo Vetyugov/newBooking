@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -38,11 +39,11 @@ public class OrderDtoInfo {
 
     @Schema(description = "Дата заселения", example = "2022-01-26", required = true)
     @Pattern(regexp = "\\d{4}(-)\\d{2}(-)\\d{2}", message = "Некорректно указана дата заселения")
-    private LocalDateTime apartmentCheckIn;
+    private LocalDate apartmentCheckIn;
 
     @Schema(description = "Дата выселения", example = "2022-01-26", required = true)
     @Pattern(regexp = "\\d{4}(-)\\d{2}(-)\\d{2}", message = "Некорректно указана дата выселения")
-    private LocalDateTime apartmentCheckOut;
+    private LocalDate apartmentCheckOut;
 
     @Schema(description = "Цена за одну ночь проживания", example = "1528.40", required = true)
     private BigDecimal price;

@@ -1,12 +1,10 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.BookingApartmentDto;
-import com.geekbrains.spring.web.api.core.OrderCreateRq;
-import com.geekbrains.spring.web.api.core.OrderStatusDto;
+import com.geekbrains.spring.web.api.core.*;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.OrderConverter;
-import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
+import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
@@ -22,10 +20,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -89,6 +89,22 @@ public class OrdersController {
     }
 
     @Operation(
+            summary = "Запрос на получение списка заказов арендодателя",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ArrayList.class))
+                    )
+            }
+    )
+    @GetMapping("/host")
+    public List<OrderDtoInfo> getHostOrders(@RequestHeader @Parameter(description = "Никнейм пользователя", required = true) String username) {
+        log.info("Запрос на получение заказа");
+        return orderService.findHostOrdersByUsername(username).stream()
+                .map(orderConverter::entityToDtoInfo).collect(Collectors.toList());
+    }
+
+    @Operation(
             summary = "Запрос на получение истоии заказов пользователя",
             responses = {
                     @ApiResponse(
@@ -132,6 +148,29 @@ public class OrdersController {
         List<OrderStatus> orderStatusList = orderStatusService.findAll();
         return orderStatusList.stream().map(s -> orderStatusConverter.entityToDto(s)).collect(Collectors.toList());
     }
+
+
+    @Operation(
+            summary = "Запрос на вывод средств с заказа по id заказа",
+            responses = {
+                    @ApiResponse(
+                            description = "Сообщение с информацией о выводе", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = OrderDtoInfo.class))
+                    )
+            }
+    )
+    @PostMapping("/host/outCash/{id}")
+    public ResponseEntity<?> outCash(@PathVariable @Parameter(description = "Идентификатор заказа", required = true) Long id) {
+        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404"));
+        if(order.getStatus().equals(orderStatusService.findByDesc("completed"))){
+            //ToDo выводим средства
+            return ResponseEntity.ok(new OrderOutCashRs("Средства выведены"));
+        } else {
+            return ResponseEntity.ok(new OrderOutCashRs("Арендатор ещё не подтвердил факт проживания"));
+        }
+    }
+
+
 
 
 }

@@ -22,4 +22,4 @@ angular.module('new-booking-front').controller('registrationController', functio
                 }
             });
     };
-};
+});
