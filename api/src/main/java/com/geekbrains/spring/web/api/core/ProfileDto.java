@@ -22,8 +22,8 @@ public class ProfileDto {
     @Schema(description = "Идентификатор", example = "123")
     Long id;
 
-    @Schema(description = "Идентификатор роли", example = "123")
-    Long roleId;
+    @Schema(description = "Имя роли", example = "123")
+    String roleName;
 
     @NotBlank(message = "логин. Обязательное поле")
     @Size(min = 1, max = 255, message = "максимум 255 символов")
@@ -53,9 +53,9 @@ public class ProfileDto {
         this.username = username;
     }
 
-    public ProfileDto(Long id, Long roleId, String username, String password, String email) {
+    public ProfileDto(Long id, String roleName, String username, String password, String email) {
         this.id = id;
-        this.roleId = roleId;
+        this.roleName = roleName;
         this.username = username;
         this.password = password;
         this.email = email;

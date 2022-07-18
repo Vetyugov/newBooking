@@ -2,6 +2,7 @@ package com.geekbrains.spring.web.auth.controllers;
 
 import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
+import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.GuestConverter;
 import com.geekbrains.spring.web.auth.entities.Guest;
@@ -15,12 +16,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/guest_account")
+@RequestMapping("/api/v1/guests_account")
 @RequiredArgsConstructor
 @Slf4j
 public class GuestController {
@@ -61,7 +65,26 @@ public class GuestController {
         log.info("НАШЕЛ " + guest);
         return guestConverter.entityToGuestDto(guest);
     }
-//    public GuestDto getGuestInfo(Principal principal) {
-//        return guestConverter.entityToGuestDto(guestService.findByUsername(principal.getName()));
-//    }
+
+    @Operation(summary = "Обновление данных пользователя")
+    @ApiResponse(responseCode = "201",
+            description = "Обновление данных прошло успешно")
+    @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AppError.class)))
+    @PostMapping
+    public ResponseEntity<?> updateGuest(@Valid @RequestBody ProfileDto profileDto) {
+//        if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
+//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);
+//        }
+//        if (userService.existByEmail(profileDto.getEmail())) {
+//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Адрес электронной почты уже используется"), HttpStatus.BAD_REQUEST);
+//        }
+//        if (userService.existByUsername(profileDto.getUsername())) {
+//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Логин уже существует"), HttpStatus.BAD_REQUEST);
+//        }
+//        userService.saveUser(profileDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }

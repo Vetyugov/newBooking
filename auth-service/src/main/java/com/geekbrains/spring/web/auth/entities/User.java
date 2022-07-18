@@ -60,12 +60,11 @@ public class User {
         this.email = email;
     }
 
-    public User(Long id, String username, String password, String email, Role role) {
+    public User(Long id, Role role, String username, String password, String email) {
         this.id = id;
+        this.role = role;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
-
 }
