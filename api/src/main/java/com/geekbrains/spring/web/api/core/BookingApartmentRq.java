@@ -3,7 +3,7 @@ package com.geekbrains.spring.web.api.core;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Модель для бронирования апартамента")
-public class BookingApartmentDto {
+public class BookingApartmentRq {
     @Schema(description = "ID апартамента", required = true, example = "1")
     private Long id;
 
@@ -34,29 +34,29 @@ public class BookingApartmentDto {
     }
 
     public static class Builder {
-        private final BookingApartmentDto bookingApartmentDto;
+        private final BookingApartmentRq bookingApartmentRq;
 
         public Builder() {
-            this.bookingApartmentDto = new BookingApartmentDto();
+            this.bookingApartmentRq = new BookingApartmentRq();
         }
 
         public Builder id(Long id) {
-            bookingApartmentDto.id = id;
+            bookingApartmentRq.id = id;
             return this;
         }
 
         public Builder bookingStartDate(String bookingStartDate) {
-            bookingApartmentDto.bookingStartDate = bookingStartDate;
+            bookingApartmentRq.bookingStartDate = bookingStartDate;
             return this;
         }
 
         public Builder bookingFinishDate(String bookingFinishDate) {
-            bookingApartmentDto.bookingFinishDate = bookingFinishDate;
+            bookingApartmentRq.bookingFinishDate = bookingFinishDate;
             return this;
         }
 
-        public BookingApartmentDto build() {
-            return bookingApartmentDto;
+        public BookingApartmentRq build() {
+            return bookingApartmentRq;
         }
     }
 }
