@@ -89,4 +89,18 @@ public class Host {
         this.inn = inn;
         this.account = account;
     }
+
+    public Host(Long id, User user, String name, String patronymic, String surname, String username, String country, String address, String postcode, Integer inn, String account) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.surname = surname;
+        this.username = username;
+        this.country = country;
+        this.address = address;
+        this.postcode = postcode;
+        this.inn = inn;
+        this.account = account;
+    }
 }

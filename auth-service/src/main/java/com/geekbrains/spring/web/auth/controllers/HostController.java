@@ -64,24 +64,34 @@ public class HostController {
         Host host = hostService.findByUsername(username);
         return hostConverter.entityToIndividualHostDto(host);
     }
-    @Operation(summary = "Обновление данных пользователя")
+
+
+    @Operation(summary = "Обновление данных владельца (юрлица)")
     @ApiResponse(responseCode = "201",
             description = "Обновление данных прошло успешно")
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping
-    public ResponseEntity<?> updateGuest(@Valid @RequestBody ProfileDto profileDto) {
-//        if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);
-//        }
-//        if (userService.existByEmail(profileDto.getEmail())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Адрес электронной почты уже используется"), HttpStatus.BAD_REQUEST);
-//        }
-//        if (userService.existByUsername(profileDto.getUsername())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Логин уже существует"), HttpStatus.BAD_REQUEST);
-//        }
-//        userService.saveUser(profileDto);
+    @PostMapping("/legal/")
+    public ResponseEntity<?> updateLegalHost(@Valid @RequestBody LegalHostDto legalHostDto) {
+        log.info("получен " + legalHostDto.getId());
+        hostService.updateLegalHost(legalHostDto);
+        log.info("перенаправлен в сервис " + legalHostDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @Operation(summary = "Обновление данных владельца (физлица)")
+    @ApiResponse(responseCode = "201",
+            description = "Обновление данных прошло успешно")
+    @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AppError.class)))
+    @PostMapping("/individual/")
+    public ResponseEntity<?> updateIndividualHost(@Valid @RequestBody IndividualHostDto individualHostDto) {
+        log.info("получен " + individualHostDto.getId());
+        hostService.updateIndividualHost(individualHostDto);
+        log.info("перенаправлен в сервис  " + individualHostDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

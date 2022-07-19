@@ -16,9 +16,6 @@ public class GuestConverter {
     /*
     конвертер для гостя (клиент, постоялец)
      */
-//    public Guest guestDtoToEntity(GuestDto guestDto) {
-//        return new Guest(guestDto.getId(), guestDto.getUserId(), guestDto.getName(), guestDto.getPatronymic(), guestDto.getSurname(), guestDto.getUsername());
-//    }
 
     public GuestDto entityToGuestDto(Guest guest) {
         return new GuestDto(guest.getId(), guest.getUser().getId(), guest.getName(),

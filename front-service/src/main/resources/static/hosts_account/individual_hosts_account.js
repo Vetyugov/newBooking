@@ -1,4 +1,4 @@
- angular.module('new-booking-front').controller('individualHostsAccountController', function ($scope, $http, $location, $localStorage) {
+ angular.module('new-booking-front').controller('individualHostsAccountController', function ($scope, $http, $route, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/api/v1/hosts_account/';
 
         $scope.loadIndiHostAccount = function () {
@@ -10,14 +10,30 @@
             });
         };
 
-    $scope.tryToUpdateIndividualHostAccount() = function() {
-        $http.post(contextPath, $scope.updateHostAccount)
-            .then(function successCallback(response) {
-                $scope.updateHostAccount = null;
+    $scope.tryToUpdateIndividualHostAccount = function() {
+        $http.post(contextPath + 'individual/', $scope.updateIndividualHostAccount)
+            if ($scope.updateIndividualHostAccount.name == null || $scope.updateIndividualHostAccount.surname == null || $scope.updateIndividualHostAccount.patronymic == null
+            || $scope.updateIndividualHostAccount.inn == null || $scope.updateIndividualHostAccount.country == null || $scope.updateIndividualHostAccount.address == null
+            || $scope.updateIndividualHostAccount.postcode == null || $scope.updateIndividualHostAccount.account == null ) {
+            alert("Заполните все поля ввода!");
+            }
+            if ($scope.updateIndividualHostAccount.name != null && $scope.updateIndividualHostAccount.surname != null && $scope.updateIndividualHostAccount.patronymic != null
+            && $scope.updateIndividualHostAccount.inn != null && $scope.updateIndividualHostAccount.country != null && $scope.updateIndividualHostAccount.address != null
+            && $scope.updateIndividualHostAccount.postcode != null && $scope.updateIndividualHostAccount.account != null ) {
+                $scope.updateIndividualHostAccount = null;
                 alert('Success! Данные обновлены');
-                $location.path('/legal_hosts_account');
+                $route.reload();
             }
     };
+
+//        $scope.tryToUpdateIndividualHostAccount = function() {
+//            $http.post(contextPath + '/individual/', $scope.updateIndividualHostAccount)
+//                .then(function successCallback(response) {
+//                    $scope.updateIndividualHostAccount = null;
+//                    alert('Success! Данные обновлены');
+//                    $location.path('/individual_hosts_account');
+//                }
+//        )};
 
     $scope.loadIndiHostAccount();
 

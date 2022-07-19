@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProfileDto {
+public class ProfileDto { //UserDto нужен для регистрации новых пользователей и для записи и отображения данных на фронте
 
     @Schema(description = "Идентификатор", example = "123")
     Long id;

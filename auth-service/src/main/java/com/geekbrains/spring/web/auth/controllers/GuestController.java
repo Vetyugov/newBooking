@@ -73,18 +73,10 @@ public class GuestController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
     @PostMapping
-    public ResponseEntity<?> updateGuest(@Valid @RequestBody ProfileDto profileDto) {
-//        if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);
-//        }
-//        if (userService.existByEmail(profileDto.getEmail())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Адрес электронной почты уже используется"), HttpStatus.BAD_REQUEST);
-//        }
-//        if (userService.existByUsername(profileDto.getUsername())) {
-//            return new ResponseEntity<>(new AppError("BAD_REQUEST", "Логин уже существует"), HttpStatus.BAD_REQUEST);
-//        }
-//        userService.saveUser(profileDto);
+    public ResponseEntity<?> updateGuest(@Valid @RequestBody GuestDto guestDto) {
+        log.info("получен " + guestDto.getId());
+        guestService.updateGuest(guestDto);
+        log.info("перенаправлен в сервис " + guestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }

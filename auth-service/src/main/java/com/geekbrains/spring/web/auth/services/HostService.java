@@ -11,6 +11,7 @@ import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.HostRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class HostService {
     private final HostRepository hostRepository;
     private final HostConverter hostConverter;
@@ -45,24 +47,44 @@ public class HostService {
 
     @Transactional //уточнить можно ли делать транзакцию в транзакции
     public void createNewHost(ProfileDto profileDto, User user) {
-        Host host = hostConverter.legalHostDtoToEntity(profileDto, user);
+        Host host = hostConverter.hostDtoToEntity(profileDto, user);
         hostRepository.save(host);
     }
 
     @Transactional
-    public void updateHost(ProfileDto profileDto) {
+    public void updateLegalHost(LegalHostDto legalHostDto) {
+        if (legalHostDto.getId() != null && hostRepository.existsById(legalHostDto.getId())) {
+            log.info("нашел " + legalHostDto.getId());
+            Host host = hostRepository.getById(legalHostDto.getId());
+            host.setSurname(legalHostDto.getSurname());
+            host.setName(legalHostDto.getName());
+            host.setPatronymic(legalHostDto.getPatronymic());
+            host.setInn(legalHostDto.getInn());
+            host.setCountry(legalHostDto.getCountry());
+            host.setOfficeAddress(legalHostDto.getOfficeAddress());
+            host.setPostcode(legalHostDto.getPostcode());
+            host.setAccount(legalHostDto.getAccount());
+            hostRepository.save(host);
+            log.info("сохранен " + host );
+            return;
+        }
     }
 
-
-//    public Boolean existByEmail(String email) {
-//        return hostRepository.existsByEmail(email);
-//    }
-
-//    public Boolean emailBelongsToLegalHost (LegalHostDto legalHostDto){
-//        return findByUsername(legalHostDto.getUsername()).getEmail().equals(legalHostDto.getEmail());
-//    }
-//
-//    public Boolean emailBelongsToIndividualHost (IndividualHostDto individualHostDto){
-//        return findByUsername(individualHostDto.getUsername()).getEmail().equals(individualHostDto.getEmail());
-//    }
+    @Transactional
+    public void updateIndividualHost(IndividualHostDto individualHostDto) {
+        if (individualHostDto.getId() != null && hostRepository.existsById(individualHostDto.getId())) {
+            log.info("нашел " + individualHostDto.getId());
+            Host host = hostRepository.getById(individualHostDto.getId());
+            host.setSurname(individualHostDto.getSurname());
+            host.setName(individualHostDto.getName());
+            host.setPatronymic(individualHostDto.getPatronymic());
+            host.setCountry(individualHostDto.getCountry());
+            host.setAddress(individualHostDto.getAddress());
+            host.setPostcode(individualHostDto.getPostcode());
+            host.setAccount(individualHostDto.getAccount());
+            hostRepository.save(host);
+            log.info("сохранен " + host );
+            return;
+        }
+    }
 }

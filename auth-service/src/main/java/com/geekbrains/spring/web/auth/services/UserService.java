@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
         if (profileDto.getRoleName().equals("ROLE_LEGAL_HOST") || profileDto.getRoleName().equals("ROLE_INDIVIDUAL_HOST")) {
             hostService.createNewHost(profileDto, user);
         }
-        if (profileDto.getRoleName().equals("ROLE_GUEST_HOST")) {
+        if (profileDto.getRoleName().equals("ROLE_GUEST")) {
             guestService.createNewGuest(profileDto, user);
         }
         return;

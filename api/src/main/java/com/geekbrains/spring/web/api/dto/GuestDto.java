@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor
 @Builder
-public class GuestDto {
+public class GuestDto {//добавление информации в ЛК, отображение данных
 
     @Schema(description = "Идентификатор", example = "123")
     Long id;
