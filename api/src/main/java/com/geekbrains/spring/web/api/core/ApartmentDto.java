@@ -40,6 +40,9 @@ public class ApartmentDto {
     @Schema(description = "Кол-во спальных мест", required = true, example = "4")
     private Integer numberOfBeds;
 
+    @Schema(description = "Имя пользователя", required = true, example = "bob")
+    private String userName;
+
 
     public Long getId() {
         return id;
@@ -85,19 +88,24 @@ public class ApartmentDto {
         return numberOfBeds;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
     @Override
     public String toString() {
         return "ApartmentDto{" +
-                ", title='" + title + '\'' +
-                ", pricePerNight=" + pricePerNight +
-                ", category='" + category + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNumber=" + buildingNumber +
-                ", squareMeters=" + squareMeters +
-                ", numberOfGuests=" + numberOfGuests +
-                ", numberOfRooms=" + numberOfRooms +
-                ", numberOfBeds=" + numberOfBeds +
+                ", title= '" + title + '\'' +
+                ", pricePerNight= " + pricePerNight +
+                ", category= '" + category + '\'' +
+                ", city= '" + city + '\'' +
+                ", street= '" + street + '\'' +
+                ", buildingNumber= " + buildingNumber +
+                ", squareMeters= " + squareMeters +
+                ", numberOfGuests= " + numberOfGuests +
+                ", numberOfRooms= " + numberOfRooms +
+                ", numberOfBeds= " + numberOfBeds +
+                ", userName= '" + userName + '\'' +
                 '}';
     }
 
@@ -160,6 +168,11 @@ public class ApartmentDto {
 
         public Builder numberOfBeds(Integer numberOfBeds) {
             apartmentDto.numberOfBeds = numberOfBeds;
+            return this;
+        }
+
+        public Builder userName(String userName) {
+            apartmentDto.userName = userName;
             return this;
         }
 

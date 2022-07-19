@@ -23,6 +23,7 @@ public class ApartmentConverter {
                 .numberOfGuests(apartmentDto.getNumberOfGuests())
                 .numberOfRooms(apartmentDto.getNumberOfRooms())
                 .numberOfBeds(apartmentDto.getNumberOfBeds())
+                .userName(apartmentDto.getUserName())
                 .build();
     }
 
@@ -39,6 +40,7 @@ public class ApartmentConverter {
                 .numberOfGuests(apartment.getNumberOfGuests())
                 .numberOfRooms(apartment.getNumberOfRooms())
                 .numberOfBeds(apartment.getNumberOfBeds())
+                .userName(apartment.getUserName())
                 .build();
     }
 }
