@@ -28,6 +28,7 @@ public class ApartmentConverter {
 
     public ApartmentDto entityToApartmentDto(Apartment apartment) {
         return new ApartmentDto.Builder()
+                .id(apartment.getId())
                 .title(apartment.getTitle())
                 .pricePerNight(apartment.getPricePerNight())
                 .category(apartment.getApartmentCategory().getTitle())

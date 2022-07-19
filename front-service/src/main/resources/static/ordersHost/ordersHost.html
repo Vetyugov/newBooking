@@ -1,0 +1,57 @@
+<div>
+    <p></p>
+    <h3>Активные заказы</h3>
+    <p></p>
+
+    <table class="table table-hover">
+        <tr>
+            <td>ID заказа</td>
+            <td>Название жилья</td>
+            <td>Дата заселения</td>
+            <td>Дата выселения</td>
+            <td>Цена за одну ночь</td>
+            <td>Полная стоимость</td>
+            <td>Статус заказа</td>
+            <td></td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="order in MyOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.apartmentTitle}}</td>
+            <td>{{order.apartmentCheckIn}}</td>
+            <td>{{order.apartmentCheckOut}}</td>
+            <td>{{order.price}}</td>
+            <td>{{order.totalPrice}}</td>
+            <td>{{order.status}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="outCash(order.id)" data-bs-toggle="modal" data-bs-target="#messageModal">Вывести средства</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Сообщение</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{modalMessage}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

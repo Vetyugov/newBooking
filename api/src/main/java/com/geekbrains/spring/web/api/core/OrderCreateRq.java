@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +19,7 @@ import java.time.LocalDateTime;
 @Schema(description = "Модель для создания заказа")
 @ToString
 @Builder
-public class OrderDtoCreate {
-
-        @Schema(description = "Идентификатор", example = "123")
-        private Long id;
+public class OrderCreateRq {
 
         @NotBlank(message = "Введите свой логин. Обязательное поле")
         @Size(min = 1, max = 255, message = "максимум 255 символов")
@@ -32,27 +29,29 @@ public class OrderDtoCreate {
 
         @Schema(description = "Выбранное жилье")
         @NotBlank(message = "Выберите жилье. Обязательное поле")
-        private ApartmentDto apartment;
+        private Long apartmentId;
 
         @Schema(description = "Дата заселения", example = "2022-01-26", required = true)
         @NotBlank(message = "Укажите дату заселения. Обязательное поле")
         @Pattern(regexp = "\\d{4}(-)\\d{2}(-)\\d{2}", message = "Некорректно указана дата заселения")
-        private LocalDateTime apartmentCheckIn;
+        private LocalDate bookingStartDate;
 
         @Schema(description = "Дата выселения", example = "2022-01-26", required = true)
         @NotBlank(message = "Укажите дату выселения. Обязательное поле")
         @Pattern(regexp = "\\d{4}(-)\\d{2}(-)\\d{2}", message = "Некорректно указана дата выселения")
-        private LocalDateTime apartmentCheckOut;
+        private LocalDate bookingFinishDate;
 
+        //цена за ночь
         @Schema(description = "Цена за одну ночь проживания", example = "1528.40", required = true)
         @NotBlank(message = "Укажите цену за одну ночь проживания. Обязательное поле")
-        private BigDecimal price;
+        private BigDecimal pricePerNight;
 
-        @Schema(description = "Полная стоимость проживания", example = "3056.80", required = true)
+        //Цена за период
+        @Schema(description = "Полная стоимость проживания за аппартамент", example = "3056.80", required = true)
         @NotBlank(message = "Укажите полную стоимоть проживания. Обязательное поле")
-        private BigDecimal totalPrice;
+        private BigDecimal pricePerOrder;
 
-        @Schema(description = "Статус заказа")
-        @NotBlank(message = "Укажите статус заказа. Обязательное поле")
-        private OrderStatusDto status;
+//        @Schema(description = "Статус заказа")
+//        @NotBlank(message = "Укажите статус заказа. Обязательное поле")
+//        private OrderStatusDto status;
 }

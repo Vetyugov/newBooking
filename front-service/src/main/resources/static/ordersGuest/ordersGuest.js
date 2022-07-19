@@ -1,4 +1,4 @@
-angular.module('new-booking-front').controller('ordersController', function ($scope, $http, $location) {
+angular.module('new-booking-front').controller('ordersGuestController', function ($scope, $http, $location) {
     const contextPath = 'http://localhost:5555/core/';
 
     $scope.loadOrders  = function () {
