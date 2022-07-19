@@ -1,5 +1,5 @@
 
-angular.module('new-booking-front').controller('registrationController', function ($scope, $http, $location, $localStorage) {
+angular.module('new-booking-front').controller('registrationController', function ($scope, $http, $routeParams, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/api/v1/profile';
 
     $scope.tryToRegistration = function () {
@@ -22,4 +22,4 @@ angular.module('new-booking-front').controller('registrationController', functio
                 }
             });
     };
-};
+});

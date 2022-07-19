@@ -22,12 +22,17 @@ public class UserConverter {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    public User profileDtoToUserConverter(ProfileDto profileDto) {
-        return new User(profileDto.getId(), profileDto.getUsername(),
-                profileDto.getPassword(), profileDto.getEmail());
-    }
+//    public User profileDtoToUserConverter(ProfileDto profileDto) {
+//        return new User(profileDto.getId(), profileDto.getUsername(),
+//                profileDto.getPassword(), profileDto.getEmail());
+//    }
+
+//    public User profileDtoToUserConverter(ProfileDto profileDto) {
+//        return new User(profileDto.getId(), profileDto.getRoleName(),  profileDto.getUsername(),
+//                profileDto.getPassword(), profileDto.getEmail());
+//    }
 
     public ProfileDto userToProfileDtoConverter(User user) {
-        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
+        return new ProfileDto(user.getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getEmail());
     }
 }

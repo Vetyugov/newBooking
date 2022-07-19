@@ -1,0 +1,46 @@
+<div>
+    <p></p>
+    <h3>Личный кабинет</h3>
+    <p></p>
+
+    <div class="row g-2">
+
+        <div class="col-sm-6 col-md-10">
+            <table class="table table-hover">
+                <tr>
+                    <td>ID:      </td>
+                    <td>{{guestAccount.id}}</td>
+                </tr>
+                <tr>
+                    <td>Логин:   </td>
+                    <td>{{guestAccount.username}}</td>
+                </tr>
+                <tr>
+                    <td>Фамилия:  </td>
+                    <td>{{guestAccount.surname}}</td>
+                    <td>
+                        <input id="updateSurnameGuestField" class="form-control" ng-model="updateGuestAccount.surname" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Имя:      </td>
+                    <td>{{guestAccount.name}}</td>
+                    <td>
+                        <input id="updateNameGuestField" class="form-control" ng-model="updateGuestAccount.name" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Отчество: </td>
+                    <td>{{guestAccount.patronymic}}</td>
+                    <td>
+                        <input id="updatePatronymicGuestField" class="form-control" ng-model="updateGuestAccount.patronymic" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-outline-secondary btn-sm" ng-click="tryToUpdateGuestAccount()">Сохранить данные</button>
+        </div>
+    </div>
+</div>

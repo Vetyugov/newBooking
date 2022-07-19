@@ -1,9 +1,13 @@
 package com.geekbrains.spring.web.auth.services;
 
+import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.IndividualHostDto;
 import com.geekbrains.spring.web.api.dto.LegalHostDto;
+import com.geekbrains.spring.web.auth.controllers.HostController;
+import com.geekbrains.spring.web.auth.converters.HostConverter;
 import com.geekbrains.spring.web.auth.entities.Host;
 import com.geekbrains.spring.web.auth.entities.Role;
+import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.HostRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class HostService {
     private final HostRepository hostRepository;
+    private final HostConverter hostConverter;
 
     public Optional<Host> findById(Long id) {
         return hostRepository.findById(id);
@@ -38,15 +43,26 @@ public class HostService {
         return hostRepository.existsByUsername(username);
     }
 
-    public Boolean existByEmail(String email) {
-        return hostRepository.existsByEmail(email);
+    @Transactional //уточнить можно ли делать транзакцию в транзакции
+    public void createNewHost(ProfileDto profileDto, User user) {
+        Host host = hostConverter.legalHostDtoToEntity(profileDto, user);
+        hostRepository.save(host);
     }
 
-    public Boolean emailBelongsToLegalHost (LegalHostDto legalHostDto){
-        return findByUsername(legalHostDto.getUsername()).getEmail().equals(legalHostDto.getEmail());
+    @Transactional
+    public void updateHost(ProfileDto profileDto) {
     }
 
-    public Boolean emailBelongsToIndividualHost (IndividualHostDto individualHostDto){
-        return findByUsername(individualHostDto.getUsername()).getEmail().equals(individualHostDto.getEmail());
-    }
+
+//    public Boolean existByEmail(String email) {
+//        return hostRepository.existsByEmail(email);
+//    }
+
+//    public Boolean emailBelongsToLegalHost (LegalHostDto legalHostDto){
+//        return findByUsername(legalHostDto.getUsername()).getEmail().equals(legalHostDto.getEmail());
+//    }
+//
+//    public Boolean emailBelongsToIndividualHost (IndividualHostDto individualHostDto){
+//        return findByUsername(individualHostDto.getUsername()).getEmail().equals(individualHostDto.getEmail());
+//    }
 }
