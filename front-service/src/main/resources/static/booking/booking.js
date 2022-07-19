@@ -32,5 +32,19 @@ angular.module('new-booking-front').controller('bookingController', function ($s
         });
     };
 
+    $scope.removeBookingItem = function (apartmentId, startDate, finishDate) {
+        $http({
+            url: contextPath + 'api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/remove',
+            method: 'GET',
+            params: {
+                id: apartmentId,
+                start_date: startDate,
+                finish_date: finishDate
+            }
+        }).then(function (response) {
+            $scope.loadBooking();
+        });
+    };
+
     $scope.loadBooking();
 });

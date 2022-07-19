@@ -10,7 +10,7 @@
             });
         };
 
-    $scope.tryToUpdateIndividualHostAccount() = function() {
+    $scope.tryToUpdateIndividualHostAccount = function() {
         $http.post(contextPath, $scope.updateHostAccount)
             .then(function successCallback(response) {
                 $scope.updateHostAccount = null;

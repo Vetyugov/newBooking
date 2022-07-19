@@ -10,7 +10,7 @@ angular.module('new-booking-front').controller('guestsAccountController', functi
         });
     };
 
-    $scope.tryToUpdateGuestAccount() = function() {
+    $scope.tryToUpdateGuestAccount = function() {
         $http.post(contextPath, $scope.updateHostAccount)
             .then(function successCallback(response) {
                 $scope.updateHostAccount = null;

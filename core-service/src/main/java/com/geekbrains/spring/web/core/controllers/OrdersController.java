@@ -1,10 +1,10 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.*;
+import com.geekbrains.spring.web.api.core.OrderDtoCreate;
+import com.geekbrains.spring.web.api.core.OrderStatusDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
-import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;

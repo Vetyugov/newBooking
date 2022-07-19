@@ -6,6 +6,9 @@ import lombok.Builder;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+
 @Schema(description = "Модель для бронирования апартамента")
 public class BookingApartmentDto {
     @Schema(description = "ID апартамента", required = true, example = "1")
@@ -38,6 +41,11 @@ public class BookingApartmentDto {
     public String getBookingFinishDate() {
         return bookingFinishDate;
     }
+
+    public BigDecimal getPricePerNight() { return pricePerNight; }
+
+    public BigDecimal getPricePerOrder() { return pricePerOrder; }
+
 
     @Override
     public String toString() {
