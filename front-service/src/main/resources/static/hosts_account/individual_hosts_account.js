@@ -16,7 +16,7 @@
                 $scope.updateHostAccount = null;
                 alert('Success! Данные обновлены');
                 $location.path('/legal_hosts_account');
-            });
+            }
     };
 
     $scope.loadIndiHostAccount();

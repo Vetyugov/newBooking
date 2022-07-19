@@ -1,6 +1,10 @@
 package com.geekbrains.spring.web.api.core;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;

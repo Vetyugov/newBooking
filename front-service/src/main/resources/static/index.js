@@ -18,9 +18,13 @@
                 templateUrl: 'booking/booking.html',
                 controller: 'bookingController'
             })
-            .when('/orders', {
-                templateUrl: 'orders/orders.html',
-                controller: 'ordersController'
+            .when('/ordersGuest', {
+                templateUrl: 'ordersGuest/ordersGuest.html',
+                controller: 'ordersGuestController'
+            })
+            .when('/ordersHost', {
+                templateUrl: 'ordersHost/ordersHost.html',
+                controller: 'ordersHostController'
             })
             .when('/order_pay/:orderId', {
                 templateUrl: 'order_pay/order_pay.html',

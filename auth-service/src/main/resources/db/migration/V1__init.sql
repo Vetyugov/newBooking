@@ -84,7 +84,7 @@ create table if not exists hosts
         office_address  varchar(255),
         postcode        varchar(255),
         inn             bigint UNIQUE,
-        account         varchar(34), --TODO найти правильный формат для 16-20 символов
+        account         varchar(34),
         created_at      timestamp default current_timestamp,
         updated_at      timestamp default current_timestamp
 );

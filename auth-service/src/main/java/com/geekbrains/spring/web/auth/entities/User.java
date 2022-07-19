@@ -67,12 +67,4 @@ public class User {
         this.password = password;
         this.email = email;
     }
-
-//    public User(Long id, Long roleId, String username, String password, String email) {
-//        this.id = id;
-//        //this.role = roleId; //TODO исправить
-//        this.username = username;
-//        this.password = password;
-//        this.email = email;
-//    }
 }

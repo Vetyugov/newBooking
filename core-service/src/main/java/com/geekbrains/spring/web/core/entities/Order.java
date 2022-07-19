@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,10 +33,10 @@ public class Order {
     private Apartment apartment;
 
     @Column(name = "apartment_check_in")
-    private LocalDateTime apartmentCheckIn;
+    private LocalDate apartmentCheckIn;
 
     @Column(name = "apartment_check_out")
-    private LocalDateTime apartmentCheckOut;
+    private LocalDate apartmentCheckOut;
 
     @Column (name = "price")
     private BigDecimal price;
