@@ -15,23 +15,16 @@ public class HostConverter {
     /*
 конвертер для частного владельца
  */
-//    public Host individualHostDtoToEntity(IndividualHostDto individualHostDto) {
-//        throw new UnsupportedOperationException();
-//    }
 
     public IndividualHostDto entityToIndividualHostDto(Host host) {
         return new IndividualHostDto(host.getId(), host.getUser().getId(), host.getName(),
                 host.getPatronymic(), host.getSurname(), host.getUsername(),
-                host.getPostcode(), host.getCountry(), host.getAddress(),
+                host.getCountry(),  host.getAddress(), host.getPostcode(),
                 host.getInn(), host.getAccount());
     }
-
     /*
     конвертер для юрлица
      */
-//    public Host legalHostDtoToEntity(LegalHostDto legalHostDto) {
-//        throw new UnsupportedOperationException();
-//    }
 
     public LegalHostDto entityToLegalHostDto(Host host) {
         return new LegalHostDto(host.getId(), host.getUser().getId(), host.getName(),
@@ -41,7 +34,10 @@ public class HostConverter {
                 host.getPostcode(), host.getInn(), host.getAccount());
     }
 
-    public Host legalHostDtoToEntity(ProfileDto profileDto, User user) {
+    /*
+    конвертер для всех хостов
+    */
+    public Host hostDtoToEntity(ProfileDto profileDto, User user) {
         return Host.builder()
                 .username(profileDto.getUsername())
                 .user(user)

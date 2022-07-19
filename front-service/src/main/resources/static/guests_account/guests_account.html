@@ -10,6 +10,10 @@
                 <tr>
                     <td>ID:      </td>
                     <td>{{guestAccount.id}}</td>
+                    <td>
+                        <input readonly id="idGuestField" class="form-control" ng-model="updateGuestAccount.id = guestAccount.id" ng-model-options="{ getterSetter: true }" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
                 </tr>
                 <tr>
                     <td>Логин:   </td>

@@ -1,4 +1,4 @@
-angular.module('new-booking-front').controller('guestsAccountController', function ($scope, $http, $location, $localStorage) {
+angular.module('new-booking-front').controller('guestsAccountController', function ($scope, $http, $route, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/api/v1/guests_account/';
 
     $scope.loadGuestAccount = function () {
@@ -11,11 +11,14 @@ angular.module('new-booking-front').controller('guestsAccountController', functi
     };
 
     $scope.tryToUpdateGuestAccount = function() {
-        $http.post(contextPath, $scope.updateHostAccount)
-            .then(function successCallback(response) {
-                $scope.updateHostAccount = null;
-                alert('Success! Данные обновлены');
-                $location.path('/legal_hosts_account');
+        $http.post(contextPath, $scope.updateGuestAccount)
+            if ($scope.updateGuestAccount.name == null || $scope.updateGuestAccount.surname == null || $scope.updateGuestAccount.patronymic == null) {
+                alert("Заполните все поля ввода!");
+            }
+            if ($scope.updateGuestAccount.name != null && $scope.updateGuestAccount.surname != null && $scope.updateGuestAccount.patronymic != null) {
+                 $scope.updateHostAccount = null;
+                 alert('Success! Данные обновлены');
+                 $route.reload();
             }
     };
 

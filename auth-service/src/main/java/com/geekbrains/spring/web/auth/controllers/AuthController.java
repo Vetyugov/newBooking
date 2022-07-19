@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/auth")
 @Tag(name = "API для работы с сервисом аутентификации")
 @RequiredArgsConstructor
 @Slf4j
@@ -48,7 +48,6 @@ public class AuthController {
 
 
     @Operation(summary = "Авторизация пользователя")
-    //@PostMapping
     @ApiResponse(responseCode = "200", description = "Авторизация выполнена успешно.",
             headers = @Header(name = "Authorization", description = "Токен пользователя"))
     @ApiResponse(responseCode = "400", description = "Ошибочный запрос",
@@ -58,7 +57,7 @@ public class AuthController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
 
-    @PostMapping("/api/v1/auth")
+    @PostMapping
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));

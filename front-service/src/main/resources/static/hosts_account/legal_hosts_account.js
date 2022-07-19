@@ -1,4 +1,4 @@
-angular.module('new-booking-front').controller('legalHostsAccountController', function ($scope, $http, $location, $localStorage) {
+angular.module('new-booking-front').controller('legalHostsAccountController', function ($scope, $http, $route, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/api/v1/hosts_account/';
 
     $scope.loadLegalHostAccount = function () {
@@ -11,11 +11,18 @@ angular.module('new-booking-front').controller('legalHostsAccountController', fu
     };
 
     $scope.tryToUpdateLegalHostAccount = function() {
-        $http.post(contextPath, $scope.updateHostAccount)
-            .then(function successCallback(response) {
-                $scope.updateHostAccount = null;
+        $http.post(contextPath + 'legal/', $scope.updateLegalHostAccount)
+            if ($scope.updateLegalHostAccount.name == null || $scope.updateLegalHostAccount.surname == null || $scope.updateLegalHostAccount.patronymic == null
+            ||  $scope.updateLegalHostAccount.titleFirm == null || $scope.updateLegalHostAccount.country == null || $scope.updateLegalHostAccount.address == null
+            || $scope.updateLegalHostAccount.postcode == null || $scope.updateLegalHostAccount.inn == null || $scope.updateLegalHostAccount.account == null ) {
+                alert("Заполните все поля ввода!");
+            }
+            if ($scope.updateLegalHostAccount.name != null && $scope.updateLegalHostAccount.surname != null && $scope.updateLegalHostAccount.patronymic != null
+            && $scope.updateLegalHostAccount.titleFirm != null  &&  $scope.updateLegalHostAccount.country != null && $scope.updateLegalHostAccount.address != null
+            && $scope.updateLegalHostAccount.postcode != null && $scope.updateLegalHostAccount.inn != null && $scope.updateLegalHostAccount.account != null ) {
+                $scope.updateLegalHostAccount = null;
                 alert('Success! Данные обновлены');
-                $location.path('/legal_hosts_account');
+                $route.reload();
             }
     };
 
