@@ -1,6 +1,8 @@
 package com.geekbrains.spring.web.booking.models;
 
+import com.geekbrains.spring.web.api.bookings.BookingItemDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.core.BookingApartmentDto;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,73 +13,46 @@ import java.util.List;
 @Data
 public class Booking {
     private List<BookingItem> items;
-    private BigDecimal totalPrice;
 
     public Booking() {
         this.items = new ArrayList<>();
     }
 
-    public void add(ApartmentDto apartmentDto) {
-        if (add(apartmentDto.getId())) {
-            return;
+    public void add(BookingItemDto bookingItemDto) {
+        for (BookingItem item : items) {
+            if (item.getApartmentId().equals(bookingItemDto.getApartmentId()) &&
+                item.getBookingStartDate().equals(bookingItemDto.getBookingStartDate()) &&
+                item.getBookingFinishDate().equals(bookingItemDto.getBookingFinishDate()))
+                return;
         }
-        items.add(new BookingItem(apartmentDto));
-        recalculate();
+        items.add(new BookingItem(bookingItemDto));
     }
 
-    public boolean add(Long id) {
-        for (BookingItem o : items) {
-            if (o.getApartmentId().equals(id)) {
-                //TODO ЖЕНЯ
-//                o.changeQuantity(1);
-                recalculate();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void decrement(Long apartmentId) {
-        Iterator<BookingItem> iter = items.iterator();
-        while (iter.hasNext()) {
-            BookingItem o = iter.next();
-            if (o.getApartmentId().equals(apartmentId)) {
-                //TODO ЖЕНЯ
-//                o.changeQuantity(-1);
-//                if (o.getQuantity() <= 0) {
-//                    iter.remove();
-//                }
-//                recalculate();
+    public void remove(Long apartmentId, String startData, String finishDate) {
+        for (BookingItem item : items) {
+            if (item.getApartmentId().equals(apartmentId) &&
+                item.getBookingStartDate().equals(startData) &&
+                item.getBookingFinishDate().equals(finishDate)
+            ) {
+                items.remove(item);
                 return;
             }
         }
     }
 
-    public void remove(Long apartmentId) {
-        items.removeIf(o -> o.getApartmentId().equals(apartmentId));
-        recalculate();
-    }
-
     public void clear() {
         items.clear();
-        totalPrice = BigDecimal.ZERO;
     }
 
-    private void recalculate() {
-        totalPrice = BigDecimal.ZERO;
-        for (BookingItem o : items) {
-            //TODO ЖЕНЯ
-//            totalPrice = totalPrice.add(o.getPrice());
-        }
-    }
 
     public void merge(Booking another) {
         for (BookingItem anotherItem : another.items) {
             boolean merged = false;
             for (BookingItem myItem : items) {
-                if (myItem.getApartmentId().equals(anotherItem.getApartmentId())) {
-                    //TODO ЖЕНЯ
-//                    myItem.changeQuantity(anotherItem.getQuantity());
+                if (myItem.getApartmentId().equals(anotherItem.getApartmentId()) &&
+                    myItem.getBookingStartDate().equals(anotherItem.getBookingStartDate()) &&
+                    myItem.getBookingFinishDate().equals(anotherItem.getBookingFinishDate())
+                ) {
                     merged = true;
                     break;
                 }
@@ -86,7 +61,6 @@ public class Booking {
                 items.add(anotherItem);
             }
         }
-        recalculate();
         another.clear();
     }
 }

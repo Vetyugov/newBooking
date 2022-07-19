@@ -18,25 +18,29 @@
                 templateUrl: 'booking/booking.html',
                 controller: 'bookingController'
             })
-            .when('/orders', {
-                templateUrl: 'orders/orders.html',
-                controller: 'ordersController'
+            .when('/ordersGuest', {
+                templateUrl: 'ordersGuest/ordersGuest.html',
+                controller: 'ordersGuestController'
+            })
+            .when('/ordersHost', {
+                templateUrl: 'ordersHost/ordersHost.html',
+                controller: 'ordersHostController'
             })
             .when('/order_pay/:orderId', {
                 templateUrl: 'order_pay/order_pay.html',
                 controller: 'orderPayController'
             })
-            .when('/host_account', {
-                templateUrl: 'host_account/host_account.html',
-                controller: 'hostAccountController'
+            .when('/legal_hosts_account', {
+                templateUrl: 'hosts_account/legal_hosts_account.html',
+                controller: 'legalHostsAccountController'
             })
-            .when('/guest_account', {
-                templateUrl: 'guest_account/guest_account.html',
-                controller: 'guestAccountController'
+            .when('/individual_hosts_account', {
+                templateUrl: 'hosts_account/individual_hosts_account.html',
+                controller: 'individualHostsAccountController'
             })
-            .when('/profile', {
-                templateUrl: 'profile/profile.html',
-                controller: 'profileController'
+            .when('/guests_account', {
+                templateUrl: 'guests_account/guests_account.html',
+                controller: 'guestsAccountController'
             })
             .when('/registration', {
                 templateUrl: 'registration/registration.html',
@@ -76,7 +80,7 @@
 
 angular.module('new-booking-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/auth//api/v1/auth', $scope.user)
+        $http.post('http://localhost:5555/auth/api/v1/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -119,9 +123,17 @@ angular.module('new-booking-front').controller('indexController', function ($roo
 
     };
 
-    $rootScope.isUserHost = function () {
+    $rootScope.isUserLegalHost = function () {
 
-        if ($localStorage.springWebUser && $localStorage.springWebUser.role == 'ROLE_HOST') {
+        if ($localStorage.springWebUser && $localStorage.springWebUser.role == 'ROLE_LEGAL_HOST') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.isUserIndividualHost = function () {
+        if ($localStorage.springWebUser && $localStorage.springWebUser.role == 'ROLE_INDIVIDUAL_HOST') {
             return true;
         } else {
             return false;

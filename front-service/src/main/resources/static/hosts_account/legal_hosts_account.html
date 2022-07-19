@@ -1,0 +1,98 @@
+<div>
+    <p></p>
+    <h3>Личный кабинет</h3>
+    <p></p>
+
+    <div class="row g-2">
+
+        <div class="col-sm-6 col-md-10">
+            <table class="table table-hover">
+                <tr>
+                    <td>ID:      </td>
+                    <td>{{hostAccount.id}}</td>
+                    <td>
+                        <input readonly id="updateIdHostField" class="form-control" ng-model="updateLegalHostAccount.id = hostAccount.id" ng-model-options="{ getterSetter: true }" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Логин:   </td>
+                    <td>{{hostAccount.username}}</td>
+                </tr>
+                <tr>
+                    <td>Фамилия:  </td>
+                    <td>{{hostAccount.surname}}</td>
+                    <td>
+                        <input id="updateSurnameHostField" class="form-control" ng-model="updateLegalHostAccount.surname" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Имя:      </td>
+                    <td>{{hostAccount.name}}</td>
+                    <td>
+                        <input id="updateNameHostField" class="form-control" ng-model="updateLegalHostAccount.name" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Отчество: </td>
+                    <td>{{hostAccount.patronymic}}</td>
+                    <td>
+                        <input id="updatePatronymicHostField" class="form-control" ng-model="updateLegalHostAccount.patronymic" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Название юридического лица: </td>
+                    <td>{{hostAccount.titleFirm}}</td>
+                    <td>
+                        <input id="updateTitleFirmHostField" class="form-control" ng-model="updateLegalHostAccount.titleFirm" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Страна:    </td>
+                    <td>{{hostAccount.country}}      </td>
+                    <td>
+                        <input id="updateCountryHostField" class="form-control" ng-model="updateLegalHostAccount.country" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Адрес офиса: </td>
+                    <td>{{hostAccount.officeAddress}}</td>
+                    <td>
+                        <input id="updateOfficeAddressHostField" class="form-control" ng-model="updateLegalHostAccount.officeAddress" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Почтовый индекс: </td>
+                    <td>{{hostAccount.postcode}}</td>
+                    <td>
+                        <input id="updatePostcodeHostField" class="form-control" ng-model="updateLegalHostAccount.postcode" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>ИНН:      </td>
+                    <td>{{hostAccount.inn}}</td>
+                    <td>
+                        <input id="updateInnHostField" class="form-control" ng-model="updateLegalHostAccount.inn" type="number"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Номер счета: </td>
+                    <td>{{hostAccount.account}}</td>
+                    <td>
+                        <input id="updateFinAccountHostField" class="form-control" ng-model="updateLegalHostAccount.account" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-outline-secondary btn-sm" ng-click="tryToUpdateLegalHostAccount()">Сохранить данные</button>
+        </div>
+    </div>
+</div>

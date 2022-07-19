@@ -1,0 +1,90 @@
+<div>
+    <p></p>
+    <h3>Личный кабинет владельца</h3>
+    <p></p>
+
+    <div class="row g-2">
+
+        <div class="col-sm-6 col-md-10">
+            <table class="table table-hover">
+                <tr>
+                    <td>ID:      </td>
+                    <td>{{hostAccount.id}}</td>
+                    <td>
+                        <input readonly id="idIndividualHostField" class="form-control" ng-model="updateHostAccount.id = hostAccount.id"  ng-model-options="{ getterSetter: true }" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Логин:   </td>
+                    <td>{{hostAccount.username}}</td>
+                </tr>
+                <tr>
+                    <td>Фамилия:  </td>
+                    <td>{{hostAccount.surname}}</td>
+                    <td>
+                        <input id="updateSurnameIndividualHostField" class="form-control" ng-model="updateHostAccount.surname" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Имя:      </td>
+                    <td>{{hostAccount.name}}</td>
+                    <td>
+                        <input id="updateNameIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.name" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Отчество: </td>
+                    <td>{{hostAccount.patronymic}}</td>
+                    <td>
+                        <input id="updatePatronymicIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.patronymic" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Почтовый индекс: </td>
+                    <td>{{hostAccount.postcode}}</td>
+                    <td>
+                        <input id="updatePostcodeIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.postcode" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Страна:    </td>
+                    <td>{{hostAccount.country}}      </td>
+                    <td>
+                        <input id="updateCountryIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.country" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Адрес прописки: </td>
+                    <td>{{hostAccount.address}}</td>
+                    <td>
+                        <input id="updateAddressIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.address" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>ИНН:      </td>
+                    <td>{{hostAccount.inn}}</td>
+                    <td>
+                        <input id="updateInnIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.inn" type="number"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Номер счета: </td>
+                    <td>{{hostAccount.account}}</td>
+                    <td>
+                        <input id="updateFinAccountIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.account" type="text"
+                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-outline-secondary btn-sm" ng-click="tryToUpdateIndividualHostAccount()">Сохранить данные</button>
+        </div>
+    </div>
+</div>

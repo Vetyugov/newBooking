@@ -13,7 +13,7 @@
                 <p></p>
                 <div class="form-floating input-group-sm">
                     <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
-                    <label for="filterTitle">Категория</label>
+                    <label for="filterTitle">Название</label>
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
@@ -24,6 +24,16 @@
                 <div class="form-floating input-group-sm">
                     <input type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
                     <label for="filterMaxPrice">Макс. цена</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="number" class="form-control" id="filterStartDate" placeholder="" ng-model="filter.start_date">
+                    <label for="filterMaxPrice">Начальная дата</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="number" class="form-control" id="filterFinishDate" placeholder="" ng-model="filter.finish_date">
+                    <label for="filterMaxPrice">Конечная дата</label>
                 </div>
                 <p></p>
                 <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
@@ -55,7 +65,7 @@
                     <td>{{a.numberOfBeds}}</td>
                     <td>{{a.pricePerNight}}</td>
                     <td>
-                        <button class="btn btn-primary" ng-click="addToBooking(p.id)">Добавить в бронь</button>
+                        <button class="btn btn-primary" ng-click="addToBooking(a.id)">Добавить в бронь</button>
                     </td>
                 </tr>
                 </tbody>

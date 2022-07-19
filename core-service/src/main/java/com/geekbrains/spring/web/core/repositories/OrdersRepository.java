@@ -17,4 +17,7 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
 
     @Query("select o from Order o where o.username = ?1 and o.status.description in ('canceled', 'completed')")
     List<Order> findInactiveByUsername(String username);
+
+//    @Query("select o from Order o where o.apartment.username = ?1")
+//    List<Order> findHostOrdersByUsername(String username);
 }
