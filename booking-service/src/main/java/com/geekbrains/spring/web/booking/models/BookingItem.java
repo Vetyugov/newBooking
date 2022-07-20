@@ -1,38 +1,37 @@
 package com.geekbrains.spring.web.booking.models;
 
-import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.bookings.BookingItemDto;
+import com.geekbrains.spring.web.api.core.BookingApartmentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.Duration;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingItem {
     private Long apartmentId;
-    private String apartmentTitle;
-    private LocalDateTime apartmentCheckIn;
-    private LocalDateTime apartmentCheckOut;
+    private String apartmentInfo;
+    private String apartmentAddress;
+    private String bookingStartDate;
+    private String bookingFinishDate;
+    private Integer bookingDuration;
     private BigDecimal pricePerNight;
-    private BigDecimal pricePerApartment;
+    private BigDecimal pricePerOrder;
     private Boolean selector;
 
-    public BookingItem(ApartmentDto apartmentDto) {
-        this.apartmentId = apartmentDto.getId();
-        this.apartmentTitle = apartmentDto.getTitle();
-        this.pricePerNight = apartmentDto.getPricePerNight();
+    public BookingItem(BookingItemDto itemDto) {
+        this.apartmentId = itemDto.getApartmentId();
+        this.apartmentAddress = itemDto.getApartmentAddress();
+        this.apartmentInfo = itemDto.getApartmentInfo();
+        this.bookingStartDate = itemDto.getBookingStartDate();
+        this.bookingFinishDate = itemDto.getBookingFinishDate();
+        this.bookingDuration = itemDto.getBookingDuration();
+        this.pricePerNight = itemDto.getPricePerNight();
+        this.pricePerOrder = itemDto.getPricePerOrder();
         this.selector = false;
-        recalculatePrice();
     }
-
-    public void recalculatePrice() {
-        long durationInDays = Duration.between(this.apartmentCheckIn, this.apartmentCheckOut).toDays();
-        if(durationInDays <= 1) durationInDays = 1;
-        this.pricePerApartment = this.pricePerNight.multiply(BigDecimal.valueOf(durationInDays));
-    }
-
 }

@@ -8,7 +8,7 @@
         <div class="col-sm-6 col-md-10">
             <table class="table table-hover">
                 <tr>
-                    <td>Заполните данные поля.   </td>
+                    <td>Заполните данные поля.    </td>
                 </tr>
                 <tr>
                     <td>Введите логин:   </td>
@@ -41,11 +41,12 @@
                 <tr>
                     <td>Задача:    </td>
                     <td align="center">
-                        <select id="navRoleField" class="form-select form-select-lg" ng-model="new_user.role"
+                        <select id="navRoleField" class="form-select form-select-lg" ng-model="new_user.roleName"
                                 aria-label=".form-select-lg example">
-                            <option selected>Выбор</option>
-                            <option value="guest">Поиск жилья</option>
-                            <option value="host">Предоставление жилья</option>
+                            <option selected>Выберите один вариант:</option>
+                            <option value="ROLE_GUEST">Поиск и аренда жилья</option>
+                            <option value="ROLE_LEGAL_HOST">Предоставление жилья как юридическое лицо</option>
+                            <option value="ROLE_INDIVIDUAL_HOST">Предоставление жилья как физическое лицо</option> <!--добавить возможность арендовывать жилье тоже??? -->
                         </select>
                     </td>
                 </tr>

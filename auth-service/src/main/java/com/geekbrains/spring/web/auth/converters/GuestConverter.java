@@ -1,7 +1,10 @@
 package com.geekbrains.spring.web.auth.converters;
 
+import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.auth.entities.Guest;
+import com.geekbrains.spring.web.auth.entities.Host;
+import com.geekbrains.spring.web.auth.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +16,16 @@ public class GuestConverter {
     /*
     конвертер для гостя (клиент, постоялец)
      */
-    public Guest guestDtoToEntity(GuestDto guestDto) {
-        throw new UnsupportedOperationException();
-    }
 
     public GuestDto entityToGuestDto(Guest guest) {
         return new GuestDto(guest.getId(), guest.getUser().getId(), guest.getName(),
-                guest.getPatronymic(), guest.getSurname(),
-                guest.getEmail(), guest.getUsername(),
-                guest.getPassword());
+                guest.getPatronymic(), guest.getSurname(), guest.getUsername());
+    }
+
+    public Guest guestDtoToEntity(ProfileDto profileDto, User user) {
+        return Guest.builder()
+                .username(profileDto.getUsername())
+                .user(user)
+                .build();
     }
 }

@@ -23,11 +23,13 @@ public class ApartmentConverter {
                 .numberOfGuests(apartmentDto.getNumberOfGuests())
                 .numberOfRooms(apartmentDto.getNumberOfRooms())
                 .numberOfBeds(apartmentDto.getNumberOfBeds())
+                .userName(apartmentDto.getUserName())
                 .build();
     }
 
     public ApartmentDto entityToApartmentDto(Apartment apartment) {
         return new ApartmentDto.Builder()
+                .id(apartment.getId())
                 .title(apartment.getTitle())
                 .pricePerNight(apartment.getPricePerNight())
                 .category(apartment.getApartmentCategory().getTitle())
@@ -38,6 +40,7 @@ public class ApartmentConverter {
                 .numberOfGuests(apartment.getNumberOfGuests())
                 .numberOfRooms(apartment.getNumberOfRooms())
                 .numberOfBeds(apartment.getNumberOfBeds())
+                .userName(apartment.getUserName())
                 .build();
     }
 }
