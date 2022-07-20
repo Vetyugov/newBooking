@@ -1,13 +1,9 @@
 package com.geekbrains.spring.web.booking.models;
 
 import com.geekbrains.spring.web.api.bookings.BookingItemDto;
-import com.geekbrains.spring.web.api.core.ApartmentDto;
-import com.geekbrains.spring.web.api.core.BookingApartmentDto;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Data

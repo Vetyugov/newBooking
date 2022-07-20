@@ -1,7 +1,6 @@
 package com.geekbrains.spring.web.booking.models;
 
 import com.geekbrains.spring.web.api.bookings.BookingItemDto;
-import com.geekbrains.spring.web.api.core.BookingApartmentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

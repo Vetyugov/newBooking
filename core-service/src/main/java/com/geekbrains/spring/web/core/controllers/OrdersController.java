@@ -1,12 +1,11 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.OrderDtoCreate;
-import com.geekbrains.spring.web.api.core.OrderStatusDto;
+import com.geekbrains.spring.web.api.core.*;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
+import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
-import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,8 +53,8 @@ public class OrdersController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateRq orderCreateRq){
         //Проверяем свободны ли даты
-        BookingApartmentDto.Builder builder = new BookingApartmentDto.Builder();
-        BookingApartmentDto bookingApartmentDto =  builder
+        BookingApartmentRq.Builder builder = new BookingApartmentRq.Builder();
+        BookingApartmentRq bookingApartmentDto =  builder
                 .id(orderCreateRq.getApartmentId())
                 .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
                 .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
