@@ -1,6 +1,6 @@
 //package com.geekbrains.spring.web.core.controllers;
 //
-//import com.geekbrains.spring.web.api.core.ProfileDto;
+//import com.geekbrains.spring.web.api.core.UserDto;
 //import io.swagger.v3.oas.annotations.Operation;
 //import io.swagger.v3.oas.annotations.media.Content;
 //import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,19 +11,19 @@
 //import org.springframework.web.bind.annotation.RestController;
 //
 //@RestController
-//@RequestMapping("/api/v1/profile")
-//public class ProfileController {
+//@RequestMapping("/api/v1/user")
+//public class UserController {
 //    @GetMapping("/{username}")
 //    @Operation(
 //            summary = "Запрос на получение данных о пользователе",
 //            responses = {
 //                    @ApiResponse(
 //                            description = "Успешный ответ", responseCode = "200",
-//                            content = @Content(schema = @Schema(implementation = ProfileDto.class))
+//                            content = @Content(schema = @Schema(implementation = UserDto.class))
 //                    )
 //            }
 //    )
-//    public ProfileDto getCurrentUserInfo(@RequestHeader String username) {
-//        return new ProfileDto(username);
+//    public UserDto getCurrentUserInfo(@RequestHeader String username) {
+//        return new UserDto(username);
 //    }
 //}

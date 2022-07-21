@@ -1,15 +1,11 @@
 package com.geekbrains.spring.web.auth.controllers;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.api.dto.IndividualHostDto;
 import com.geekbrains.spring.web.api.dto.LegalHostDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
-import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.HostConverter;
-import com.geekbrains.spring.web.auth.entities.Guest;
 import com.geekbrains.spring.web.auth.entities.Host;
-import com.geekbrains.spring.web.auth.repositories.HostRepository;
 import com.geekbrains.spring.web.auth.services.HostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/hosts_account")

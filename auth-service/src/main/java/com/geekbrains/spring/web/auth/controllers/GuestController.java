@@ -1,12 +1,9 @@
 package com.geekbrains.spring.web.auth.controllers;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
-import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.GuestConverter;
 import com.geekbrains.spring.web.auth.entities.Guest;
-import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.GuestRepository;
 import com.geekbrains.spring.web.auth.services.GuestService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,10 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/guests_account")
+@RequestMapping("/api/v1/guests_accounts")
 @RequiredArgsConstructor
 @Slf4j
 public class GuestController {

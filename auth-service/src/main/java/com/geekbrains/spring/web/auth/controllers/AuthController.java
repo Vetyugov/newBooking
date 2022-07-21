@@ -1,6 +1,5 @@
 package com.geekbrains.spring.web.auth.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.auth.dto.JwtRequest;
 import com.geekbrains.spring.web.auth.dto.JwtResponse;
@@ -14,8 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,12 +37,6 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-
 
     @Operation(summary = "Авторизация пользователя")
     @ApiResponse(responseCode = "200", description = "Авторизация выполнена успешно.",

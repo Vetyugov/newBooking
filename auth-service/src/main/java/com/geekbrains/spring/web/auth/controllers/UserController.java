@@ -1,9 +1,7 @@
 package com.geekbrains.spring.web.auth.controllers;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
-import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
-import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,14 +10,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
-public class ProfileController {
+public class UserController {
 
     private final UserService userService;
 //    @GetMapping("/me")
@@ -28,15 +29,15 @@ public class ProfileController {
 //            responses = {
 //                    @ApiResponse(
 //                            description = "Успешный ответ", responseCode = "200",
-//                            content = @Content(schema = @Schema(implementation = ProfileDto.class))
+//                            content = @Content(schema = @Schema(implementation = UserDto.class))
 //                    )
 //            }
 //    )
 //
-//    public ProfileDto aboutCurrentUser (@RequestHeader String username){
+//    public UserDto aboutCurrentUser (@RequestHeader String username){
 //        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
 //                ("Не удалось найти в базе пользователя с именем " + username));
-//        return new ProfileDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
+//        return new UserDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
 //    }
 
     @Operation(summary = "Регистрация нового пользователя")
@@ -46,17 +47,17 @@ public class ProfileController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
     @PostMapping
-    public ResponseEntity<?> registerNewUser(@Valid @RequestBody ProfileDto profileDto) {
-        if (!profileDto.getPassword().equals(profileDto.getPasswordConfirmation())) {
+    public ResponseEntity<?> registerNewUser(@Valid @RequestBody UserDto userDto) {
+        if (!userDto.getPassword().equals(userDto.getPasswordConfirmation())) {
             return new ResponseEntity<>(new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение"), HttpStatus.BAD_REQUEST);
         }
-        if (userService.existByEmail(profileDto.getEmail())) {
+        if (userService.existByEmail(userDto.getEmail())) {
             return new ResponseEntity<>(new AppError("BAD_REQUEST", "Адрес электронной почты уже используется"), HttpStatus.BAD_REQUEST);
         }
-        if (userService.existByUsername(profileDto.getUsername())) {
+        if (userService.existByUsername(userDto.getUsername())) {
             return new ResponseEntity<>(new AppError("BAD_REQUEST", "Логин уже существует"), HttpStatus.BAD_REQUEST);
         }
-        userService.saveUser(profileDto);
+        userService.createOrUpdateUser(userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

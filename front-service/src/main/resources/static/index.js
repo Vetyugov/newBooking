@@ -30,16 +30,16 @@
                 templateUrl: 'order_pay/order_pay.html',
                 controller: 'orderPayController'
             })
-            .when('/legal_hosts_account', {
-                templateUrl: 'hosts_account/legal_hosts_account.html',
+            .when('/legal_hosts_accounts', {
+                templateUrl: 'hosts_accounts/legal_hosts_accounts.html',
                 controller: 'legalHostsAccountController'
             })
-            .when('/individual_hosts_account', {
-                templateUrl: 'hosts_account/individual_hosts_account.html',
+            .when('/individual_hosts_accounts', {
+                templateUrl: 'hosts_accounts/individual_hosts_accounts.html',
                 controller: 'individualHostsAccountController'
             })
-            .when('/guests_account', {
-                templateUrl: 'guests_account/guests_account.html',
+            .when('/guests_accounts', {
+                templateUrl: 'guests_accounts/guests_accounts.html',
                 controller: 'guestsAccountController'
             })
             .when('/registration', {

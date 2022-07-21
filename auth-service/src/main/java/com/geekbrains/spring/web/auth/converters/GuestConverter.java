@@ -1,14 +1,11 @@
 package com.geekbrains.spring.web.auth.converters;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.auth.entities.Guest;
-import com.geekbrains.spring.web.auth.entities.Host;
 import com.geekbrains.spring.web.auth.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -22,9 +19,9 @@ public class GuestConverter {
                 guest.getPatronymic(), guest.getSurname(), guest.getUsername());
     }
 
-    public Guest guestDtoToEntity(ProfileDto profileDto, User user) {
+    public Guest guestDtoToEntity(UserDto userDto, User user) {
         return Guest.builder()
-                .username(profileDto.getUsername())
+                .username(userDto.getUsername())
                 .user(user)
                 .build();
     }

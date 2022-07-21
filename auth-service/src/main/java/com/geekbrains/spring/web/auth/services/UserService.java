@@ -1,7 +1,6 @@
 package com.geekbrains.spring.web.auth.services;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
-import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.auth.converters.UserConverter;
 import com.geekbrains.spring.web.auth.entities.Role;
 import com.geekbrains.spring.web.auth.entities.User;
@@ -50,25 +49,25 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void saveUser(ProfileDto profileDto) {
-        if (profileDto.getId() != null && userRepository.existsById(profileDto.getId())) {
-            User user = userRepository.getById(profileDto.getId());
-            user.setEmail(profileDto.getEmail());
-            user.setRole(roleRepository.findByName(profileDto.getRoleName()).get());
+    public void createOrUpdateUser(UserDto userDto) {
+        if (userDto.getId() != null) {
+            User user = userRepository.getById(userDto.getId());
+            user.setEmail(userDto.getEmail());
+            user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
             userRepository.save(user);
             return;
         }
         User user = new User();
-        user.setUsername(profileDto.getUsername());
-        user.setPassword(bCryptPasswordEncoder.encode(profileDto.getPassword()));
-        user.setEmail(profileDto.getEmail());
-        user.setRole(roleRepository.findByName(profileDto.getRoleName()).get());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
+        user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
         userRepository.save(user);
-        if (profileDto.getRoleName().equals("ROLE_LEGAL_HOST") || profileDto.getRoleName().equals("ROLE_INDIVIDUAL_HOST")) {
-            hostService.createNewHost(profileDto, user);
+        if (userDto.getRoleName().equals("ROLE_LEGAL_HOST") || userDto.getRoleName().equals("ROLE_INDIVIDUAL_HOST")) {
+            hostService.createNewHost(userDto, user);
         }
-        if (profileDto.getRoleName().equals("ROLE_GUEST")) {
-            guestService.createNewGuest(profileDto, user);
+        if (userDto.getRoleName().equals("ROLE_GUEST")) {
+            guestService.createNewGuest(userDto, user);
         }
         return;
     }
@@ -81,7 +80,7 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByUsername(username);
     }
 
-//    public boolean emailBelongsToThisUser(ProfileDto profileDto) {
-//        return findByUsername(profileDto.getUsername()).getEmail().equals(profileDto.getEmail());
+//    public boolean emailBelongsToThisUser(UserDto userDto) {
+//        return findByUsername(userDto.getUsername()).getEmail().equals(userDto.getEmail());
 //    }
 }

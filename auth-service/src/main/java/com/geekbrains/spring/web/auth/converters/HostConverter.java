@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.auth.converters;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.dto.IndividualHostDto;
 import com.geekbrains.spring.web.api.dto.LegalHostDto;
 import com.geekbrains.spring.web.auth.entities.Host;
@@ -37,9 +37,9 @@ public class HostConverter {
     /*
     конвертер для всех хостов
     */
-    public Host hostDtoToEntity(ProfileDto profileDto, User user) {
+    public Host hostDtoToEntity(UserDto userDto, User user) {
         return Host.builder()
-                .username(profileDto.getUsername())
+                .username(userDto.getUsername())
                 .user(user)
                 .build();
     }

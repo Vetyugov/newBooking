@@ -1,10 +1,9 @@
 package com.geekbrains.spring.web.auth.services;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.auth.converters.GuestConverter;
 import com.geekbrains.spring.web.auth.entities.Guest;
-import com.geekbrains.spring.web.auth.entities.Host;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.GuestRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,8 @@ public class GuestService {
     }
 
     @Transactional
-    public void createNewGuest(ProfileDto profileDto, User user) {
-        Guest guest = guestConverter.guestDtoToEntity(profileDto, user);
+    public void createNewGuest(UserDto userDto, User user) {
+        Guest guest = guestConverter.guestDtoToEntity(userDto, user);
         guestRepository.save(guest);
     }
 

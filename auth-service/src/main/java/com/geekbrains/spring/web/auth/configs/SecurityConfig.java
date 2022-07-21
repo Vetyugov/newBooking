@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeRequests()
-//                .antMatchers("/api/v1/profile").not().fullyAuthenticated()
+//                .antMatchers("/api/v1/user").not().fullyAuthenticated()
 //                .antMatchers("/api/v1/auth").permitAll()
-//                .antMatchers("/api/v1/profile").permitAll()
+//                .antMatchers("/api/v1/user").permitAll()
 //                .antMatchers("/api/v1/booking").permitAll()
 //                .antMatchers("/api/v1/apartments").permitAll()
 //                .antMatchers("/api/v1/owner_account/*").hasRole("OWNER")

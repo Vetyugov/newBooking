@@ -1,9 +1,9 @@
  angular.module('new-booking-front').controller('individualHostsAccountController', function ($scope, $http, $route, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/api/v1/hosts_account/';
+    const contextPath = 'http://localhost:5555/auth/api/v1/hosts_accounts/';
 
         $scope.loadIndiHostAccount = function () {
             $http({
-                url: 'http://localhost:5555/auth/api/v1/hosts_account/individual/' + $localStorage.springWebUser.username,
+                url: 'http://localhost:5555/auth/api/v1/hosts_accounts/individual/' + $localStorage.springWebUser.username,
                 method: 'GET'
             }).then(function (response) {
                 $scope.hostAccount = response.data;

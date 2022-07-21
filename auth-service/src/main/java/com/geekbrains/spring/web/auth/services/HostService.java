@@ -1,29 +1,19 @@
 package com.geekbrains.spring.web.auth.services;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.dto.IndividualHostDto;
 import com.geekbrains.spring.web.api.dto.LegalHostDto;
-import com.geekbrains.spring.web.auth.controllers.HostController;
 import com.geekbrains.spring.web.auth.converters.HostConverter;
 import com.geekbrains.spring.web.auth.entities.Host;
-import com.geekbrains.spring.web.auth.entities.Role;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.HostRepository;
-import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +35,9 @@ public class HostService {
         return hostRepository.existsByUsername(username);
     }
 
-    @Transactional //уточнить можно ли делать транзакцию в транзакции
-    public void createNewHost(ProfileDto profileDto, User user) {
-        Host host = hostConverter.hostDtoToEntity(profileDto, user);
+    @Transactional
+    public void createNewHost(UserDto userDto, User user) {
+        Host host = hostConverter.hostDtoToEntity(userDto, user);
         hostRepository.save(host);
     }
 
