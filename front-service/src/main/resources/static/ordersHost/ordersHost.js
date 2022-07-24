@@ -13,11 +13,39 @@ angular.module('new-booking-front').controller('ordersHostController', function 
     $scope.outCash = function (orderId) {
         $http({
            url: contextPath + 'api/v1/orders/host/outCash/'+orderId,
-           method: 'POST'
+           method: 'GET'
         }).then(function (response) {
-             $scope.modalMessage = response.data.message;
+            alert(response.data.message);
         });
 
     }
+
+    $scope.confirmOrder = function (orderId) {
+                $http({
+                   url: contextPath + 'api/v1/orders/confirmOrder/'+orderId,
+                   method: 'GET'
+                }).then(function (response) {
+                   $scope.loadOrders();
+                   $scope.loadOrdersHistory();
+                });
+    };
+
+    $scope.isStatusConfirmedStay = function (status) {
+             if (status == 'выполнен') {
+                  return true;
+             } else {
+                  return false;
+             }
+        };
+
+
+    $scope.isStatusPaid = function (status) {
+         if (status == 'оплачен') {
+              return true;
+         } else {
+              return false;
+         }
+    };
+
     $scope.loadOrders();
 });
