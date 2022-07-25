@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.core.controllers;
+/*package com.geekbrains.spring.web.core.controllers;
 
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.PayPalService;
@@ -27,14 +27,14 @@ public class PayPalController {
     private final OrderService orderService;
     private final PayPalService payPalService;
 
-//    @PostMapping("/create/{orderId}")
-//    public ResponseEntity<?> createOrder(@PathVariable Long orderId) throws IOException {
-//        OrdersCreateRequest request = new OrdersCreateRequest();
-//        request.prefer("return=representation");
-//        request.requestBody(payPalService.createOrderRequest(orderId));
-//        HttpResponse<Order> response = payPalClient.execute(request);
-//        return new ResponseEntity<>(response.result().id(), HttpStatus.valueOf(response.statusCode()));
-//    }
+    @PostMapping("/create/{orderId}")
+    public ResponseEntity<?> createOrder(@PathVariable Long orderId) throws IOException {
+        OrdersCreateRequest request = new OrdersCreateRequest();
+        request.prefer("return=representation");
+        request.requestBody(payPalService.createOrderRequest(orderId));
+        HttpResponse<Order> response = payPalClient.execute(request);
+        return new ResponseEntity<>(response.result().id(), HttpStatus.valueOf(response.statusCode()));
+   }
 
     @PostMapping("/capture/{payPalId}")
     public ResponseEntity<?> captureOrder(@PathVariable String payPalId) throws IOException {
@@ -53,4 +53,4 @@ public class PayPalController {
         }
         return new ResponseEntity<>(payPalOrder, HttpStatus.valueOf(response.statusCode()));
     }
-}
+}*/

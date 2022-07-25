@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.core.services;
 
-import com.geekbrains.spring.web.api.core.OrderCreateRq;
+import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.integrations.BookingServiceIntegration;
@@ -24,7 +24,7 @@ public class OrderService {
     private final OrderStatusService orderStatusService;
 
     @Transactional
-    public Order createOrder(OrderCreateRq orderDto) {
+    public Order createOrder(OrderCreateDtoRq orderDto) {
         Order order = Order.builder()
                 .username(orderDto.getUsername())
                 .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())

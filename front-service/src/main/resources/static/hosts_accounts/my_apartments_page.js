@@ -3,7 +3,7 @@
 
     $scope.loadMyApartments = function () {
             $http({
-                url: 'http://localhost:5555/core/api/v1/apartments/my_apartments/' + $localStorage.springWebUser.username,
+                url: 'http://localhost:5555/core/api/v1/apartments/' + $localStorage.springWebUser.username,
                 method: 'GET'
             }).then(function (response) {
                 $scope.myApartments = response.data;

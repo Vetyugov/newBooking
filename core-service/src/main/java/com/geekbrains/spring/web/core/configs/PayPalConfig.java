@@ -1,3 +1,4 @@
+/*
 package com.geekbrains.spring.web.core.configs;
 
 import com.paypal.core.PayPalEnvironment;
@@ -28,3 +29,4 @@ public class PayPalConfig {
         return new PayPalHttpClient(environment);
     }
 }
+*/

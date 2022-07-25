@@ -51,13 +51,13 @@ public class OrdersController {
             }
     )
     @PostMapping
-    public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateRq orderCreateRq) throws OrderIsNotCreatedException{
+    public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
         //Проверяем свободны ли даты
         BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
         BookingApartmentDtoRq bookingApartmentDto =  builder
-                .id(orderCreateDtoRq.getApartmentId())
-                .bookingStartDate(orderCreateDtoRq.getBookingStartDate().toString())
-                .bookingFinishDate(orderCreateDtoRq.getBookingFinishDate().toString())
+                .id(orderCreateRq.getApartmentId())
+                .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
+                .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
                 .build();
         try {
             apartmentsService.createDateOfBooking(bookingApartmentDto);

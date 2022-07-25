@@ -55,9 +55,9 @@ public class BookingConverter {
                 apartmentDto.getNumberOfRooms() + " комн., на" +
                 apartmentDto.getNumberOfBeds() + " мест.";
 
-        String address = apartmentDto.getCity()  + ", " +
-                apartmentDto.getStreet()  + ", " +
-                apartmentDto.getBuildingNumber()  + ", ";
+        String address = apartmentDto.getAddressDto().getCity()  + ", " +
+                apartmentDto.getAddressDto().getStreet()  + ", " +
+                apartmentDto.getAddressDto().getBuildingNumber()  + ", ";
 
         return new BookingItemDto(
                     null,

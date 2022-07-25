@@ -6,11 +6,13 @@ import com.geekbrains.spring.web.core.entities.Address;
 import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.entities.ApartmentCategory;
 import com.geekbrains.spring.web.core.services.ApartmentCategoriesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ApartmentConverter {
-    private ApartmentCategoriesService apartmentCategoriesService;
+    private final ApartmentCategoriesService apartmentCategoriesService;
 
     public Apartment apartmentDtoToEntity(ApartmentDto apartmentDto) {
         ApartmentCategory apartmentCategory = apartmentCategoriesService.getByTitle(apartmentDto.getCategory());

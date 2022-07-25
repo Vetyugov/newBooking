@@ -1,8 +1,10 @@
 package com.geekbrains.spring.web.api.core;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.NoArgsConstructor;
 
 @Schema(description = "Модель для создания и отображения адреса апартамента")
+@NoArgsConstructor
 public class AddressDto {
 
     @Schema(description = "Название города", required = true, example = "Москва")
@@ -32,4 +34,6 @@ public class AddressDto {
         this.street = street;
         this.buildingNumber = buildingNumber;
     }
+
+
 }
