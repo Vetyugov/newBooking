@@ -53,17 +53,20 @@ public class OrdersController {
     @PostMapping
     public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
         //Проверяем свободны ли даты
+        log.info("Создание заказа для " + orderCreateRq);
         BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
         BookingApartmentDtoRq bookingApartmentDto =  builder
                 .id(orderCreateRq.getApartmentId())
                 .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
                 .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
                 .build();
+        log.info("bookingApartmentDto = " + bookingApartmentDto);
         try {
             apartmentsService.createDateOfBooking(bookingApartmentDto);
         }catch (ResourceNotFoundException e){
             throw new OrderIsNotCreatedException("This dates are invalid." + e.getMessage());
         }
+        log.info("ура, создаем заказ");
         //Создаем заказ
         Order order = orderService.createOrder(orderCreateRq);
         if(order == null){

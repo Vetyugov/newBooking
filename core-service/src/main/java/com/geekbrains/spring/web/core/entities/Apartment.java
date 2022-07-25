@@ -67,6 +67,7 @@ public class Apartment {
     @Override
     public String toString() {
         return "Apartment{" +
+                "id='" + id + '\'' +
                 "title='" + title + '\'' +
                 ", apartmentCategory=" + apartmentCategory.getTitle() +
                 ", city='" + address.getCity() + '\'' +

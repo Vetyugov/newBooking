@@ -16,7 +16,7 @@
             .then(function successCallback(response) {
                 $scope.new_apartment = null;
                 alert('Success! Апартамент добавлен');
-                $location.path('/store');
+                $location.path('/my_apartments_page');
             }
     )};
 

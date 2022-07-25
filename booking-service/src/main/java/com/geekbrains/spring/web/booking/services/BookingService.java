@@ -3,6 +3,7 @@ package com.geekbrains.spring.web.booking.services;
 import com.geekbrains.spring.web.api.bookings.BookingDto;
 import com.geekbrains.spring.web.api.bookings.BookingItemDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 
 
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -62,10 +65,12 @@ public class BookingService {
     }
 
     public BookingDto chooseItemFromBooking(String bookingKey, String username, Long itemId) {
-        Boolean checked = ordersServiceIntegration.checkOrder(
+        log.info("Пытаемся создать заказ");
+        ResponseEntity checked = ordersServiceIntegration.checkOrder(
                         bookingConverter.itemToOrderDto(username,getCurrentBooking(bookingKey).getItem(itemId))
                 ).orElseThrow(() -> new ResourceNotFoundException("Невозможно оформить заказ. Апартаменты на выбранные даты бронирования заняты!"));
-        if(checked) execute(bookingKey, c -> c.remove(itemId)); // Если заказ прошёл, то удаляем апартаменты из списка бронирования
+        log.info("вернулся ответ " + checked);
+        if(checked.getStatusCode() == HttpStatus.CREATED) execute(bookingKey, c -> c.remove(itemId)); // Если заказ прошёл, то удаляем апартаменты из списка бронирования
         return bookingConverter.modelToDto(getCurrentBooking(bookingKey)); // Возвращаем обновлённый список бронирования
     }
 

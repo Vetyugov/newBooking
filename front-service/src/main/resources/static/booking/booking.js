@@ -21,12 +21,12 @@ angular.module('new-booking-front').controller('bookingController', function ($s
             });
     }
 
-    $scope.checkOut = function (itemId) {
+    $scope.checkOut = function (id) {
         $http({
-            url: contextPath + 'api/v1/booking' + $localStorage.springWebIncognitoBookingId + '/choose',
+            url: contextPath + 'api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/choose',
             method: 'GET',
             params: {
-                id: itemId
+                itemId: id
             }
         }).then(function (response) {
             $scope.loadBooking();

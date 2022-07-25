@@ -38,6 +38,7 @@ public class BookingsController {
     )
     @GetMapping("/{uuid}")
     public BookingDto getBooking(@RequestHeader(required = false) String username, @PathVariable String uuid) {
+        log.info("Корзина по id "+uuid+", userName = " + username );
         return bookingConverter.modelToDto(bookingService.getCurrentBooking(getCurrentBookingUuid(username, uuid)));
     }
 
@@ -98,9 +99,10 @@ public class BookingsController {
     }
 
     @GetMapping("/{uuid}/choose")
-    public BookingDto choose(@RequestHeader(required = false) String username, @PathVariable String uuid,
+    public BookingDto choose(@RequestHeader String username, @PathVariable String uuid,
                        @RequestParam(name = "itemId") @Parameter(description = "ID в списке бронирования") Long itemId
                     ) {
+        log.info("username = " + username + ", uuid = " + uuid + ",  itemId =" + itemId);
         String currentBookingUuid = getCurrentBookingUuid(username, uuid);
         return bookingService.chooseItemFromBooking(currentBookingUuid, username, itemId);
     }

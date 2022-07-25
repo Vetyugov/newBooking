@@ -26,8 +26,8 @@
                         ng-click="removeBookingItem(item.apartmentId, item.bookingStartDate, item.bookingFinishDate)">
                     Удалить
                 </button>
-                <button class="btn btn-primary btn-sm" ng-click="checkOut(item.itemId)" ng-show="isUserLoggedIn()">Оформить</button>
-                <button class="btn btn-secondary btn-sm" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn()">Оформить</button>
+                <button class="btn btn-primary btn-sm" ng-show="isUserLoggedIn()" ng-click="checkOut(item.itemId)">Оформить заказ</button>
+                <button class="btn btn-secondary btn-sm" ng-show="!isUserLoggedIn()" ng-click="disabledCheckOut()">Оформить</button>
             </td>
 
         </tr>

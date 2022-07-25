@@ -46,6 +46,7 @@ public class BookingApartmentDtoRq {
     @Override
     public String toString() {
         return "BookingApartmentDto{" +
+                " id ='" + id + '\'' +
                 " bookingStartDate='" + bookingStartDate + '\'' +
                 ", bookingFinishDate='" + bookingFinishDate + '\'' +
                 '}';
