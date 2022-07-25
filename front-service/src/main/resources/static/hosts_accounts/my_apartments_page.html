@@ -1,0 +1,54 @@
+<div>
+    <p></p>
+    <h3>Список моих апартаментов</h3>
+    <p></p>
+
+    <div class="col-sm-6 col-md-10">
+        <table class="table table-hover">
+            <tr>
+                <td>Название:   </td>
+                <td>{{myApartments.title}}</td>
+            </tr>
+            <tr>
+                <td>Категория:   </td>
+                <td>{{myApartments.category}}</td>
+            </tr>
+            <tr>
+                <td>Город:   </td>
+                <td>{{myApartments.addressDto.city}}</td>
+            </tr>
+            <tr>
+                <td>Улица:   </td>
+                <td>{{myApartments.addressDto.street}}</td>
+            </tr>
+            <tr>
+                <td>Номер дома:   </td>
+                <td>{{myApartments.addressDto.buildingNumber}}</td>
+            </tr>
+            <tr>
+                <td>Количество квадратных метров:   </td>
+                <td>{{myApartments.squareMeters}}</td>
+            </tr>
+            <tr>
+                <td>Число гостей:   </td>
+                <td>{{myApartments.numberOfGuests}}</td>
+            </tr>
+            <tr>
+                <td>Количество комнат:   </td>
+                <td>{{myApartments.numberOfRooms}}</td>
+            </tr>
+            <tr>
+                <td>Количество спальных мест:   </td>
+                <td>{{myApartments.numberOfBeds}}</td>
+            </tr>
+            <tr>
+                <td>Цена за ночь:   </td>
+                <td>{{myApartments.pricePerNight}}</td>
+            </tr>
+            <tr>
+                <td>Логин:   </td>
+                <td>{{myApartments.userName}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

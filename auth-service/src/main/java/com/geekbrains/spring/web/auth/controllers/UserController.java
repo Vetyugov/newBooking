@@ -2,6 +2,8 @@ package com.geekbrains.spring.web.auth.controllers;
 
 import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,10 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,22 +22,21 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-//    @GetMapping("/me")
-//    @Operation(
-//            summary = "Запрос на получение данных о пользователе",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "Успешный ответ", responseCode = "200",
-//                            content = @Content(schema = @Schema(implementation = UserDto.class))
-//                    )
-//            }
-//    )
-//
-//    public UserDto aboutCurrentUser (@RequestHeader String username){
-//        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
-//                ("Не удалось найти в базе пользователя с именем " + username));
-//        return new UserDto(user.getId(), user.getRole().getId(), user.getUsername(), user.getPassword(), user.getEmail());
-//    }
+    @GetMapping("/me/{username}")
+    @Operation(
+            summary = "Запрос на получение данных о пользователе",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = UserDto.class))
+                    )
+            }
+    )
+    public UserDto aboutCurrentUser (@RequestHeader String username){
+        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
+                ("Не удалось найти в базе пользователя с именем " + username));
+        return new UserDto(user.getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getEmail());
+    }
 
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponse(responseCode = "201",
