@@ -1,5 +1,6 @@
 package com.geekbrains.spring.web.booking.services;
 
+import com.geekbrains.spring.web.api.bookings.BookingDto;
 import com.geekbrains.spring.web.api.bookings.BookingItemDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
@@ -7,6 +8,7 @@ import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
 import com.geekbrains.spring.web.booking.integrations.ApartmentsServiceIntegration;
+import com.geekbrains.spring.web.booking.integrations.OrdersServiceIntegration;
 import com.geekbrains.spring.web.booking.models.Booking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.function.Consumer;
 @Slf4j
 public class BookingService {
     private final ApartmentsServiceIntegration apartmentsServiceIntegration;
+    private final OrdersServiceIntegration ordersServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
     private final BookingConverter bookingConverter;
 
@@ -47,7 +50,7 @@ public class BookingService {
         log.info("Добавляем новый addToBooking");
         ApartmentDto apartmentDto = apartmentsServiceIntegration.findById(apartmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + apartmentId));
-        execute(bookingKey, c -> c.add(bookingConverter.apartmentToBookingItem(apartmentDto, startDate, finishDate)));
+        execute(bookingKey, c -> c.add(bookingConverter.apartmentToBookingItemDto(apartmentDto, startDate, finishDate)));
     }
 
     public void clearBooking(String bookingKey) {
@@ -58,6 +61,13 @@ public class BookingService {
         execute(bookingKey, c -> c.remove(apartmentId, startData, finishDate));
     }
 
+    public BookingDto chooseItemFromBooking(String bookingKey, String username, Long itemId) {
+        Boolean checked = ordersServiceIntegration.checkOrder(
+                        bookingConverter.itemToOrderDto(username,getCurrentBooking(bookingKey).getItem(itemId))
+                ).orElseThrow(() -> new ResourceNotFoundException("Невозможно оформить заказ. Апартаменты на выбранные даты бронирования заняты!"));
+        if(checked) execute(bookingKey, c -> c.remove(itemId)); // Если заказ прошёл, то удаляем апартаменты из списка бронирования
+        return bookingConverter.modelToDto(getCurrentBooking(bookingKey)); // Возвращаем обновлённый список бронирования
+    }
 
     public void merge(String userBookingKey, String incognitoBookingKey) {
         Booking incognitoBooking = getCurrentBooking(incognitoBookingKey);

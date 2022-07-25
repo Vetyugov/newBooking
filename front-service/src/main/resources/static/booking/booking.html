@@ -3,29 +3,33 @@
     <h3>Список бронирования</h3>
     <table class="table table-hover">
         <tr>
+            <td>ID</td>
             <td>Апартамент</td>
             <td>Адрес</td>
             <td>Период</td>
             <td>Стоимость</td>
+            <td>Действия</td>
 
         </tr>
         <tbody>
         <tr ng-repeat="item in booking.items">
+            <td>{{item.itemId}}</td>
             <td>{{item.apartmentInfo}}</td>
             <td>{{item.apartmentAddress}}</td>
-            <td>{{'From: ' + item.bookingStartDate + '/n' + 'To:   ' + item.bookingFinishDate}}</td>
-            <td>{{item.pricePerNight + ' x ' + item.bookingDuration + ' =/n = ' +  item.pricePerOrder}}
+            <td>{{'From: ' + item.bookingStartDate}}
+                <p> {{'To:   ' + item.bookingFinishDate}}</p>
+            <td>{{item.pricePerNight + ' x ' + item.bookingDuration}}
+                <p> {{item.pricePerOrder}}</p>
+            </td>
+            <td>
                 <button class="btn btn-danger btn-sm"
                         ng-click="removeBookingItem(item.apartmentId, item.bookingStartDate, item.bookingFinishDate)">
                     Удалить
                 </button>
+                <button class="btn btn-primary btn-sm" ng-click="checkOut(item.itemId)" ng-show="isUserLoggedIn()">Оформить</button>
+                <button class="btn btn-secondary btn-sm" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn()">Оформить</button>
             </td>
 
-        </tr>
-        <tr>
-            <td></td>
-            <td>Итого</td>
-            <td>{{booking.totalPrice}}</td>
         </tr>
         </tbody>
     </table>
@@ -42,6 +46,5 @@
         <p></p>
     </form>
 
-    <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && booking.items.length > 0">Оформить заказ</button>
-    <button class="btn btn-secondary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && booking.items.length > 0">Оформить заказ</button>
+
 </div>

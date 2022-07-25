@@ -26,14 +26,8 @@ public class Apartment {
     @JoinColumn (name = "apartment_category_id")
     private ApartmentCategory apartmentCategory;
 
-    @Column (name = "city")
-    private String city;
-
-    @Column (name = "street")
-    private String street;
-
-    @Column (name = "building_number")
-    private Integer buildingNumber;
+    @Embedded
+    private Address address;
 
     @Column (name = "square_meters")
     private Integer squareMeters;
@@ -75,9 +69,9 @@ public class Apartment {
         return "Apartment{" +
                 "title='" + title + '\'' +
                 ", apartmentCategory=" + apartmentCategory.getTitle() +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNumber=" + buildingNumber +
+                ", city='" + address.getCity() + '\'' +
+                ", street='" + address.getStreet() + '\'' +
+                ", buildingNumber=" + address.getBuildingNumber() +
                 ", squareMeters=" + squareMeters +
                 ", numberOfGuests=" + numberOfGuests +
                 ", numberOfRooms=" + numberOfRooms +
@@ -115,20 +109,12 @@ public class Apartment {
             return this;
         }
 
-        public Builder city(String city) {
-            apartment.city = city;
+
+        public Builder address(Address address) {
+            apartment.address = address;
             return this;
         }
 
-        public Builder street(String street) {
-            apartment.street = street;
-            return this;
-        }
-
-        public Builder buildingNumber(Integer buildingNumber) {
-            apartment.buildingNumber = buildingNumber;
-            return this;
-        }
 
         public Builder squareMeters(Integer squareMeters) {
             apartment.squareMeters = squareMeters;

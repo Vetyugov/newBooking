@@ -87,8 +87,12 @@ angular.module('new-booking-front').controller('storeController', function ($sco
             method: 'GET',
             params: {
                 id: apartmentId,
-                start_date: "2022-08-01",//$scope.filter ? $scope.filter.start_date : null,
-                finish_date: "2022-08-03"//$scope.filter ? $scope.filter.finish_date : null
+                // start_date: $scope.filter ? $scope.filter.start_date : null,
+                // finish_date: $scope.filter ? $scope.filter.finish_date : null
+                // start_date: "2022-08-01",//
+                // finish_date: "2022-08-03"//
+                start_date: $scope.filter.start_date,
+                finish_date: $scope.filter.finish_date
             }
         }).then(function (response) {
         });

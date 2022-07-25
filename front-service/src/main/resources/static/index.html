@@ -32,8 +32,9 @@
                 </li>
                 <li class="nav-item" ng-show="isUserLoggedIn()">
                     <a class="nav-link" href="#!/ordersGuest" ng-show="isUserGuest()">Мои заказы</a>
-                    <a class="nav-link" href="#!/ordersHost" ng-show="isUserLegalHost()">Заказы</a>
-                    <a class="nav-link" href="#!/ordersHost" ng-show="isUserIndividualHost()">Заказы</a>
+                    <a class="nav-link" href="#!/ordersHost"  ng-show="isUserLegalHost()">Заказы моих аппартаментов</a>
+                    <a class="nav-link" href="#!/ordersHost"  ng-show="isUserIndividualHost()">Заказы моих аппартаментов</a>
+                    <a class="nav-link" href="#!/ordersGuest"  ng-show="isUserIndividualHost()">Мои заказы</a>
                 </li>
 
                 <li class="nav-item" ng-show="!isUserLoggedIn()">

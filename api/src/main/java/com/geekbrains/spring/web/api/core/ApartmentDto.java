@@ -19,14 +19,8 @@ public class ApartmentDto {
     @Schema(description = "Категория апартамента", required = true, example = "Квартира")
     private String category;
 
-    @Schema(description = "Название города", required = true, example = "Москва")
-    private String city;
-
-    @Schema(description = "Назавние улицы", required = true, example = "Ленина")
-    private String street;
-
-    @Schema(description = "Номер дома", required = true, example = "4")
-    private Integer buildingNumber;
+    @Schema(description = "Адрес", required = true)
+    private AddressDto addressDto;
 
     @Schema(description = "Площадь помещения", required = true, example = "35")
     private Integer squareMeters;
@@ -60,18 +54,9 @@ public class ApartmentDto {
         return category;
     }
 
-    public String getCity() {
-        return city;
+    public AddressDto getAddressDto() {
+        return addressDto;
     }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public Integer getBuildingNumber() {
-        return buildingNumber;
-    }
-
     public Integer getSquareMeters() {
         return squareMeters;
     }
@@ -98,9 +83,9 @@ public class ApartmentDto {
                 ", title= '" + title + '\'' +
                 ", pricePerNight= " + pricePerNight +
                 ", category= '" + category + '\'' +
-                ", city= '" + city + '\'' +
-                ", street= '" + street + '\'' +
-                ", buildingNumber= " + buildingNumber +
+                ", city= '" + addressDto.getCity() + '\'' +
+                ", street= '" + addressDto.getStreet() + '\'' +
+                ", buildingNumber= " + addressDto.getBuildingNumber() +
                 ", squareMeters= " + squareMeters +
                 ", numberOfGuests= " + numberOfGuests +
                 ", numberOfRooms= " + numberOfRooms +
@@ -136,20 +121,12 @@ public class ApartmentDto {
             return this;
         }
 
-        public Builder city(String city) {
-            apartmentDto.city = city;
+        public Builder addressDto(String city, String street, Integer buildingNumber) {
+            AddressDto addressDto = new AddressDto(city, street, buildingNumber);
+            apartmentDto.addressDto = addressDto;
             return this;
         }
 
-        public Builder street(String street) {
-            apartmentDto.street = street;
-            return this;
-        }
-
-        public Builder buildingNumber(Integer buildingNumber) {
-            apartmentDto.buildingNumber = buildingNumber;
-            return this;
-        }
 
         public Builder squareMeters(Integer squareMeters) {
             apartmentDto.squareMeters = squareMeters;

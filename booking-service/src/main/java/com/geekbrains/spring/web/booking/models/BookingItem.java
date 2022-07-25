@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingItem {
+    private Long itemId;
     private Long apartmentId;
     private String apartmentInfo;
     private String apartmentAddress;
@@ -20,9 +21,9 @@ public class BookingItem {
     private Integer bookingDuration;
     private BigDecimal pricePerNight;
     private BigDecimal pricePerOrder;
-    private Boolean selector;
 
     public BookingItem(BookingItemDto itemDto) {
+        this.itemId = itemDto.getItemId();
         this.apartmentId = itemDto.getApartmentId();
         this.apartmentAddress = itemDto.getApartmentAddress();
         this.apartmentInfo = itemDto.getApartmentInfo();
@@ -31,6 +32,5 @@ public class BookingItem {
         this.bookingDuration = itemDto.getBookingDuration();
         this.pricePerNight = itemDto.getPricePerNight();
         this.pricePerOrder = itemDto.getPricePerOrder();
-        this.selector = false;
     }
 }
