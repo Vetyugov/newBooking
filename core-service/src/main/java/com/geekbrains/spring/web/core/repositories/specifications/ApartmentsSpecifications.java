@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public class ApartmentsSpecifications {
     public static Specification<Apartment> cityLike(String cityPart) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("city"), String.format("%%%s%%", cityPart));
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("address").get("city"), String.format("%%%s%%", cityPart));
     }
 
     public static Specification<Apartment> priceGreaterOrEqualsThan(Integer price) {

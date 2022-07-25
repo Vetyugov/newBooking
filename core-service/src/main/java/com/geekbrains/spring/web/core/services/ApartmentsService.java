@@ -4,6 +4,7 @@ import com.geekbrains.spring.web.api.core.BookingApartmentDtoRq;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.entities.BookingDate;
+import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.repositories.ApartmentsRepository;
 import com.geekbrains.spring.web.core.repositories.specifications.ApartmentsSpecifications;
 import lombok.RequiredArgsConstructor;
@@ -128,35 +129,25 @@ public class ApartmentsService {
      */
 
     @Transactional
-    public void createDateOfBooking(BookingApartmentDtoRq bookingApartmentDtoRq) {
+    public void createDateOfBooking(BookingApartmentDtoRq bookingApartmentDtoRq) throws ResourceNotFoundException {
         LocalDate startDate = LocalDate.parse(bookingApartmentDtoRq.getBookingStartDate());
         LocalDate finishDate = LocalDate.parse(bookingApartmentDtoRq.getBookingFinishDate());
-        if (!checkBookingDatesIsFree(bookingApartmentDtoRq.getId(), startDate, finishDate)) {
-            Apartment apartment = apartmentsRepository.findById(bookingApartmentDtoRq.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDtoRq.getId()));
-            List<BookingDate> bookingDates = apartment.getBookingDates();
-            BookingDate bookingDate = new BookingDate();
-            bookingDate.setApartment(apartment);
-            bookingDate.setStartDate(startDate);
-            bookingDate.setFinishDate(finishDate);
-            bookingDates.add(bookingDate);
-            apartment.setBookingDates(bookingDates);
-            apartmentsRepository.save(apartment);
-        } else {
-            throw new ResourceNotFoundException("В период с: " + bookingApartmentDtoRq.getBookingStartDate()
-                    + " по: " + bookingApartmentDtoRq.getBookingFinishDate() + " апартаменты уже заняты!");
+        if (bookingDatesService.checkBookingDates(bookingApartmentDtoRq.getId(), startDate, finishDate)) {
+            throw new ResourceNotFoundException(String.format("В период с: %s по: %s апартаменты уже заняты!", bookingApartmentDtoRq.getBookingStartDate(), bookingApartmentDtoRq.getBookingFinishDate()));
         }
+        Apartment apartment = apartmentsRepository.findById(bookingApartmentDtoRq.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDtoRq.getId()));
+        List<BookingDate> bookingDates = apartment.getBookingDates();
+        BookingDate bookingDate = new BookingDate();
+        bookingDate.setApartment(apartment);
+        bookingDate.setStartDate(startDate);
+        bookingDate.setFinishDate(finishDate);
+        bookingDates.add(bookingDate);
+        apartment.setBookingDates(bookingDates);
+        apartmentsRepository.save(apartment);
     }
 
-    /**
-     * Проверка занятости дат бронирования
-     *
-     * @param apartmentId
-     * @param startDate
-     * @param finishDate
-     * @return boolean
-     */
-    private boolean checkBookingDatesIsFree(Long apartmentId, LocalDate startDate, LocalDate finishDate) {
-        return bookingDatesService.checkBookingDates(apartmentId, startDate, finishDate);
+    public List<Apartment> findApartmentsByUsername(String username) {
+        return apartmentsRepository.findAllByUsername(username);
     }
 
 }

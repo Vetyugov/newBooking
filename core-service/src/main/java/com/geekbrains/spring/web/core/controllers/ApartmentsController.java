@@ -18,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/v1/apartments")
 @RequiredArgsConstructor
@@ -99,26 +102,6 @@ public class ApartmentsController {
     }
 
 
-
-
-//    @PostMapping
-//    @Transactional
-//    ResponseEntity<InstrumentInfoDto> addNewInstrument(@RequestBody ApartmentDto apartmentDto, Principal principal, UriComponentsBuilder uriComponentsBuilder) {
-//        apartmentDto.setStartDate(LocalDateTime.now());
-//        apartmentDto.setEndDate(LocalDateTime.of(LocalDate.of(2999, 12, 31), LocalTime.MIN));
-//
-//        Host host = hostService.findByUsername(principal.getName());
-//        User user = userService.findByUsername(principal.getName());
-//
-//        Apartment apartment = apartmentConverter.apartmentDtoToEntity(apartmentDto, user);
-//
-//        Apartment newApartment = apartmentsService.save(apartment);
-//
-//        //ApartmentDto apartmentDto = apartmentConverter.toInstrumentInfoDto(newInstrument);
-//
-//        return new ResponseEntity<>(apartmentDto, HttpStatus.CREATED);
-//    }
-
    /* @Operation(
             summary = "Запрос на изменение существующего апартамента",
             responses = {
@@ -147,8 +130,23 @@ public class ApartmentsController {
     )
     @PatchMapping
     public void createDateOfBooking(@RequestBody @Parameter(description = "Dto, содержащий даты бронирования апартамента", required = true) BookingApartmentDtoRq bookingApartmentDtoRq) {
-        // apartmentValidator.validate(apartmentDto);
+       // apartmentValidator.validate(apartmentDto);
         apartmentsService.createDateOfBooking(bookingApartmentDtoRq);
+    }
+
+    @Operation(
+            summary = "Запрос на получение всех апартаментов пользователя",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ApartmentDto.class))
+                    )
+            }
+    )
+    @GetMapping("/{username}")
+    public List<ApartmentDto> getCurrentUserApartments(@PathVariable @Parameter(description = "Имя пользователя", required = true) String username) {
+        return apartmentsService.findApartmentsByUsername(username).stream()
+                .map(apartmentConverter::entityToApartmentDto).collect(Collectors.toList());
     }
 
     @Operation(
