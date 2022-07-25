@@ -43,7 +43,8 @@ public class ApartmentsController {
     @GetMapping
     public Page<ApartmentDto> getAllApartments(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы") Integer page,
-            @RequestParam(name = "city_part") @Parameter(description = "Часть названия города") String cityPart,
+            //@RequestParam(name = "city_part") @Parameter(description = "Часть названия города") String cityPart,
+            @RequestParam(name = "city_part", required = false) String cityPart,
             @RequestParam(name = "min_price", required = false) @Parameter(description = "Минимальная цена") Integer minPrice,
             @RequestParam(name = "max_price", required = false) @Parameter(description = "Максимальная цена") Integer maxPrice,
             @RequestParam(name = "min_square_meters", required = false) @Parameter(description = "Минимальная площадь") Integer minSquareMeters,
@@ -53,8 +54,10 @@ public class ApartmentsController {
             @RequestParam(name = "number_of_beds", required = false) @Parameter(description = "Количество спальных мест") Integer numberOfBeds,
             @RequestParam(name = "title_part", required = false) @Parameter(description = "Часть названия апартамента") String titlePart,
             @RequestParam(name = "category_part", required = false) @Parameter(description = "Часть названия категории") String categoryPart,
-            @RequestParam(name = "start_date") @Parameter(description = "Дата начала бронирования") String startDate,
-            @RequestParam(name = "finish_date") @Parameter(description = "Дата конца бронирования") String finishDate
+            //@RequestParam(name = "start_date") @Parameter(description = "Дата начала бронирования") String startDate,
+            @RequestParam(name = "start_date", required = false) String startDate,
+            //@RequestParam(name = "finish_date") @Parameter(description = "Дата конца бронирования") String finishDate
+            @RequestParam(name = "finish_date", required = false) String finishDate
     ) {
         log.info("Запрос на получение списка апартаментов");
         if (page < 1) {
@@ -97,6 +100,7 @@ public class ApartmentsController {
         apartment = apartmentsService.save(apartment);
         return apartmentConverter.entityToApartmentDto(apartment);
     }
+
 
    /* @Operation(
             summary = "Запрос на изменение существующего апартамента",
