@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Schema(description = "Модель для создания заказа")
 @ToString
 @Builder
-public class OrderCreateRq {
+public class OrderCreateDtoRq {
 
         @NotBlank(message = "Введите свой логин. Обязательное поле")
         @Size(min = 1, max = 255, message = "максимум 255 символов")
