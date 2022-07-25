@@ -32,8 +32,52 @@ angular.module('new-booking-front').controller('ordersGuestController', function
            $scope.loadOrders();
            $scope.loadOrdersHistory();
         });
+    };
+    $scope.payOrder = function (orderId) {
+            $http({
+               url: contextPath + 'api/v1/orders/pay/'+orderId,
+               method: 'GET'
+            }).then(function (response) {
+               $scope.loadOrders();
+               $scope.loadOrdersHistory();
+            });
+        };
+    $scope.payOrder = function (orderId) {
+            $http({
+               url: contextPath + 'api/v1/orders/pay/'+orderId,
+               method: 'GET'
+            }).then(function (response) {
+               $scope.loadOrders();
+               $scope.loadOrdersHistory();
+            });
+        };
+    $scope.confirmStay = function (orderId) {
+                $http({
+                   url: contextPath + 'api/v1/orders/confirmStay/'+orderId,
+                   method: 'GET'
+                }).then(function (response) {
+                   $scope.loadOrders();
+                   $scope.loadOrdersHistory();
+                });
+    };
+    $scope.isStatusWaiting = function (status) {
+     if (status == 'ожидает оплаты') {
+                return true;
+            } else {
+                return false;
+            }
+    };
 
-    }
+    $scope.isStatusBooked = function (status) {
+     if (status == 'забронирован') {
+                return true;
+            } else {
+                return false;
+            }
+    };
+
+
+
 
 
     $scope.loadOrders();
