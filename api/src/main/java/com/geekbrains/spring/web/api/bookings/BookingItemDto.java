@@ -15,8 +15,11 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Schema(description = "Модель для отображения апартаментов на фронте")
 @ToString
-@Builder
+
 public class BookingItemDto {
+    @Schema(description = "Индентификатор позиции")
+    @NotBlank(message = "Выберите жилье. Обязательное поле")
+    private Long itemId;
 
     @Schema(description = "Выбранное жилье")
     @NotBlank(message = "Выберите жилье. Обязательное поле")
@@ -59,6 +62,7 @@ public class BookingItemDto {
     private Boolean selector;
 
     public BookingItemDto(
+            Long itemId,
             Long apartmentId,
             String apartmentInfo,
             String apartmentAddress,
@@ -66,9 +70,9 @@ public class BookingItemDto {
             String bookingFinishDate,
             Integer bookingDuration,
             BigDecimal pricePerNight,
-            BigDecimal pricePerOrder,
-            Boolean selector
+            BigDecimal pricePerOrder
     ) {
+        this.itemId = itemId;
         this.apartmentId = apartmentId;
         this.apartmentInfo = apartmentInfo;
         this.apartmentAddress = apartmentAddress;
@@ -77,6 +81,5 @@ public class BookingItemDto {
         this.bookingDuration = bookingDuration;
         this.pricePerNight = pricePerNight;
         this.pricePerOrder = pricePerOrder;
-        this.selector = selector;
     }
 }

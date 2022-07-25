@@ -3,7 +3,9 @@ package com.geekbrains.spring.web.booking.converters;
 import com.geekbrains.spring.web.api.bookings.BookingDto;
 import com.geekbrains.spring.web.api.bookings.BookingItemDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.booking.models.Booking;
+import com.geekbrains.spring.web.booking.models.BookingItem;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,9 +17,22 @@ import java.util.stream.Collectors;
 
 @Component
 public class BookingConverter {
+
+    public OrderCreateDtoRq itemToOrderDto(String username, BookingItem bookingItem) {
+        return new OrderCreateDtoRq(
+                username,
+                bookingItem.getApartmentId(),
+                LocalDate.parse(bookingItem.getBookingStartDate()),
+                LocalDate.parse(bookingItem.getBookingFinishDate()),
+                bookingItem.getPricePerNight(),
+                bookingItem.getPricePerOrder()
+        );
+    }
+
     public BookingDto modelToDto(Booking booking) {
         List<BookingItemDto> bookingItemDTOs = booking.getItems().stream().map(item ->
                 new BookingItemDto(
+                        item.getItemId(),
                         item.getApartmentId(),
                         item.getApartmentInfo(),
                         item.getApartmentAddress(),
@@ -25,15 +40,13 @@ public class BookingConverter {
                         item.getBookingFinishDate(),
                         item.getBookingDuration(),
                         item.getPricePerNight(),
-                        item.getPricePerOrder(),
-                        item.getSelector()
+                        item.getPricePerOrder()
                 )
         ).collect(Collectors.toList());
-        BookingDto bookingDto = new BookingDto(bookingItemDTOs);
-        return bookingDto;
+        return new BookingDto(bookingItemDTOs);
     }
 
-    public BookingItemDto apartmentToBookingItem (ApartmentDto apartmentDto, String bookingStartDate, String bookingFinishDate){
+    public BookingItemDto apartmentToBookingItemDto (ApartmentDto apartmentDto, String bookingStartDate, String bookingFinishDate){
 
         Integer bookingDuration = calculateDuration(bookingStartDate, bookingFinishDate);
 
@@ -46,7 +59,8 @@ public class BookingConverter {
                 apartmentDto.getStreet()  + ", " +
                 apartmentDto.getBuildingNumber()  + ", ";
 
-        BookingItemDto bookingItemDto = new BookingItemDto(
+        return new BookingItemDto(
+                    null,
                     apartmentDto.getId(),
                     info,   // Apartment Info
                     address,// Apartment Address
@@ -55,10 +69,8 @@ public class BookingConverter {
                     bookingDuration,
                     apartmentDto.getPricePerNight(),
                     // Стоимость заказа номера
-                    recalculatePrice(apartmentDto.getPricePerNight(), bookingDuration),
-                    true
+                    recalculatePrice(apartmentDto.getPricePerNight(), bookingDuration)
                 );
-        return bookingItemDto;
     }
 
     public BigDecimal recalculatePrice(BigDecimal price, String bookingStartDate, String bookingFinishDate) {
@@ -77,4 +89,6 @@ public class BookingConverter {
         if(durationInDays < 1) durationInDays = 1;
         return durationInDays;
     }
+
+
 }

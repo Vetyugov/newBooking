@@ -9,9 +9,11 @@ import java.util.List;
 @Data
 public class Booking {
     private List<BookingItem> items;
+    private Long itemIdNumerator;
 
     public Booking() {
         this.items = new ArrayList<>();
+        this.itemIdNumerator = 1l;
     }
 
     public void add(BookingItemDto bookingItemDto) {
@@ -21,6 +23,7 @@ public class Booking {
                 item.getBookingFinishDate().equals(bookingItemDto.getBookingFinishDate()))
                 return;
         }
+        bookingItemDto.setItemId(itemIdNumerator++);
         items.add(new BookingItem(bookingItemDto));
     }
 
@@ -31,15 +34,36 @@ public class Booking {
                 item.getBookingFinishDate().equals(finishDate)
             ) {
                 items.remove(item);
+                if(items.size() == 0)
+                    itemIdNumerator = 1l;
                 return;
             }
         }
     }
 
-    public void clear() {
-        items.clear();
+    public void remove(Long itemId) {
+        for (BookingItem item : items) {
+            if (item.getApartmentId().equals(itemId)) {
+                items.remove(item);
+                if(items.size() == 0)
+                    itemIdNumerator = 1l;
+                return;
+            }
+        }
     }
 
+    public BookingItem getItem(Long itemId) {
+        for (BookingItem item : items) {
+            if (item.getApartmentId().equals(itemId))
+                return item;
+        }
+        return null;
+    }
+
+    public void clear() {
+        items.clear();
+        itemIdNumerator = 1l;
+    }
 
     public void merge(Booking another) {
         for (BookingItem anotherItem : another.items) {
@@ -54,9 +78,12 @@ public class Booking {
                 }
             }
             if (!merged) {
+                anotherItem.setItemId(itemIdNumerator++);
                 items.add(anotherItem);
             }
         }
         another.clear();
     }
+
+
 }
