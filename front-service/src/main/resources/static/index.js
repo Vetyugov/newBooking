@@ -46,6 +46,14 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
             })
+            .when('/add_new_apartment', {
+                templateUrl: 'hosts_accounts/add_new_apartment.html',
+                controller: 'apartmentController'
+            })
+            .when('/my_apartments_page', {
+                templateUrl: 'hosts_accounts/my_apartments_page.html',
+                controller: 'myApartmentController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

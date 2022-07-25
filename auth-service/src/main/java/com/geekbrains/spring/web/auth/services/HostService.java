@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HostService {
+public class  HostService {
     private final HostRepository hostRepository;
     private final HostConverter hostConverter;
 

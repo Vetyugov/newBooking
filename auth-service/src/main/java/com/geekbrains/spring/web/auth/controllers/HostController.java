@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/hosts_account")
+@RequestMapping("/api/v1/hosts_accounts")
 @RequiredArgsConstructor
 @Slf4j
 public class HostController {
@@ -34,7 +34,7 @@ public class HostController {
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = GuestDto.class))
+                            content = @Content(schema = @Schema(implementation = LegalHostDto.class))
                     )
             }
     )
@@ -50,7 +50,7 @@ public class HostController {
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = GuestDto.class))
+                            content = @Content(schema = @Schema(implementation = IndividualHostDto.class))
                     )
             }
     )
@@ -74,7 +74,6 @@ public class HostController {
         log.info("перенаправлен в сервис " + legalHostDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 
     @Operation(summary = "Обновление данных владельца (физлица)")
     @ApiResponse(responseCode = "201",
