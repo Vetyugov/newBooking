@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.BookingApartmentRq;
+import com.geekbrains.spring.web.api.core.BookingApartmentDtoRq;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.ApartmentConverter;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/apartments")
@@ -122,9 +125,24 @@ public class ApartmentsController {
 
     )
     @PatchMapping
-    public void createDateOfBooking(@RequestBody @Parameter(description = "Dto, содержащий даты бронирования апартамента", required = true) BookingApartmentRq bookingApartmentRq) {
+    public void createDateOfBooking(@RequestBody @Parameter(description = "Dto, содержащий даты бронирования апартамента", required = true) BookingApartmentDtoRq bookingApartmentDtoRq) {
        // apartmentValidator.validate(apartmentDto);
-        apartmentsService.createDateOfBooking(bookingApartmentRq);
+        apartmentsService.createDateOfBooking(bookingApartmentDtoRq);
+    }
+
+    @Operation(
+            summary = "Запрос на получение всех апартаментов пользователя",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ApartmentDto.class))
+                    )
+            }
+    )
+    @GetMapping("/{username}")
+    public List<ApartmentDto> getCurrentUserApartments(@PathVariable @Parameter(description = "Имя пользователя", required = true) String username) {
+        return apartmentsService.findApartmentsByUsername(username).stream()
+                .map(apartmentConverter::entityToApartmentDto).collect(Collectors.toList());
     }
 
     @Operation(

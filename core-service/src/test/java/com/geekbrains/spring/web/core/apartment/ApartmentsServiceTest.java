@@ -2,6 +2,7 @@ package com.geekbrains.spring.web.core.apartment;
 
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.SpringWebApplication;
+import com.geekbrains.spring.web.core.entities.Address;
 import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.entities.ApartmentCategory;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
@@ -34,14 +35,13 @@ public class ApartmentsServiceTest {
         ApartmentCategory apartmentCategory = new ApartmentCategory();
         apartmentCategory.setId(1l);
         apartmentCategory.setTitle("Квартира");
-
+        Address address = new Address("Москва", "Симоновский вал", 5);
+        Address address1 = new Address("Санкт-Петербург", "Петроградская наб.", 34);
         firstApartment = new Apartment.Builder()
                 .id(1l)
                 .title("Самая лучшая квартира")
                 .apartmentCategory(apartmentCategory)
-                .city("Москва")
-                .street("Симоновский вал")
-                .buildingNumber(5)
+                .address(address)
                 .squareMeters(45)
                 .numberOfGuests(3)
                 .numberOfRooms(2)
@@ -53,9 +53,7 @@ public class ApartmentsServiceTest {
                 .id(2l)
                 .title("Квартира с видом на реку")
                 .apartmentCategory(apartmentCategory)
-                .city("Санкт-Петербург")
-                .street("Петроградская наб.")
-                .buildingNumber(34)
+                .address(address1)
                 .squareMeters(75)
                 .numberOfGuests(5)
                 .numberOfRooms(3)
