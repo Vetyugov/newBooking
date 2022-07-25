@@ -53,11 +53,11 @@ public class OrdersController {
     @PostMapping
     public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateRq orderCreateRq) throws OrderIsNotCreatedException{
         //Проверяем свободны ли даты
-        BookingApartmentRq.Builder builder = new BookingApartmentRq.Builder();
-        BookingApartmentRq bookingApartmentDto =  builder
-                .id(orderCreateRq.getApartmentId())
-                .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
-                .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
+        BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
+        BookingApartmentDtoRq bookingApartmentDto =  builder
+                .id(orderCreateDtoRq.getApartmentId())
+                .bookingStartDate(orderCreateDtoRq.getBookingStartDate().toString())
+                .bookingFinishDate(orderCreateDtoRq.getBookingFinishDate().toString())
                 .build();
         try {
             apartmentsService.createDateOfBooking(bookingApartmentDto);
@@ -71,6 +71,7 @@ public class OrdersController {
         }else {
             return new ResponseEntity<>(orderConverter.entityToDtoInfo(order), HttpStatus.CREATED);
         }
+
     }
     @GetMapping("/cancel/{orderId}")
     public ResponseEntity<OrderDtoInfo> cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
