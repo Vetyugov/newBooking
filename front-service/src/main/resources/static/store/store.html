@@ -87,11 +87,11 @@
                 <tbody>
                 <tr ng-repeat="a in ApartmentsPage.content">
                     <td>{{a.id}}</td>
-                    <td>{{a.categoryTitle}}</td>
+                    <td>{{a.category}}</td>
                     <td>{{a.title}}</td>
-                    <td>{{a.city}}</td>
-                    <td>{{a.street}}</td>
-                    <td>{{a.buildingNumber}}</td>
+                    <td>{{a.addressDto.city}}</td>
+                    <td>{{a.addressDto.street}}</td>
+                    <td>{{a.addressDto.buildingNumber}}</td>
                     <td>{{a.numberOfRooms}}</td>
                     <td>{{a.numberOfBeds}}</td>
                     <td>{{a.pricePerNight}}</td>
