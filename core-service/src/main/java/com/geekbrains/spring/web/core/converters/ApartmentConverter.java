@@ -28,7 +28,7 @@ public class ApartmentConverter {
                 .numberOfGuests(apartmentDto.getNumberOfGuests())
                 .numberOfRooms(apartmentDto.getNumberOfRooms())
                 .numberOfBeds(apartmentDto.getNumberOfBeds())
-                .userName(apartmentDto.getUserName())
+                .username(apartmentDto.getUsername())
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class ApartmentConverter {
                 .numberOfGuests(apartment.getNumberOfGuests())
                 .numberOfRooms(apartment.getNumberOfRooms())
                 .numberOfBeds(apartment.getNumberOfBeds())
-                .userName(apartment.getUserName())
+                .username(apartment.getUsername())
                 .build();
     }
 }

@@ -35,7 +35,7 @@ public class ApartmentDto {
     private Integer numberOfBeds;
 
     @Schema(description = "Имя пользователя", required = true, example = "bob")
-    private String userName;
+    private String username;
 
 
     public Long getId() {
@@ -73,8 +73,8 @@ public class ApartmentDto {
         return numberOfBeds;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ApartmentDto {
                 ", numberOfGuests= " + numberOfGuests +
                 ", numberOfRooms= " + numberOfRooms +
                 ", numberOfBeds= " + numberOfBeds +
-                ", userName= '" + userName + '\'' +
+                ", username= '" + username + '\'' +
                 '}';
     }
 
@@ -148,8 +148,8 @@ public class ApartmentDto {
             return this;
         }
 
-        public Builder userName(String userName) {
-            apartmentDto.userName = userName;
+        public Builder username(String username) {
+            apartmentDto.username = username;
             return this;
         }
 

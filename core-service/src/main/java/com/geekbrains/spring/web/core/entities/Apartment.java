@@ -47,8 +47,8 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<BookingDate> bookingDates;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "username")
+    private String username;
 
     //TODO добавить поля check-in, check-out
 
@@ -78,7 +78,7 @@ public class Apartment {
                 ", numberOfRooms=" + numberOfRooms +
                 ", numberOfBeds=" + numberOfBeds +
                 ", pricePerNight=" + pricePerNight +
-                ", userName= '" + userName + '\'' +
+                ", username= '" + username + '\'' +
                 '}';
     }
 
@@ -137,8 +137,8 @@ public class Apartment {
             return this;
         }
 
-        public Builder userName(String userName) {
-            apartment.userName = userName;
+        public Builder username(String username) {
+            apartment.username = username;
             return this;
         }
 

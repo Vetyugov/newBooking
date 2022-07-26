@@ -18,6 +18,6 @@ public interface ApartmentsRepository extends JpaRepository<Apartment, Long>, Jp
             "(select d from BookingDate d where a.id = d.apartment.id and (d.startDate < :finish and d.finishDate > :start))")
     List<Apartment> findFilteredApartments(@Param("start") LocalDate start, @Param("finish") LocalDate finish);
 
-    @Query("select a from Apartment a where a.userName = ?1")
-    List<Apartment> findAllByUsername(String userName);
+   // @Query("select a from Apartment a where a.username = ?1")
+    List<Apartment> findAllByUsername(String username);
 }
