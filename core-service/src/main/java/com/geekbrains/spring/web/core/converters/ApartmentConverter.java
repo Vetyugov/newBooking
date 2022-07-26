@@ -1,6 +1,5 @@
 package com.geekbrains.spring.web.core.converters;
 
-import com.geekbrains.spring.web.api.core.AddressDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.core.entities.Address;
 import com.geekbrains.spring.web.core.entities.Apartment;

@@ -2,6 +2,7 @@ package com.geekbrains.spring.web.core.validators;
 
 import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.core.exceptions.ValidationException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class OrderValidator {
         public void validate(OrderCreateDtoRq orderDto) {
             List<String> errors = new ArrayList<>();

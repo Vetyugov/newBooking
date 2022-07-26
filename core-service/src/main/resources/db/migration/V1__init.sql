@@ -41,7 +41,7 @@ insert into apartment_categories (title)
 values ('Квартира'),
        ('Апартаменты');
 
-insert into apartments (title, apartment_category_id, city, street, building_number, square_meters, number_of_guests, number_of_rooms, number_of_beds, price_per_night, user_name)
+insert into apartments (title, apartment_category_id, city, street, building_number, square_meters, number_of_guests, number_of_rooms, number_of_beds, price_per_night, username)
 values ('Самая лучшая квартира', 1, 'Москва', 'Симоновский вал', 5, 45, 3, 2, 3, 3500.00, 'pushkin'),
        ('Апартаменты с видом на реку', 2, 'Санкт-Петербург', 'Петроградская наб.', 34, 75, 5, 3, 5, 10500.00, 'gogol');
 

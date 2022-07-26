@@ -136,19 +136,12 @@ public class ApartmentsService {
         if (bookingDatesService.checkBookingDates(bookingApartmentDtoRq.getId(), startDate, finishDate)) {
             throw new ResourceNotFoundException(String.format("В период с: %s по: %s апартаменты уже заняты!", bookingApartmentDtoRq.getBookingStartDate(), bookingApartmentDtoRq.getBookingFinishDate()));
         }
-        log.info("checkBookingDates = false");
-        Apartment apartment = apartmentsRepository.findById(bookingApartmentDtoRq.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDtoRq.getId()));
-        log.info("Нашли apartment = " + apartment);
-        List<BookingDate> bookingDates = apartment.getBookingDates();
         BookingDate bookingDate = new BookingDate();
-        bookingDate.setApartment(apartment);
+        bookingDate.setApartment(apartmentsRepository.findById(bookingApartmentDtoRq.getId()).orElseThrow(() -> new ResourceNotFoundException("Невозможно обновить апартамент, не надйен в базе, id: " + bookingApartmentDtoRq.getId())));
         bookingDate.setStartDate(startDate);
         bookingDate.setFinishDate(finishDate);
-        bookingDates.add(bookingDate);
-        log.info("bookingDate = " + bookingDate);
-        apartment.setBookingDates(bookingDates);
-        log.info("apartment = " + apartment);
-        apartmentsRepository.save(apartment);
+        bookingDatesService.save(bookingDate);
+        log.info("Created new bookingDate = " + bookingDate);
     }
 
     public List<Apartment> findApartmentsByUsername(String username) {
