@@ -6,6 +6,7 @@ import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
+import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
@@ -50,24 +51,58 @@ public class OrdersController {
             }
     )
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateRq orderCreateRq){
+    public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
         //Проверяем свободны ли даты
-        BookingApartmentRq.Builder builder = new BookingApartmentRq.Builder();
-        BookingApartmentRq bookingApartmentDto =  builder
+        log.info("Создание заказа для " + orderCreateRq);
+        BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
+        BookingApartmentDtoRq bookingApartmentDto =  builder
                 .id(orderCreateRq.getApartmentId())
                 .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
                 .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
                 .build();
-//        if(!apartmentsService.createDateOfBooking(bookingApartmentDto)){
-//            throw new OrderIsNotCreatedException("This dates are invalid");
-//        }
-        orderService.createOrder(orderCreateRq);
+        log.info("bookingApartmentDto = " + bookingApartmentDto);
+        try {
+            apartmentsService.createDateOfBooking(bookingApartmentDto);
+        }catch (ResourceNotFoundException e){
+            throw new OrderIsNotCreatedException("This dates are invalid." + e.getMessage());
+        }
+        log.info("ура, создаем заказ");
+        //Создаем заказ
+        Order order = orderService.createOrder(orderCreateRq);
+        if(order == null){
+            throw new OrderIsNotCreatedException("Failed to create order " + orderCreateRq);
+        }else {
+            return new ResponseEntity<>(orderConverter.entityToDtoInfo(order), HttpStatus.CREATED);
+        }
+
     }
     @GetMapping("/cancel/{orderId}")
+    public ResponseEntity<OrderDtoInfo> cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        log.info("Запрос на отмену заказа " + orderId);
+        Order order = orderService.setStatusToOrder(orderId, "canceled");
+        //TODO Попросить сервис апартаментов снять даты бронирования
+        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+    }
+
+    @GetMapping("/pay/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
-        orderService.setStatusCanceledToOrder(orderId);
+    public ResponseEntity<OrderDtoInfo> payOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        Order order = orderService.setStatusToOrder(orderId, "paid");
+        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+    }
+
+    @GetMapping("/confirmOrder/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<OrderDtoInfo> confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        Order order = orderService.setStatusToOrder(orderId, "booked");
+        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+    }
+
+    @GetMapping("/confirmStay/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<OrderDtoInfo> confirmStay(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+        Order order = orderService.setStatusToOrder(orderId, "completed");
+        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
     }
 
     @Operation(
@@ -157,14 +192,15 @@ public class OrdersController {
                     )
             }
     )
-    @PostMapping("/host/outCash/{id}")
-    public ResponseEntity<?> outCash(@PathVariable @Parameter(description = "Идентификатор заказа", required = true) Long id) {
+    @GetMapping("/host/outCash/{id}")
+    public OrderOutCashRs outCash(@PathVariable @Parameter(description = "Идентификатор заказа", required = true) Long id) {
+        log.info("Запрос на вывод средств");
         Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404"));
-        if(order.getStatus().equals(orderStatusService.findByDesc("completed"))){
+        if(order.getStatus().getDescription().equals("completed")){
             //ToDo выводим средства
-            return ResponseEntity.ok(new OrderOutCashRs("Средства выведены"));
+            return new OrderOutCashRs("Средства выведены");
         } else {
-            return ResponseEntity.ok(new OrderOutCashRs("Арендатор ещё не подтвердил факт проживания"));
+            return new OrderOutCashRs("Арендатор ещё не подтвердил факт проживания");
         }
     }
 

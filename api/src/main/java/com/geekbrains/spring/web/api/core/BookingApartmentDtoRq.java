@@ -1,16 +1,12 @@
 package com.geekbrains.spring.web.api.core;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-
-import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Schema(description = "Модель для бронирования апартамента")
-public class BookingApartmentRq {
+public class BookingApartmentDtoRq {
     @Schema(description = "ID апартамента", required = true, example = "1")
     private Long id;
 
@@ -50,35 +46,36 @@ public class BookingApartmentRq {
     @Override
     public String toString() {
         return "BookingApartmentDto{" +
+                " id ='" + id + '\'' +
                 " bookingStartDate='" + bookingStartDate + '\'' +
                 ", bookingFinishDate='" + bookingFinishDate + '\'' +
                 '}';
     }
 
     public static class Builder {
-        private final BookingApartmentRq bookingApartmentRq;
+        private final BookingApartmentDtoRq bookingApartmentDtoRq;
 
         public Builder() {
-            this.bookingApartmentRq = new BookingApartmentRq();
+            this.bookingApartmentDtoRq = new BookingApartmentDtoRq();
         }
 
         public Builder id(Long id) {
-            bookingApartmentRq.id = id;
+            bookingApartmentDtoRq.id = id;
             return this;
         }
 
         public Builder bookingStartDate(String bookingStartDate) {
-            bookingApartmentRq.bookingStartDate = bookingStartDate;
+            bookingApartmentDtoRq.bookingStartDate = bookingStartDate;
             return this;
         }
 
         public Builder bookingFinishDate(String bookingFinishDate) {
-            bookingApartmentRq.bookingFinishDate = bookingFinishDate;
+            bookingApartmentDtoRq.bookingFinishDate = bookingFinishDate;
             return this;
         }
 
-        public BookingApartmentRq build() {
-            return bookingApartmentRq;
+        public BookingApartmentDtoRq build() {
+            return bookingApartmentDtoRq;
         }
     }
 }

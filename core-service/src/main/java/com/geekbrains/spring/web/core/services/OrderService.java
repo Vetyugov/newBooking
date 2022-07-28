@@ -1,7 +1,6 @@
 package com.geekbrains.spring.web.core.services;
 
-import com.geekbrains.spring.web.api.bookings.BookingDto;
-import com.geekbrains.spring.web.api.core.OrderCreateRq;
+import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.integrations.BookingServiceIntegration;
@@ -22,10 +21,10 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final BookingServiceIntegration bookingServiceIntegration;
     private final ApartmentsService apartmentsService;
-    private OrderStatusService orderStatusService;
+    private final OrderStatusService orderStatusService;
 
     @Transactional
-    public void createOrder(OrderCreateRq orderDto) {
+    public Order createOrder(OrderCreateDtoRq orderDto) {
         Order order = Order.builder()
                 .username(orderDto.getUsername())
                 .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())
@@ -33,10 +32,9 @@ public class OrderService {
                 .apartmentCheckOut(orderDto.getBookingFinishDate())
                 .price(orderDto.getPricePerNight())
                 .totalPrice(orderDto.getPricePerOrder())
-                .status(orderStatusService.findByDesc("booked").get())
+                .status(orderStatusService.findByDesc("awaiting payment").get())
                 .build();
-        ordersRepository.save(order);
-        log.debug("ordersRepository.save - ok");
+        return ordersRepository.save(order);
     }
 
     @Transactional
@@ -64,8 +62,7 @@ public class OrderService {
     }
 
     public List<Order> findHostOrdersByUsername(String username) {
-        return ordersRepository.findActiveByUsername(username);
-//        return ordersRepository.findHostOrdersByUsername(username);
+        return ordersRepository.findHostOrdersByUsername(username);
     }
 
     public List<Order> findInactiveOrdersByUsername(String username) {
@@ -76,9 +73,9 @@ public class OrderService {
         return ordersRepository.findById(id);
     }
 
-    public void setStatusCanceledToOrder(Long id){
+    public Order setStatusToOrder(Long id, String status){
         Order order = ordersRepository.getById(id);
-        order.setStatus(orderStatusService.findByDesc("canceled").get());
-        ordersRepository.saveAndFlush(order);
+        order.setStatus(orderStatusService.findByDesc(status).get());
+         return ordersRepository.saveAndFlush(order);
     }
 }

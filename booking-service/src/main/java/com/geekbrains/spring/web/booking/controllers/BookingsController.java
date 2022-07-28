@@ -1,6 +1,8 @@
 package com.geekbrains.spring.web.booking.controllers;
 
 import com.geekbrains.spring.web.api.bookings.BookingDto;
+import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.dto.StringResponse;
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
 import com.geekbrains.spring.web.booking.services.BookingService;
@@ -36,6 +38,7 @@ public class BookingsController {
     )
     @GetMapping("/{uuid}")
     public BookingDto getBooking(@RequestHeader(required = false) String username, @PathVariable String uuid) {
+        log.info("Корзина по id "+uuid+", userName = " + username );
         return bookingConverter.modelToDto(bookingService.getCurrentBooking(getCurrentBookingUuid(username, uuid)));
     }
 
@@ -63,6 +66,16 @@ public class BookingsController {
         bookingService.addToBooking(getCurrentBookingUuid(username, uuid), apartmentId, bookingStartDate, bookingFinishDate);
     }
 
+    @PostMapping("/recovery")
+    public void recovery(@RequestBody @Parameter(description = "Dto восстановления апартамента в списке бронирования", required = true) OrderCreateDtoRq orderDto) {
+        log.info("Пришел запрос на восстановление");
+        bookingService.addToBooking(
+                getCurrentBookingUuid(orderDto.getUsername(), null),
+                orderDto.getApartmentId(),
+                orderDto.getBookingStartDate().toString(),
+                orderDto.getBookingFinishDate().toString());
+    }
+
     @GetMapping("/{uuid}/remove")
     public void remove(@RequestHeader(required = false) String username, @PathVariable String uuid,
                        @RequestParam(name = "id") @Parameter(description = "ID объекта") Long apartmentId,
@@ -83,6 +96,15 @@ public class BookingsController {
                 getCurrentBookingUuid(username, null),
                 getCurrentBookingUuid(null, uuid)
         );
+    }
+
+    @GetMapping("/{uuid}/choose")
+    public BookingDto choose(@RequestHeader String username, @PathVariable String uuid,
+                       @RequestParam(name = "itemId") @Parameter(description = "ID в списке бронирования") Long itemId
+                    ) {
+        log.info("username = " + username + ", uuid = " + uuid + ",  itemId =" + itemId);
+        String currentBookingUuid = getCurrentBookingUuid(username, uuid);
+        return bookingService.chooseItemFromBooking(currentBookingUuid, username, itemId);
     }
 
     private String getCurrentBookingUuid(String username, String uuid) {

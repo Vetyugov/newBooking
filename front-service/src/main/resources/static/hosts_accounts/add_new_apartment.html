@@ -1,0 +1,70 @@
+<div>
+    <p></p>
+    <h3>Создать апартамент</h3>
+    <p></p>
+
+    <form novalidate>
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="title" placeholder="" ng-model="new_apartment.title">
+            <label for="title">Название ваших апартаментов</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <select class="form-select form-select-lg" type="text" id="category"  ng-model="new_apartment.category"
+                    aria-label=".form-select-lg example">
+                <option selected>Выберите один вариант:</option>
+                <option value="Квартира">Квартира</option>
+                <option value="Апартаменты">Апартаменты</option>
+            </select>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="addressDto.city" placeholder="" ng-model="new_apartment.addressDto.city">
+            <label for="addressDto.city">Город</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="addressDto.street" placeholder="" ng-model="new_apartment.addressDto.street">
+            <label for="addressDto.street">Улица</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="addressDto.buildingNumber" placeholder="" ng-model="new_apartment.addressDto.buildingNumber">
+            <label for="addressDto.buildingNumber">Номер дома</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="squareMeters" placeholder="" ng-model="new_apartment.squareMeters">
+            <label for="squareMeters">Размер в кв. метрах</label>
+        </div>
+        <p></p>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="numberOfGuests" placeholder="" ng-model="new_apartment.numberOfGuests">
+            <label for="numberOfGuests">Макс. кол-во гостей</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="numberOfRooms" placeholder="" ng-model="new_apartment.numberOfRooms">
+            <label for="numberOfRooms">Кол-во комнат</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="numberOfBeds" placeholder="" ng-model="new_apartment.numberOfBeds">
+            <label for="numberOfBeds">Кол-во спальных мест</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="pricePerNight" placeholder="" ng-model="new_apartment.pricePerNight">
+            <label for="pricePerNight">Цена за одну ночь</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input readonly type="text" class="form-control" id="username" ng-model="new_apartment.username = hostAccount.username" ng-model-options="{ getterSetter: true }">
+            <label for="username">Логин</label>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-secondary btn-sm" style="width: 100%;" ng-click="tryToCreateApartment()">Создать</button>
+        <p></p>
+    </form>
+</div>

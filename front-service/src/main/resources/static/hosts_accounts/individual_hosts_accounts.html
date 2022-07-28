@@ -3,6 +3,12 @@
     <h3>Личный кабинет владельца</h3>
     <p></p>
 
+    <button class="btn btn-outline-secondary btn-sm" ng-click="transferToPageForAddNewApartment()">Перейти к добавлению апартаментов
+    <a class="nav-link" href="#!/add_new_apartment"></a> </button>
+    <p></p>
+    <button class="btn btn-outline-secondary btn-sm" ng-click="transferToMyApartmentsPage()">Перейти к списку моих апартаментов
+        <a class="nav-link" href="#!/my_apartments_page"></a> </button>
+    <p></p>
     <div class="row g-2">
 
         <div class="col-sm-6 col-md-10">
@@ -11,7 +17,7 @@
                     <td>ID:      </td>
                     <td>{{hostAccount.id}}</td>
                     <td>
-                        <input readonly id="idIndividualHostField" class="form-control" ng-model="updateHostAccount.id = hostAccount.id"  ng-model-options="{ getterSetter: true }" type="text"
+                        <input readonly type="hidden" id="idIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.id = hostAccount.id"  ng-model-options="{ getterSetter: true }"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
@@ -23,7 +29,7 @@
                     <td>Фамилия:  </td>
                     <td>{{hostAccount.surname}}</td>
                     <td>
-                        <input id="updateSurnameIndividualHostField" class="form-control" ng-model="updateHostAccount.surname" type="text"
+                        <input id="updateSurnameIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.surname" type="text"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
