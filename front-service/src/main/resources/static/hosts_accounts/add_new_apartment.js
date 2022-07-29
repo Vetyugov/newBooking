@@ -3,7 +3,7 @@
 
     $scope.loadHostAccount = function () {
     $http({
-          url: 'http://localhost:5555/auth/api/v1/user/me/' + $localStorage.springWebUser.username,
+          url: 'http://localhost:5555/auth/api/v1/user/me/',
           method: 'GET'
     }).then(function (response) {
         $scope.hostAccount = response.data;

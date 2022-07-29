@@ -6,6 +6,7 @@ import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/me/{username}")
+    @GetMapping("/me")
     @Operation(
             summary = "Запрос на получение данных о пользователе",
             responses = {
@@ -32,7 +33,7 @@ public class UserController {
                     )
             }
     )
-    public UserDto aboutCurrentUser (@RequestHeader String username){
+    public UserDto aboutCurrentUser (@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username){
         User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
                 ("Не удалось найти в базе пользователя с именем " + username));
         return new UserDto(user.getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getEmail());
