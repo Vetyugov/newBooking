@@ -12,6 +12,6 @@ public class UserConverter {
     private final RoleRepository roleRepository;
 
     public UserDto userToUserDtoConverter(User user) {
-        return new UserDto(user.getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getEmail());
+        return new UserDto(user.getId(), user.getRole().getName().toString(), user.getUsername(), user.getPassword(), user.getEmail());
     }
 }

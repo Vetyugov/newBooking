@@ -36,7 +36,7 @@ public class UserController {
     public UserDto aboutCurrentUser (@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username){
         User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException
                 ("Не удалось найти в базе пользователя с именем " + username));
-        return new UserDto(user.getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getEmail());
+        return new UserDto(user.getId(), user.getRole().getName().toString(), user.getUsername(), user.getPassword(), user.getEmail());
     }
 
     @Operation(summary = "Регистрация нового пользователя")

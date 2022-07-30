@@ -1,12 +1,18 @@
 package com.geekbrains.spring.web.auth.services;
 
 import com.geekbrains.spring.web.api.core.UserDto;
+import com.geekbrains.spring.web.api.exceptions.AppError;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.UserConverter;
 import com.geekbrains.spring.web.auth.entities.Role;
+import com.geekbrains.spring.web.auth.entities.RoleName;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.RoleRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
     private final UserConverter userConverter;
     private final UserRepository userRepository;
@@ -45,15 +52,16 @@ public class UserService implements UserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
     }
 
     @Transactional
-    public void createOrUpdateUser(UserDto userDto) {
+    public void createOrUpdateUser(UserDto userDto)  {
+//        checkUserData(userDto);
         if (userDto.getId() != null) {
             User user = userRepository.getById(userDto.getId());
             user.setEmail(userDto.getEmail());
-            user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
+            user.setRole(roleRepository.findByName(RoleName.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
             userRepository.save(user);
             return;
         }
@@ -61,16 +69,31 @@ public class UserService implements UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
+        log.info("setRole");
+        user.setRole(roleRepository.findByName(RoleName.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
         userRepository.save(user);
-        if (userDto.getRoleName().equals("ROLE_LEGAL_HOST") || userDto.getRoleName().equals("ROLE_INDIVIDUAL_HOST")) {
+        log.info("сейчас будут ифы");
+        if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_LEGAL_HOST) || RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_INDIVIDUAL_HOST)) {
             hostService.createNewHost(userDto, user);
         }
-        if (userDto.getRoleName().equals("ROLE_GUEST")) {
+        if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_GUEST)) {
+            log.info("создаю гостя");
             guestService.createNewGuest(userDto, user);
         }
         return;
     }
+
+//    private void checkUserData(UserDto userDto) throws AppError {
+//        if (!userDto.getPassword().equals(userDto.getPasswordConfirmation())) {
+//            throw  new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение'");
+//        }
+//        if (existByEmail(userDto.getEmail())) {
+//            throw  new AppError("BAD_REQUEST", "Адрес электронной почты уже используется");
+//        }
+//        if (existByUsername(userDto.getUsername())) {
+//            throw  new AppError("BAD_REQUEST", "Логин уже существует");
+//        }
+//    }
 
     public boolean existByEmail(String email) {
         return userRepository.existsByEmail(email);
