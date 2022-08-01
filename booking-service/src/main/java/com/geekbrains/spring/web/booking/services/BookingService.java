@@ -1,16 +1,13 @@
 package com.geekbrains.spring.web.booking.services;
 
 import com.geekbrains.spring.web.api.bookings.BookingDto;
-import com.geekbrains.spring.web.api.bookings.BookingItemDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
-import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 
 
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
-import com.geekbrains.spring.web.booking.integrations.ApartmentsServiceIntegration;
-import com.geekbrains.spring.web.booking.integrations.OrdersServiceIntegration;
 import com.geekbrains.spring.web.booking.models.Booking;
+import com.geekbrains.spring.web.booking.models.CoreServiceIntegration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +23,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @Slf4j
 public class BookingService {
-    private final ApartmentsServiceIntegration apartmentsServiceIntegration;
-    private final OrdersServiceIntegration ordersServiceIntegration;
+    private final CoreServiceIntegration coreServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
     private final BookingConverter bookingConverter;
 
@@ -51,7 +47,7 @@ public class BookingService {
 
     public void addToBooking(String bookingKey, Long apartmentId, String startDate, String finishDate) {
         log.info("Добавляем новый addToBooking");
-        ApartmentDto apartmentDto = apartmentsServiceIntegration.findById(apartmentId)
+        ApartmentDto apartmentDto = coreServiceIntegration.findById(apartmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + apartmentId));
         execute(bookingKey, c -> c.add(bookingConverter.apartmentToBookingItemDto(apartmentDto, startDate, finishDate)));
     }
@@ -66,7 +62,7 @@ public class BookingService {
 
     public BookingDto chooseItemFromBooking(String bookingKey, String username, Long itemId) {
         log.info("Пытаемся создать заказ");
-        ResponseEntity checked = ordersServiceIntegration.checkOrder(
+        ResponseEntity checked = coreServiceIntegration.checkOrder(
                         bookingConverter.itemToOrderDto(username,getCurrentBooking(bookingKey).getItem(itemId))
                 ).orElseThrow(() -> new ResourceNotFoundException("Невозможно оформить заказ. Апартаменты на выбранные даты бронирования заняты!"));
         log.info("вернулся ответ " + checked);
