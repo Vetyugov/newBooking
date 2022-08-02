@@ -89,6 +89,4 @@ public class BookingConverter {
         if(durationInDays < 1) durationInDays = 1;
         return durationInDays;
     }
-
-
 }
