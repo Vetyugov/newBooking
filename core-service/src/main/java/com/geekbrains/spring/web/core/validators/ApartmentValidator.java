@@ -18,6 +18,12 @@ public class ApartmentValidator {
         if (apartmentDto.getTitle().isBlank()) {
             errors.add("Апартамент не может иметь пустое название");
         }
+        if (apartmentDto.getCategory().isBlank()) {
+            errors.add("Поле категоря не может быть пустым");
+        }
+        if (apartmentDto.getTitle().isBlank()) {
+            errors.add("Апартамент не может иметь пустое название");
+        }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }

@@ -28,4 +28,10 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new FieldsValidationError(e.getErrorFieldsMessages()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchResourceIsForbiddenException(ResourceIsForbiddenException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError("RESOURCE_IS_FORBIDDEN_EXCEPTION", e.getMessage()), HttpStatus.FORBIDDEN);
+    }
 }
