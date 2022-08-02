@@ -57,7 +57,6 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void createOrUpdateUser(UserDto userDto)  {
-//        checkUserData(userDto);
         if (userDto.getId() != null) {
             User user = userRepository.getById(userDto.getId());
             user.setEmail(userDto.getEmail());
@@ -69,31 +68,16 @@ public class UserService implements UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        log.info("setRole");
         user.setRole(roleRepository.findByName(RoleName.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
         userRepository.save(user);
-        log.info("сейчас будут ифы");
         if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_LEGAL_HOST) || RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_INDIVIDUAL_HOST)) {
             hostService.createNewHost(userDto, user);
         }
         if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_GUEST)) {
-            log.info("создаю гостя");
             guestService.createNewGuest(userDto, user);
         }
         return;
     }
-
-//    private void checkUserData(UserDto userDto) throws AppError {
-//        if (!userDto.getPassword().equals(userDto.getPasswordConfirmation())) {
-//            throw  new AppError("BAD_REQUEST", "Пароли не совпадают в окне 'пароль' и 'подтвеждение'");
-//        }
-//        if (existByEmail(userDto.getEmail())) {
-//            throw  new AppError("BAD_REQUEST", "Адрес электронной почты уже используется");
-//        }
-//        if (existByUsername(userDto.getUsername())) {
-//            throw  new AppError("BAD_REQUEST", "Логин уже существует");
-//        }
-//    }
 
     public boolean existByEmail(String email) {
         return userRepository.existsByEmail(email);

@@ -20,6 +20,14 @@
             }
     )};
 
+    $scope.tryToUpdateApartment = function() {
+        $http.put(contextPath + '/update', $scope.new_apartment)
+        .then(function successCallback(response) {
+              $scope.new_apartment = null;
+              alert('Success! Апартамент обновлен');
+              $location.path('/my_apartments_page');
+        }
+    )};
 
     $scope.loadHostAccount();
 

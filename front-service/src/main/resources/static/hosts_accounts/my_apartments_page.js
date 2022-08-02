@@ -10,7 +10,25 @@
             });
         };
 
+    $scope.tryToUpdateApartment = function() {
+        $http.put(contextPath + '/update', $scope.update_apartment)
+        .then(function successCallback(response) {
+              alert('Success! Апартамент обновлен');
+              $location.path('/my_apartments_page');
+        }
+    )};
+
+    $scope.loadHostAccount = function () {
+    $http({
+          url: 'http://localhost:5555/auth/api/v1/user/me/',
+          method: 'GET'
+    }).then(function (response) {
+        $scope.hostAccount = response.data;
+        });
+    };
+
 
     $scope.loadMyApartments();
+    $scope.loadHostAccount();
 
  });
