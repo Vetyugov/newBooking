@@ -1,13 +1,16 @@
 package com.geekbrains.spring.web.core.repositories.specifications;
 
 import com.geekbrains.spring.web.core.entities.Apartment;
+import com.geekbrains.spring.web.core.entities.ApartmentStatus;
 import com.geekbrains.spring.web.core.entities.BookingDate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.LocalDate;
 
+@Slf4j
 public class ApartmentsSpecifications {
     public static Specification<Apartment> cityLike(String cityPart) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("address").get("city"), String.format("%%%s%%", cityPart));
@@ -63,5 +66,10 @@ public class ApartmentsSpecifications {
                     .where(cb.equal(root.get("id"), (bookingDateRoot.get("apartment").get("id"))), cb.and(cb.lessThan(bookingDateRoot.get("startDate"), LocalDate.parse(finish)),
                             cb.greaterThan(bookingDateRoot.get("finishDate"), LocalDate.parse(start))))));
         };
+    }
+
+    public static Specification<Apartment> statusEqual() {
+        log.info("Начинаю проверять статус");
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), ApartmentStatus.ACTIVE);
     }
 }

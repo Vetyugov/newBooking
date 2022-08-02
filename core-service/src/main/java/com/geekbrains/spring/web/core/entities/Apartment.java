@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "apartments")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Apartment {
     @Id
@@ -51,6 +52,9 @@ public class Apartment {
     private String username;
 
     //TODO добавить поля check-in, check-out
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ApartmentStatus status;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -60,9 +64,6 @@ public class Apartment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void setBookingDates(List<BookingDate> bookingDates) {
-        this.bookingDates = bookingDates;
-    }
 
     @Override
     public String toString() {

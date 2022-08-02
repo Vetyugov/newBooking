@@ -1,9 +1,9 @@
 package com.geekbrains.spring.web.core.controllers;
 
-import com.geekbrains.spring.web.api.core.BookingApartmentDtoRq;
+import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.converters.ApartmentConverter;
-import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.validators.ApartmentValidator;
@@ -60,7 +60,7 @@ public class ApartmentsController {
         if (page < 1) {
             page = 1;
         }
-        return apartmentsService.findAll(cityPart, minPrice, maxPrice, minSquareMeters, maxSquareMeters, numberOfGuests,numberOfRooms,numberOfBeds, titlePart, categoryPart, startDate, finishDate, page).map(
+        return apartmentsService.findAll(cityPart, minPrice, maxPrice, minSquareMeters, maxSquareMeters, numberOfGuests, numberOfRooms, numberOfBeds, titlePart, categoryPart, startDate, finishDate, page).map(
                 apartmentConverter::entityToApartmentDto
         );
     }
@@ -99,7 +99,7 @@ public class ApartmentsController {
     }
 
 
-   /* @Operation(
+    @Operation(
             summary = "Запрос на изменение существующего апартамента",
             responses = {
                     @ApiResponse(
@@ -109,27 +109,12 @@ public class ApartmentsController {
             }
 
     )
-    @PutMapping
+    @PutMapping("/update")
     public ApartmentDto updateApartment(@RequestBody @Parameter(description = "Dto апартамента", required = true) ApartmentDto apartmentDto) {
-        apartmentValidator.validate(apartmentDto);
         Apartment apartment = apartmentsService.update(apartmentDto);
         return apartmentConverter.entityToApartmentDto(apartment);
-    }*/
-
-    @Operation(
-            summary = "Запрос на добавление дат бронирования апартамента",
-            responses = {
-                    @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200"
-                    )
-            }
-
-    )
-    @PatchMapping
-    public void createDateOfBooking(@RequestBody @Parameter(description = "Dto, содержащий даты бронирования апартамента", required = true) BookingApartmentDtoRq bookingApartmentDtoRq) {
-       // apartmentValidator.validate(apartmentDto);
-        apartmentsService.createDateOfBooking(bookingApartmentDtoRq);
     }
+
 
     @Operation(
             summary = "Запрос на получение всех апартаментов пользователя",
@@ -140,26 +125,31 @@ public class ApartmentsController {
                     )
             }
     )
-    @GetMapping("/my_apartments/{username}")
-    public List<ApartmentDto> getCurrentUserApartments(@PathVariable @Parameter(description = "Имя пользователя", required = true) String username) {
+    @GetMapping("/my")
+    public List<ApartmentDto> getCurrentUserApartments(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         log.info("Запрос для юзера " + username);
-        List<ApartmentDto> apartmentDtos = apartmentsService.findApartmentsByUsername(username).stream()
+        List<ApartmentDto> apartments = apartmentsService.findApartmentsByUsername(username).stream()
                 .map(apartmentConverter::entityToApartmentDto).collect(Collectors.toList());
-        log.info("НАШЕЛ " + apartmentDtos);
-        return apartmentDtos;
+        log.info("НАШЕЛ " + apartments);
+        return apartments;
     }
+
+    //Добавлен статус апартаментов ("ACTIVE"/"NOT ACTIVE").
+    //При создании апартамента по умолчанию устанавливается занчение статуса "ACTIVE"
+    // При попытке удалить, устанавливается статус "NOT ACTIVE" и не отображается в общем списке апартаментов для хоста.
+    // В дальнейшем можно доработать логику восстановления объекта (смена статуса на "ACTIVE").
+    // Удаления без возможности восстановления (смена статуса на "DELETED", без удаления из базы).
     @Operation(
-            summary = "Запрос на удаление апартамента по id",
+            summary = "Запрос на деактивацию (условное удаление) апартамента по id",
             responses = {
-                    @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200"
-                    )
+                    @ApiResponse(description = "Успешный ответ", responseCode = "200"),
+                    @ApiResponse(description = "Нет прав на выполнение запроса", responseCode = "403",
+                            content = @Content(schema = @Schema(implementation = AppError.class)))
             }
 
     )
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id) {
-        //добавить проверку принадлежности объекта юзеру, который хочет удалить объект
-        apartmentsService.deleteById(id);
+    @PatchMapping("/{id}")
+    public void deactivateById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id, @RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
+        apartmentsService.deactivateById(id, username);
     }
 }
