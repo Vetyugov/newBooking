@@ -3,7 +3,7 @@
 
         $scope.loadIndiHostAccount = function () {
             $http({
-                url: 'http://localhost:5555/auth/api/v1/hosts_accounts/individual/' + $localStorage.springWebUser.username,
+                url: contextPath + 'individual',
                 method: 'GET'
             }).then(function (response) {
                 $scope.hostAccount = response.data;

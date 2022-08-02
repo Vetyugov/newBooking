@@ -101,7 +101,7 @@ angular.module('new-booking-front').controller('indexController', function ($roo
                         .then(function successCallback(response) {
                         });
 
-                    $location.path('/');
+                    $location.path('/store');
                 }
             }, function errorCallback(response) {
             });

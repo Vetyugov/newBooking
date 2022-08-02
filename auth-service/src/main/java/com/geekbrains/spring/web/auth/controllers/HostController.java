@@ -28,7 +28,7 @@ public class HostController {
     private final HostService hostService;
     private final HostConverter hostConverter;
 
-    @GetMapping("/legal/{username}")
+    @GetMapping("/legal")
     @Operation(
             summary = "Получение информации о себе как о владельце по username (юрлицо)",
             responses = {
@@ -38,13 +38,12 @@ public class HostController {
                     )
             }
     )
-    public LegalHostDto getLegalHostByUsername(
-            @PathVariable @Parameter(description = "Username владельца (юрлица)", required = true) String username) {
+    public LegalHostDto getLegalHostByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         Host host = hostService.findByUsername(username);
         return hostConverter.entityToLegalHostDto(host);
     }
 
-    @GetMapping("/individual/{username}")
+    @GetMapping("/individual")
     @Operation(
             summary = "Получение информации о себе как о владельце по username (юрлицо)",
             responses = {
@@ -54,8 +53,7 @@ public class HostController {
                     )
             }
     )
-    public IndividualHostDto getIndividualHostByUsername(
-            @PathVariable @Parameter(description = "Username владельца (юрлица)", required = true) String username) {
+    public IndividualHostDto getIndividualHostByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         Host host = hostService.findByUsername(username);
         return hostConverter.entityToIndividualHostDto(host);
     }

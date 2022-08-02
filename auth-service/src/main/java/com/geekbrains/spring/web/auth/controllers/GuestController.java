@@ -44,7 +44,7 @@ public class GuestController {
 //        return guestConverter.entityToGuestDto(guest);
 //    }
 
-    @GetMapping("/{username}")
+    @GetMapping("/me")
     @Operation(
             summary = "Получение информации о себе как о госте по username",
             responses = {
@@ -54,8 +54,7 @@ public class GuestController {
                     )
             }
     )
-    public GuestDto getGuestByUsername(
-            @PathVariable @Parameter(description = "Username гостя (пользователя)", required = true) String username) {
+    public GuestDto getGuestByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         log.info("ПОПАЛ");
         Guest guest = guestService.findByUsername(username);
         log.info("НАШЕЛ " + guest);
