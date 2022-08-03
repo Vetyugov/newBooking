@@ -21,7 +21,8 @@ create table apartments
     number_of_rooms         int not null,
     number_of_beds          int not null,
     price_per_night         numeric (8, 2) not null,
-    user_name                varchar(255) not null,
+    user_name               varchar(255) not null,
+    status                  varchar(25) default 'ACTIVE',
     created_at    timestamp default current_timestamp,
     updated_at    timestamp default current_timestamp
 );

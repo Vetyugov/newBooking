@@ -1,22 +1,22 @@
-create table if not exists roles
-(
-    id         bigserial primary key,
-    name       varchar(50) not null,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp
-);
-
-insert into roles (name)
-values ('ROLE_GUEST'), --пользователь, арендатор
-       ('ROLE_OWNER'), --владелец сервиса, ему нужна статистика, отчеты, прибыль
-       ('ROLE_LEGAL_HOST'), --арендодатель, владелец жилья, объекта (юр лицо)
-       ('ROLE_INDIVIDUAL_HOST'), --арендодатель, владелец жилья, объекта (физ лицо)
-       ('ROLE_ADMIN'); --администратор сайта, поддержка
+--create table if not exists roles
+--(
+--    id         bigserial primary key,
+--    name       varchar(50) not null,
+--    created_at timestamp default current_timestamp,
+--    updated_at timestamp default current_timestamp
+--);
+--
+--insert into roles (name)
+--values ('ROLE_GUEST'), --пользователь, арендатор
+--       ('ROLE_OWNER'), --владелец сервиса, ему нужна статистика, отчеты, прибыль
+--       ('ROLE_LEGAL_HOST'), --арендодатель, владелец жилья, объекта (юр лицо)
+--       ('ROLE_INDIVIDUAL_HOST'), --арендодатель, владелец жилья, объекта (физ лицо)
+--       ('ROLE_ADMIN'); --администратор сайта, поддержка
 
 create table if not exists users
 (
     id         bigserial primary key,
-    role_id    bigint not null references roles (id),
+    role       varchar(80) not null,
     username   varchar(36) not null unique,
     password   varchar(80) not null,
     email      varchar(50) unique,

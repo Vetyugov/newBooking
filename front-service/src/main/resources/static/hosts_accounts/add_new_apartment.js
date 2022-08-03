@@ -3,7 +3,7 @@
 
     $scope.loadHostAccount = function () {
     $http({
-          url: 'http://localhost:5555/auth/api/v1/user/me/' + $localStorage.springWebUser.username,
+          url: 'http://localhost:5555/auth/api/v1/user/me/',
           method: 'GET'
     }).then(function (response) {
         $scope.hostAccount = response.data;
@@ -20,6 +20,14 @@
             }
     )};
 
+    $scope.tryToUpdateApartment = function() {
+        $http.put(contextPath + '/update', $scope.new_apartment)
+        .then(function successCallback(response) {
+              $scope.new_apartment = null;
+              alert('Success! Апартамент обновлен');
+              $location.path('/my_apartments_page');
+        }
+    )};
 
     $scope.loadHostAccount();
 

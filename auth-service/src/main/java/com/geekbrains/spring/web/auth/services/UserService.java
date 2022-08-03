@@ -1,12 +1,14 @@
 package com.geekbrains.spring.web.auth.services;
 
 import com.geekbrains.spring.web.api.core.UserDto;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.UserConverter;
 import com.geekbrains.spring.web.auth.entities.Role;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.RoleRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
     private final UserConverter userConverter;
     private final UserRepository userRepository;
@@ -45,15 +48,15 @@ public class UserService implements UserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
     }
 
     @Transactional
-    public void createOrUpdateUser(UserDto userDto) {
+    public void createOrUpdateUser(UserDto userDto)  {
         if (userDto.getId() != null) {
             User user = userRepository.getById(userDto.getId());
             user.setEmail(userDto.getEmail());
-            user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
+            user.setRole(roleRepository.findByName(Role.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
             userRepository.save(user);
             return;
         }
@@ -61,12 +64,12 @@ public class UserService implements UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        user.setRole(roleRepository.findByName(userDto.getRoleName()).get());
+        user.setRole(roleRepository.findByName(Role.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
         userRepository.save(user);
-        if (userDto.getRoleName().equals("ROLE_LEGAL_HOST") || userDto.getRoleName().equals("ROLE_INDIVIDUAL_HOST")) {
+        if (Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_LEGAL_HOST) || Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_INDIVIDUAL_HOST)) {
             hostService.createNewHost(userDto, user);
         }
-        if (userDto.getRoleName().equals("ROLE_GUEST")) {
+        if (Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_GUEST)) {
             guestService.createNewGuest(userDto, user);
         }
         return;

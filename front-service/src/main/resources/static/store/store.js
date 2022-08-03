@@ -49,6 +49,7 @@ angular.module('new-booking-front').controller('storeController', function ($sco
                 finish_date: $scope.filter.finish_date
             }
         }).then(function (response) {
+            $location.path('/booking');
         });
     }
 

@@ -1,7 +1,6 @@
 package com.geekbrains.spring.web.core.repositories;
 
 import com.geekbrains.spring.web.core.entities.Apartment;
-import com.geekbrains.spring.web.core.entities.BookingDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +17,12 @@ public interface ApartmentsRepository extends JpaRepository<Apartment, Long>, Jp
             "(select d from BookingDate d where a.id = d.apartment.id and (d.startDate < :finish and d.finishDate > :start))")
     List<Apartment> findFilteredApartments(@Param("start") LocalDate start, @Param("finish") LocalDate finish);
 
-   // @Query("select a from Apartment a where a.username = ?1")
+    @Query("select a from Apartment a where a.username = ?1 and a.status = 'ACTIVE'")
     List<Apartment> findAllByUsername(String username);
+
+    @Query("select a from Apartment a where a.id = ?1 and a.status = 'ACTIVE'")
+    Optional<Apartment> findWithActiveStatus(Long id);
+
+    @Query("select a from Apartment a where a.id = ?1 and a.username = ?2 and a.status = 'ACTIVE'")
+    Optional<Apartment> findByIdAndUsernameAndActiveStatus(Long id, String username);
 }

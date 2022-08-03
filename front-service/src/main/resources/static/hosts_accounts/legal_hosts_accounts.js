@@ -3,7 +3,7 @@ angular.module('new-booking-front').controller('legalHostsAccountController', fu
 
     $scope.loadLegalHostAccount = function () {
         $http({
-            url: 'http://localhost:5555/auth/api/v1/hosts_accounts/legal/' + $localStorage.springWebUser.username,
+            url: contextPath + '/legal',
             method: 'GET'
         }).then(function (response) {
             $scope.hostAccount = response.data;
