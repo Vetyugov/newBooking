@@ -36,9 +36,9 @@ public class User {
 //            joinColumns = @JoinColumn(name = "user_id"),
 //            inverseJoinColumns = @JoinColumn(name = "role_id"))
 //    private Collection<Role> roles;
-    @ManyToOne
-    @JoinColumn(name = "role_id", unique = true)
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role name;
 
     @CreationTimestamp
     @Column(name = "created_at")

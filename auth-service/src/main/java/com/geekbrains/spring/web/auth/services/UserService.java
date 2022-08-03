@@ -1,18 +1,14 @@
 package com.geekbrains.spring.web.auth.services;
 
 import com.geekbrains.spring.web.api.core.UserDto;
-import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.UserConverter;
 import com.geekbrains.spring.web.auth.entities.Role;
-import com.geekbrains.spring.web.auth.entities.RoleName;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.RoleRepository;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,7 +56,7 @@ public class UserService implements UserDetailsService {
         if (userDto.getId() != null) {
             User user = userRepository.getById(userDto.getId());
             user.setEmail(userDto.getEmail());
-            user.setRole(roleRepository.findByName(RoleName.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
+            user.setRole(roleRepository.findByName(Role.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
             userRepository.save(user);
             return;
         }
@@ -68,12 +64,12 @@ public class UserService implements UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        user.setRole(roleRepository.findByName(RoleName.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
+        user.setRole(roleRepository.findByName(Role.valueOf(userDto.getRoleName())).orElseThrow(()-> new ResourceNotFoundException("Error такой роли не существует")));
         userRepository.save(user);
-        if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_LEGAL_HOST) || RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_INDIVIDUAL_HOST)) {
+        if (Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_LEGAL_HOST) || Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_INDIVIDUAL_HOST)) {
             hostService.createNewHost(userDto, user);
         }
-        if (RoleName.valueOf(userDto.getRoleName()).equals(RoleName.ROLE_GUEST)) {
+        if (Role.valueOf(userDto.getRoleName()).equals(Role.ROLE_GUEST)) {
             guestService.createNewGuest(userDto, user);
         }
         return;
