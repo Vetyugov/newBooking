@@ -8,6 +8,7 @@ import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
+import com.geekbrains.spring.web.core.services.BookingDatesService;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
 import com.geekbrains.spring.web.core.validators.OrderValidator;
@@ -40,6 +41,7 @@ public class OrdersController {
     private final ApartmentsService apartmentsService;
     private final OrderValidator orderValidator;
     private final OrderStatusService orderStatusService;
+    private final BookingDatesService bookingDatesService;
 
 
     @Operation(
@@ -62,7 +64,7 @@ public class OrdersController {
                 .build();
         log.info("bookingApartmentDto = " + bookingApartmentDto);
         try {
-            apartmentsService.createDateOfBooking(bookingApartmentDto);
+            bookingDatesService.createDateOfBooking(bookingApartmentDto);
         }catch (ResourceNotFoundException e){
             throw new OrderIsNotCreatedException("This dates are invalid." + e.getMessage());
         }
