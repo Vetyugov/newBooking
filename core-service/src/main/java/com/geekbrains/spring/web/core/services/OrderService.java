@@ -3,6 +3,7 @@ package com.geekbrains.spring.web.core.services;
 import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.core.entities.Order;
+import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.integrations.BookingServiceIntegration;
 import com.geekbrains.spring.web.core.repositories.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class OrderService {
         Order order = Order.builder()
                 .username(orderDto.getUsername())
                 .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())
-                .apartmentCheckIn(orderDto.getBookingStartDate())
-                .apartmentCheckOut(orderDto.getBookingFinishDate())
+                .bookingStartDate(orderDto.getBookingStartDate())
+                .bookingFinishDate(orderDto.getBookingFinishDate())
                 .price(orderDto.getPricePerNight())
                 .totalPrice(orderDto.getPricePerOrder())
                 .status(orderStatusService.findByDesc("awaiting payment").get())
@@ -43,8 +44,8 @@ public class OrderService {
                 .id(orderDto.getId())
                 .username(orderDto.getUsername())
                 .apartment(apartmentsService.findById(orderDto.getApartmentId()).get())
-                .apartmentCheckIn(orderDto.getBookingStartDate())
-                .apartmentCheckOut(orderDto.getBookingFinishDate())
+                .bookingStartDate(orderDto.getBookingStartDate())
+                .bookingFinishDate(orderDto.getBookingFinishDate())
                 .price(orderDto.getPricePerNight())
                 .totalPrice(orderDto.getPricePerOrder())
                 .status(orderStatusService.findById(orderDto.getStatus().getId()).get())
@@ -75,7 +76,8 @@ public class OrderService {
 
     public Order setStatusToOrder(Long id, String status){
         Order order = ordersRepository.getById(id);
-        order.setStatus(orderStatusService.findByDesc(status).get());
+        Optional<OrderStatus> optionalStatus = orderStatusService.findByDesc(status);
+        optionalStatus.ifPresent(order::setStatus);
          return ordersRepository.saveAndFlush(order);
     }
 }

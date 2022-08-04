@@ -6,6 +6,7 @@ import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.core.converters.OrderStatusConverter;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
+import com.geekbrains.spring.web.core.exceptions.BookingDatesIsNotDeletedException;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.services.BookingDatesService;
@@ -59,8 +60,8 @@ public class OrdersController {
         BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
         BookingApartmentDtoRq bookingApartmentDto =  builder
                 .id(orderCreateRq.getApartmentId())
-                .bookingStartDate(orderCreateRq.getBookingStartDate().toString())
-                .bookingFinishDate(orderCreateRq.getBookingFinishDate().toString())
+                .bookingStartDate(orderCreateRq.getBookingStartDate())
+                .bookingFinishDate(orderCreateRq.getBookingFinishDate())
                 .build();
         log.info("bookingApartmentDto = " + bookingApartmentDto);
         try {
@@ -79,10 +80,21 @@ public class OrdersController {
 
     }
     @GetMapping("/cancel/{orderId}")
-    public ResponseEntity<OrderDtoInfo> cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
+    public ResponseEntity<OrderDtoInfo> cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws BookingDatesIsNotDeletedException {
         log.info("Запрос на отмену заказа " + orderId);
         Order order = orderService.setStatusToOrder(orderId, "canceled");
-        //TODO Попросить сервис апартаментов снять даты бронирования
+        BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
+        BookingApartmentDtoRq bookingApartmentDto =  builder
+                .id(order.getApartment().getId())
+                .bookingStartDate(order.getBookingStartDate())
+                .bookingFinishDate(order.getBookingFinishDate())
+                .build();
+        try{
+            bookingDatesService.delete(bookingApartmentDto);
+        } catch (ResourceNotFoundException e){
+            log.error("Не удалось удалить даты бронирования для " + bookingApartmentDto , e);
+            throw new BookingDatesIsNotDeletedException("Не удалось удалить даты бронирования для " + bookingApartmentDto);
+        }
         return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
     }
 
