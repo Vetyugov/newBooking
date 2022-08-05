@@ -1,12 +1,16 @@
 package com.geekbrains.spring.web.core.integrations;
 
 import com.geekbrains.spring.web.api.bookings.BookingDto;
+import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.exceptions.BookingServiceAppError;
 import com.geekbrains.spring.web.core.exceptions.BookingServiceIntegrationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -50,5 +54,15 @@ public class BookingServiceIntegration {
                 .bodyToMono(BookingDto.class)
                 .block();
         return booking;
+    }
+
+    public void recoveryBookingItem(OrderCreateDtoRq orderDto) {
+        log.debug("recoveryBookingItem " + orderDto);
+        bookingServiceWebClient.post()
+                .uri("/api/v1/booking/recovery")
+                .bodyValue(orderDto) // for POST
+                .retrieve()
+                .bodyToMono(ResponseEntity.class)
+                .block();
     }
 }

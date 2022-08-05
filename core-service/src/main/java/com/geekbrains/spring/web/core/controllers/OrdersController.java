@@ -64,6 +64,14 @@ public class OrdersController {
         }
         log.info("Создан новый заказ " + order);
     }
+    @Operation(
+            summary = "Запрос на отмену заказа",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200"
+                    )
+            }
+    )
     @GetMapping("/cancel/{orderId}")
     public OrderDtoInfo cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws BookingDatesIsNotDeletedException {
         log.info("Запрос на отмену заказа с id = " + orderId);

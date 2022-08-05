@@ -4,6 +4,7 @@ import com.geekbrains.spring.web.api.core.BookingApartmentDtoRq;
 import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
 import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.web.core.converters.OrderConverter;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
@@ -31,6 +32,7 @@ public class OrderService {
 
     /**
      * Метод создание заказа
+     *
      * @param orderCreateRq сущность запроса
      * @return заказ после сохранения в БД
      * @throws ResourceNotFoundException в случае, если не удалось создать даты бронирования
@@ -60,6 +62,7 @@ public class OrderService {
 
     /**
      * Обновить заказ
+     *
      * @param orderDto сущность для обновления заказа OrderUpdateRq
      * @return заказ, после обновления в БД
      */
@@ -96,6 +99,15 @@ public class OrderService {
                 .build();
         bookingDatesService.delete(bookingApartmentDto);
         log.debug("Сброшены даты бронирования для заказа " + order);
+        OrderCreateDtoRq orderCreateDtoRq = OrderCreateDtoRq.builder()
+                .username(order.getUsername())
+                .bookingStartDate(order.getBookingStartDate())
+                .bookingFinishDate(order.getBookingFinishDate())
+                .pricePerOrder(order.getTotalPrice())
+                .apartmentId(order.getApartment().getId())
+                .pricePerNight(order.getPrice()).build();
+        bookingServiceIntegration.recoveryBookingItem(orderCreateDtoRq);
+        log.debug("Восстановлен в booking сервисе заказ " + orderCreateDtoRq);
         setStatusToOrder(order, "canceled");
         log.debug("Установлен статус canceled для заказа " + order);
         return order;
@@ -120,24 +132,26 @@ public class OrderService {
      * @return заказ
      * @throws ResourceNotFoundException в случае, если заказ не удалось найти по id
      */
-    public Order confirmOrder(Long orderId) throws ResourceNotFoundException{
+    public Order confirmOrder(Long orderId) throws ResourceNotFoundException {
         Order order = findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти заказ с id " + orderId));
         return setStatusToOrder(order, "booked");
     }
 
     /**
      * Метод подтверждает проживание
+     *
      * @param orderId id заказа
      * @return заказ
-     * @throws ResourceNotFoundException  в случае, если заказ не удалось найти
+     * @throws ResourceNotFoundException в случае, если заказ не удалось найти
      */
-    public Order confirmStay(Long orderId) throws ResourceNotFoundException{
+    public Order confirmStay(Long orderId) throws ResourceNotFoundException {
         Order order = findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти заказ с id " + orderId));
         return setStatusToOrder(order, "completed");
     }
 
     /**
      * Поиск всех заказов арендатора по userName
+     *
      * @param username никнейм арендатора
      * @return список заказов арендатора
      */
@@ -147,6 +161,7 @@ public class OrderService {
 
     /**
      * Поиск всех активных заказов арендатора (статусы 'awaiting payment', 'paid', 'booked')
+     *
      * @param username никнейм арендатора
      * @return список активных заказов арендатора
      */
@@ -156,6 +171,7 @@ public class OrderService {
 
     /**
      * Поиск всех неактивных заказов арендатора (статусы 'canceled', 'completed')
+     *
      * @param username никнейм арендатора
      * @return список активных заказов арендатора
      */
@@ -165,6 +181,7 @@ public class OrderService {
 
     /**
      * Поиск всех заказов арендодателя
+     *
      * @param username никнейм арендодателя
      * @return списко всех заказов арендатора
      */
@@ -174,6 +191,7 @@ public class OrderService {
 
     /**
      * Найти заказ по id
+     *
      * @param id идентификатор заказа
      * @return заказ, который возможно был найден
      */
@@ -183,7 +201,8 @@ public class OrderService {
 
     /**
      * Устанавливает в БД статус заказа
-     * @param order заказ
+     *
+     * @param order  заказ
      * @param status название из БД статуса заказа
      * @return заказ, обновленный в БД
      */
