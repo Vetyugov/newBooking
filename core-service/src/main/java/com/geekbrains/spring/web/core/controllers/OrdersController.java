@@ -85,6 +85,14 @@ public class OrdersController {
         return orderConverter.entityToDtoInfo(order);
     }
 
+    @Operation(
+            summary = "Запрос на оплату заказа",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200"
+                    )
+            }
+    )
     @GetMapping("/pay/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<OrderDtoInfo> payOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
@@ -94,6 +102,14 @@ public class OrdersController {
         return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Запрос на подтверждение заказ хостом",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200"
+                    )
+            }
+    )
     @GetMapping("/confirmOrder/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public OrderDtoInfo confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
@@ -101,7 +117,14 @@ public class OrdersController {
         Order order = orderService.confirmOrder(orderId);
         return orderConverter.entityToDtoInfo(order);
     }
-
+    @Operation(
+            summary = "Запрос на подтверждение проживания арендатором",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200"
+                    )
+            }
+    )
     @GetMapping("/confirmStay/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public OrderDtoInfo confirmStay(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
