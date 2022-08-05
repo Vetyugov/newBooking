@@ -42,8 +42,6 @@ public class OrdersController {
     private final ApartmentsService apartmentsService;
     private final OrderValidator orderValidator;
     private final OrderStatusService orderStatusService;
-    private final BookingDatesService bookingDatesService;
-
 
     @Operation(
             summary = "Запрос на создание заказа",
@@ -54,69 +52,54 @@ public class OrdersController {
             }
     )
     @PostMapping
-    public ResponseEntity<OrderDtoInfo> createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
-        //Проверяем свободны ли даты
-        log.info("Создание заказа для " + orderCreateRq);
-        BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
-        BookingApartmentDtoRq bookingApartmentDto =  builder
-                .id(orderCreateRq.getApartmentId())
-                .bookingStartDate(orderCreateRq.getBookingStartDate())
-                .bookingFinishDate(orderCreateRq.getBookingFinishDate())
-                .build();
-        log.info("bookingApartmentDto = " + bookingApartmentDto);
-        try {
-            bookingDatesService.createDateOfBooking(bookingApartmentDto);
-        }catch (ResourceNotFoundException e){
-            throw new OrderIsNotCreatedException("This dates are invalid." + e.getMessage());
+    public void createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
+        log.debug("Заявка на создание заказа " + orderCreateRq);
+        Order order;
+        try{
+            //Создаем заказ
+            order = orderService.createOrder(orderCreateRq);
+        } catch (ResourceNotFoundException e){
+            log.error("Не удалось создать заказ " + orderCreateRq);
+            throw new OrderIsNotCreatedException("Не удалось создать заказ " + orderCreateRq);
         }
-        log.info("ура, создаем заказ");
-        //Создаем заказ
-        Order order = orderService.createOrder(orderCreateRq);
-        if(order == null){
-            throw new OrderIsNotCreatedException("Failed to create order " + orderCreateRq);
-        }else {
-            return new ResponseEntity<>(orderConverter.entityToDtoInfo(order), HttpStatus.CREATED);
-        }
-
+        log.info("Создан новый заказ " + order);
     }
     @GetMapping("/cancel/{orderId}")
-    public ResponseEntity<OrderDtoInfo> cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws BookingDatesIsNotDeletedException {
-        log.info("Запрос на отмену заказа " + orderId);
-        Order order = orderService.setStatusToOrder(orderId, "canceled");
-        BookingApartmentDtoRq.Builder builder = new BookingApartmentDtoRq.Builder();
-        BookingApartmentDtoRq bookingApartmentDto =  builder
-                .id(order.getApartment().getId())
-                .bookingStartDate(order.getBookingStartDate())
-                .bookingFinishDate(order.getBookingFinishDate())
-                .build();
+    public OrderDtoInfo cancelOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws BookingDatesIsNotDeletedException {
+        log.info("Запрос на отмену заказа с id = " + orderId);
+        Order order;
         try{
-            bookingDatesService.delete(bookingApartmentDto);
+             order = orderService.cancelOrder(orderId);
         } catch (ResourceNotFoundException e){
-            log.error("Не удалось удалить даты бронирования для " + bookingApartmentDto , e);
-            throw new BookingDatesIsNotDeletedException("Не удалось удалить даты бронирования для " + bookingApartmentDto);
+            log.error("Не удалось удалить даты бронирования для заказа с id = " + orderId , e);
+            throw new BookingDatesIsNotDeletedException("Не удалось удалить даты бронирования для заказа с id = " + orderId);
         }
-        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+        return orderConverter.entityToDtoInfo(order);
     }
 
     @GetMapping("/pay/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<OrderDtoInfo> payOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
-        Order order = orderService.setStatusToOrder(orderId, "paid");
+    public ResponseEntity<OrderDtoInfo> payOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
+        log.info("Запрос на оплату заказа по id = " + orderId);
+        Order order = orderService.payOrder(orderId);
+        log.debug("Оплачен заказ " + order);
         return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
     }
 
     @GetMapping("/confirmOrder/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<OrderDtoInfo> confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
-        Order order = orderService.setStatusToOrder(orderId, "booked");
-        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+    public OrderDtoInfo confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
+        log.info("Запрос на подтверждение заказа по id = " + orderId);
+        Order order = orderService.confirmOrder(orderId);
+        return orderConverter.entityToDtoInfo(order);
     }
 
     @GetMapping("/confirmStay/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<OrderDtoInfo> confirmStay(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) {
-        Order order = orderService.setStatusToOrder(orderId, "completed");
-        return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
+    public OrderDtoInfo confirmStay(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
+        log.info("Запрос на подтверждение проживания по id заказа = " + orderId);
+        Order order = orderService.confirmStay(orderId);
+        return orderConverter.entityToDtoInfo(order);
     }
 
     @Operation(
