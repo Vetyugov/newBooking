@@ -24,6 +24,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<AppError> catchOrderIsNotCreatedException(OrderIsNotCreatedException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError("ORDER IS NOT CREATED",  e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler
     public ResponseEntity<FieldsValidationError> catchValidationException(ValidationException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new FieldsValidationError(e.getErrorFieldsMessages()), HttpStatus.BAD_REQUEST);

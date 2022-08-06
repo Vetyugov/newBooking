@@ -9,7 +9,6 @@ import com.geekbrains.spring.web.core.entities.OrderStatus;
 import com.geekbrains.spring.web.core.exceptions.BookingDatesIsNotDeletedException;
 import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
-import com.geekbrains.spring.web.core.services.BookingDatesService;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.OrderStatusService;
 import com.geekbrains.spring.web.core.validators.OrderValidator;
@@ -59,8 +58,8 @@ public class OrdersController {
             //Создаем заказ
             order = orderService.createOrder(orderCreateRq);
         } catch (ResourceNotFoundException e){
-            log.error("Не удалось создать заказ " + orderCreateRq);
-            throw new OrderIsNotCreatedException("Не удалось создать заказ " + orderCreateRq);
+            log.error("Не удалось создать заказ " + e.getLocalizedMessage(), e);
+            throw new OrderIsNotCreatedException(e.getLocalizedMessage());
         }
         log.info("Создан новый заказ " + order);
     }
