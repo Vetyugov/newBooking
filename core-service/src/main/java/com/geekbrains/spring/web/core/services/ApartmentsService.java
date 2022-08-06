@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ import java.util.Optional;
 public class ApartmentsService {
     private final ApartmentsRepository apartmentsRepository;
 
-    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, String startDate, String finishDate, Integer page) {
+    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, LocalDateTime startDate, LocalDateTime finishDate, Integer page) {
         Specification<Apartment> spec = Specification.where(null);
         spec = spec.and(ApartmentsSpecifications.statusEqual());
 
@@ -59,18 +60,14 @@ public class ApartmentsService {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
         if (startDate != null & finishDate != null) {
-            String[] start = startDate.split("T", 2);
-            String[] finish = finishDate.split("T", 2);
-            spec = spec.and(ApartmentsSpecifications.freeBookingDates(start[0], finish[0]));
+            spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
         }
-
-
         return apartmentsRepository.findAll(spec, PageRequest.of(page - 1, 8));
     }
 
-    public List<Apartment> findAllTest(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, String startDate, String finishDate) {
-
+    public List<Apartment> findAllTest(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, LocalDateTime startDate, LocalDateTime finishDate) {
         Specification<Apartment> spec = Specification.where(null);
+        spec = spec.and(ApartmentsSpecifications.statusEqual());
         if (cityPart != null) {
             spec = spec.and(ApartmentsSpecifications.cityLike(cityPart));
         }
@@ -102,9 +99,7 @@ public class ApartmentsService {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
         if (startDate != null & finishDate != null) {
-            String[] start = startDate.split("T", 2);
-            String[] finish = finishDate.split("T", 2);
-            spec = spec.and(ApartmentsSpecifications.freeBookingDates(start[0], finish[0]));
+            spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
         }
         return apartmentsRepository.findAll(spec);
     }
@@ -114,32 +109,46 @@ public class ApartmentsService {
     }
 
     public Apartment save(Apartment apartment) {
+        apartment.setStatus(ApartmentStatus.ACTIVE);
         return apartmentsRepository.save(apartment);
     }
 
     public Apartment findByIdWithActiveStatus(Long id) throws ResourceNotFoundException {
-        return apartmentsRepository.findWithActiveStatus(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Данные апартаменты: %s недоступны для бронирования!", id)));
+        return apartmentsRepository.findWithActiveStatus(id, ApartmentStatus.ACTIVE).orElseThrow(() -> new ResourceNotFoundException(String.format("Данные апартаменты: %s недоступны для бронирования!", id)));
     }
 
-    public List<Apartment> findApartmentsByUsername(String username) {
-        return apartmentsRepository.findAllByUsername(username);
+    public List<Apartment> findActiveApartmentsByUsername(String username) {
+        return apartmentsRepository.findAllByUsernameAndStatus(username, ApartmentStatus.ACTIVE);
     }
 
-    /**
-     * Метод условного удаления апартамента (перевод в статус "NOT ACTIVE")
-     * @param id
-     */
+    public List<Apartment> findInactiveApartmentsByUsername(String username) {
+        return apartmentsRepository.findAllByUsernameAndStatus(username, ApartmentStatus.NOT_ACTIVE);
+    }
 
     @Transactional
     public void deactivateById(Long id, String username) throws ResourceIsForbiddenException {
-        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndActiveStatus(id, username)
+        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(id, username, ApartmentStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", username)));
         apartment.setStatus(ApartmentStatus.NOT_ACTIVE);
     }
 
     @Transactional
+    public void activateById(Long id, String username) throws ResourceIsForbiddenException {
+        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(id, username, ApartmentStatus.NOT_ACTIVE)
+                .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", username)));
+        apartment.setStatus(ApartmentStatus.ACTIVE);
+    }
+
+    @Transactional
+    public void deleteById(Long id, String username) throws ResourceIsForbiddenException {
+        Apartment apartment = apartmentsRepository.findByIdAndUsername(id, username)
+                .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", username)));
+        apartment.setStatus(ApartmentStatus.DELETED);
+    }
+
+    @Transactional
     public Apartment update(ApartmentDto apartmentDto) throws ResourceIsForbiddenException {
-        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndActiveStatus(apartmentDto.getId(), apartmentDto.getUsername())
+        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(apartmentDto.getId(), apartmentDto.getUsername(), ApartmentStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", apartmentDto.getUsername())));
         if (apartmentDto.getTitle() != null) {
             apartment.setTitle(apartmentDto.getTitle());

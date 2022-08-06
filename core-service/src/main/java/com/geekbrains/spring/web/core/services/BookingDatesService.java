@@ -49,7 +49,7 @@ public class BookingDatesService {
     public void delete(BookingApartmentDtoRq bookingApartmentDtoRq) throws ResourceNotFoundException {
         log.info("Удаление дней заказа " + bookingApartmentDtoRq);
         bookingDatesRepository.delete(
-                bookingDatesRepository.findBookingDateByApartmentAndStartDateAndFinishDate(
+                bookingDatesRepository.findBookingDateByApartmentIdAndStartDateAndFinishDate(
                         bookingApartmentDtoRq.getId(),
                         bookingApartmentDtoRq.getBookingStartDate(),
                         bookingApartmentDtoRq.getBookingFinishDate()).orElseThrow(() -> new ResourceNotFoundException("BookingDates not found, apartmentId: " + bookingApartmentDtoRq.getId())));

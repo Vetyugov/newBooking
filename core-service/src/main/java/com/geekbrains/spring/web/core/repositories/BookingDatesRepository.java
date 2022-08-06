@@ -15,6 +15,5 @@ public interface BookingDatesRepository extends JpaRepository<BookingDate, Long>
     @Query("select (count(d) > 0) from BookingDate d where d.apartment.id = :apartmentId and (d.startDate < :finish and d.finishDate > :start)")
     Boolean existsBookingDates(@Param("apartmentId") Long apartmentId, @Param("start") LocalDate start, @Param("finish") LocalDate finish);
 
-    //   @Query("select d from BookingDate d where d.apartment.id = :apartmentId and (d.startDate = :start and d.finishDate = :finish) ")
-    Optional<BookingDate> findBookingDateByApartmentAndStartDateAndFinishDate(@Param("apartmentId") Long apartmentId, @Param("start") LocalDate start, @Param("finish") LocalDate finish);
+    Optional<BookingDate> findBookingDateByApartmentIdAndStartDateAndFinishDate(@Param("apartmentId") Long apartmentId, @Param("start") LocalDate start, @Param("finish") LocalDate finish);
 }
