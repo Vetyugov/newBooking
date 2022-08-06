@@ -105,10 +105,10 @@ public class OrdersController {
     )
     @GetMapping("/confirmOrder/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderDtoInfo confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
+    public ResponseEntity<OrderDtoInfo> confirmOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
         log.info("Запрос на подтверждение заказа по id = " + orderId);
         Order order = orderService.confirmOrder(orderId);
-        return orderConverter.entityToDtoInfo(order);
+        return new ResponseEntity<>(orderConverter.entityToDtoInfo(order), HttpStatus.CREATED);
     }
     @Operation(
             summary = "Запрос на подтверждение проживания арендатором",

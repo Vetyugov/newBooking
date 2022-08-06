@@ -2,10 +2,12 @@ package com.geekbrains.spring.web.booking.services;
 
 import com.geekbrains.spring.web.api.bookings.BookingDto;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
+import com.geekbrains.spring.web.api.core.OrderDtoInfo;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 
 
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
+import com.geekbrains.spring.web.booking.exceptions.BookingsBrokenException;
 import com.geekbrains.spring.web.booking.models.Booking;
 import com.geekbrains.spring.web.booking.models.CoreServiceIntegration;
 import lombok.RequiredArgsConstructor;
@@ -67,11 +69,16 @@ public class BookingService {
 
     public BookingDto chooseItemFromBooking(String bookingKey, String username, Long itemId) {
         log.info("Пытаемся создать заказ");
-        ResponseEntity checked = coreServiceIntegration.checkOrder(
-                        bookingConverter.itemToOrderDto(username,getCurrentBooking(bookingKey).getItem(itemId))
-                ).orElseThrow(() -> new ResourceNotFoundException("Невозможно оформить заказ. Апартаменты на выбранные даты бронирования заняты!"));
-        log.info("вернулся ответ " + checked);
-        if(checked.getStatusCode() == HttpStatus.CREATED) execute(bookingKey, c -> c.remove(itemId)); // Если заказ прошёл, то удаляем апартаменты из списка бронирования
+        try{
+            OrderDtoInfo checked = coreServiceIntegration.checkOrder(
+                    bookingConverter.itemToOrderDto(username,getCurrentBooking(bookingKey).getItem(itemId))
+            );
+            log.info("вернулся ответ " + checked);
+            if(checked != null) execute(bookingKey, c -> c.remove(itemId)); // Если заказ прошёл, то удаляем апартаменты из списка бронирования
+        } catch (BookingsBrokenException e ){
+            log.error("Не удалось создать заказ. Ошибка: " + e.getLocalizedMessage());
+        }
+
         return bookingConverter.modelToDto(getCurrentBooking(bookingKey)); // Возвращаем обновлённый список бронирования
     }
 
