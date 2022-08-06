@@ -10,20 +10,20 @@ angular.module('new-booking-front').controller('legalHostsAccountController', fu
         });
     };
 
+    $scope.transferToMyApartmentsPage  = function() {
+                $location.path('/my_apartments_page');
+    };
+
+    $scope.transferToPageForAddNewApartment = function() {
+                $location.path('/add_new_apartment');
+    };
+
     $scope.tryToUpdateLegalHostAccount = function() {
-        $http.post(contextPath + 'legal/', $scope.updateLegalHostAccount)
-            if ($scope.updateLegalHostAccount.name == null || $scope.updateLegalHostAccount.surname == null || $scope.updateLegalHostAccount.patronymic == null
-            ||  $scope.updateLegalHostAccount.titleFirm == null || $scope.updateLegalHostAccount.country == null || $scope.updateLegalHostAccount.address == null
-            || $scope.updateLegalHostAccount.postcode == null || $scope.updateLegalHostAccount.inn == null || $scope.updateLegalHostAccount.account == null ) {
-                alert("Заполните все поля ввода!");
-            }
-            if ($scope.updateLegalHostAccount.name != null && $scope.updateLegalHostAccount.surname != null && $scope.updateLegalHostAccount.patronymic != null
-            && $scope.updateLegalHostAccount.titleFirm != null  &&  $scope.updateLegalHostAccount.country != null && $scope.updateLegalHostAccount.address != null
-            && $scope.updateLegalHostAccount.postcode != null && $scope.updateLegalHostAccount.inn != null && $scope.updateLegalHostAccount.account != null ) {
+        $http.put(contextPath + 'legal/', $scope.updateLegalHostAccount)
                 $scope.updateLegalHostAccount = null;
                 alert('Success! Данные обновлены');
                 $route.reload();
-            }
+                $route.reload();
     };
 
 

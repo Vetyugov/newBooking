@@ -7,16 +7,16 @@
         <div class="col-6 col-md-2">
             <form novalidate ng-submit="loadApartments()">
                 <div class="form-floating input-group-sm">
-                    <input required="required" type="text" name="city" class="form-control" id="filterCity" placeholder="Город" ng-model="filter.city_part">
+                    <input type="text" name="city" required class="form-control" id="filterCity" placeholder="Город" ng-model="filter.city_part">
                     <label for="filterCity" >Город</label>
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <input required="required" type="date" name="startDate"  class="form-control" id="filterStartDate" placeholder="" ng-model="filter.start_date">
+                    <input type="date" name="startDate" required class="form-control" id="filterStartDate" placeholder="" ng-model="filter.start_date">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <input required="required" type="date" name="finishDate"  class="form-control" id="filterFinishDate" placeholder="" ng-model="filter.finish_date">
+                    <input  type="date" name="finishDate" required class="form-control" id="filterFinishDate" placeholder="" ng-model="filter.finish_date">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">

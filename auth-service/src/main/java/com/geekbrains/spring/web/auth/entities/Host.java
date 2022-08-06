@@ -59,12 +59,6 @@ public class Host {
     @Column(name = "account")
     private String account;
 
-//    @ManyToMany
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Collection<Role> roles;
-
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

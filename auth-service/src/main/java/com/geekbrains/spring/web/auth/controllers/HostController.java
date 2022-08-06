@@ -39,7 +39,9 @@ public class HostController {
             }
     )
     public LegalHostDto getLegalHostByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
+        log.info("ищем юрлицо по имени " + username);
         Host host = hostService.findByUsername(username);
+        log.info("нашли физ лицо " + host);
         return hostConverter.entityToLegalHostDto(host);
     }
 
@@ -54,7 +56,9 @@ public class HostController {
             }
     )
     public IndividualHostDto getIndividualHostByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
+        log.info("ищем физ лицо по имени " + username);
         Host host = hostService.findByUsername(username);
+        log.info("нашли физ лицо " + host);
         return hostConverter.entityToIndividualHostDto(host);
     }
 
@@ -65,7 +69,7 @@ public class HostController {
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping("/legal/")
+    @PutMapping("/legal/")
     public ResponseEntity<?> updateLegalHost(@Valid @RequestBody LegalHostDto legalHostDto) {
         log.info("получен " + legalHostDto.getId());
         hostService.updateLegalHost(legalHostDto);
@@ -79,7 +83,7 @@ public class HostController {
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping("/individual/")
+    @PutMapping("/individual/")
     public ResponseEntity<?> updateIndividualHost(@Valid @RequestBody IndividualHostDto individualHostDto) {
         log.info("получен " + individualHostDto.getId());
         hostService.updateIndividualHost(individualHostDto);

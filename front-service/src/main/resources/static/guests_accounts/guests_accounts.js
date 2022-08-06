@@ -11,15 +11,11 @@ angular.module('new-booking-front').controller('guestsAccountController', functi
     };
 
     $scope.tryToUpdateGuestAccount = function() {
-        $http.post(contextPath, $scope.updateGuestAccount)
-            if ($scope.updateGuestAccount.name == null || $scope.updateGuestAccount.surname == null || $scope.updateGuestAccount.patronymic == null) {
-                alert("Заполните все поля ввода!");
-            }
-            if ($scope.updateGuestAccount.name != null && $scope.updateGuestAccount.surname != null && $scope.updateGuestAccount.patronymic != null) {
-                 $scope.updateHostAccount = null;
+        $http.put(contextPath, $scope.updateGuestAccount)
+                 $scope.updateGuestAccount = null;
                  alert('Success! Данные обновлены');
                  $route.reload();
-            }
+                 $route.reload();
     };
 
 
