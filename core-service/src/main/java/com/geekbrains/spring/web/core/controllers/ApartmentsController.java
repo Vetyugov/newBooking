@@ -54,8 +54,8 @@ public class ApartmentsController {
             @RequestParam(name = "number_of_beds", required = false) @Parameter(description = "Количество спальных мест") Integer numberOfBeds,
             @RequestParam(name = "title_part", required = false) @Parameter(description = "Часть названия апартамента") String titlePart,
             @RequestParam(name = "category_part", required = false) @Parameter(description = "Часть названия категории") String categoryPart,
-            @RequestParam(name = "start_date", required = false) @Parameter(description = "Дата начала бронирования") LocalDateTime startDate,
-            @RequestParam(name = "finish_date", required = false) @Parameter(description = "Дата конца бронирования") LocalDateTime finishDate
+            @RequestParam(name = "start_date", required = false) @Parameter(description = "Дата начала бронирования") String startDate,
+            @RequestParam(name = "finish_date", required = false) @Parameter(description = "Дата конца бронирования") String finishDate
     ) {
         log.info("Запрос на получение списка апартаментов");
         if (page < 1) {

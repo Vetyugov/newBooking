@@ -6,6 +6,7 @@ import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderStatus;
+import com.geekbrains.spring.web.core.exceptions.OrderIsNotCreatedException;
 import com.geekbrains.spring.web.core.integrations.BookingServiceIntegration;
 import com.geekbrains.spring.web.core.repositories.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class OrderService {
      * @throws ResourceNotFoundException в случае, если не удалось создать даты бронирования
      */
     @Transactional
-    public Order createOrder(OrderCreateDtoRq orderCreateRq) throws ResourceNotFoundException {
+    public Order createOrder(OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException {
         Order order = Order.builder()
                 .username(orderCreateRq.getUsername())
                 .apartment(apartmentsService.findById(orderCreateRq.getApartmentId()).get())
@@ -53,7 +54,13 @@ public class OrderService {
                 .bookingStartDate(order.getBookingStartDate())
                 .bookingFinishDate(order.getBookingFinishDate())
                 .build();
-        bookingDatesService.createDateOfBooking(bookingApartmentDto);
+        try{
+            bookingDatesService.createDateOfBooking(bookingApartmentDto);
+        }
+        catch (ResourceNotFoundException e ) {
+            throw new OrderIsNotCreatedException("Заказ не создан по причине: " + e.getMessage());
+        }
+
         log.debug("Даты забронированы для " + bookingApartmentDto);
         return ordersRepository.save(order);
     }

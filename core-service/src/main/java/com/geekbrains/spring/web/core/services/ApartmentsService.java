@@ -15,7 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,10 @@ import java.util.Optional;
 public class ApartmentsService {
     private final ApartmentsRepository apartmentsRepository;
 
-    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, LocalDateTime startDate, LocalDateTime finishDate, Integer page) {
+    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters,
+                                   Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms,
+                                   Integer numberOfBeds, String titlePart, String categoryPart,
+                                   String startDate, String finishDate, Integer page) {
         Specification<Apartment> spec = Specification.where(null);
         spec = spec.and(ApartmentsSpecifications.statusEqual());
 
@@ -60,7 +65,10 @@ public class ApartmentsService {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
         if (startDate != null & finishDate != null) {
-            spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
+            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate start = LocalDate.parse(startDate.substring(0, startDate.indexOf("T")), pattern);
+            LocalDate finish = LocalDate.parse(finishDate.substring(0, finishDate.indexOf("T")), pattern);
+            spec = spec.and(ApartmentsSpecifications.freeBookingDates(start, finish));
         }
         return apartmentsRepository.findAll(spec, PageRequest.of(page - 1, 8));
     }
@@ -99,7 +107,7 @@ public class ApartmentsService {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
         if (startDate != null & finishDate != null) {
-            spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
+           // spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
         }
         return apartmentsRepository.findAll(spec);
     }

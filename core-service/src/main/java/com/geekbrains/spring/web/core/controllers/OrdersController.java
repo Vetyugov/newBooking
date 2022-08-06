@@ -51,17 +51,11 @@ public class OrdersController {
             }
     )
     @PostMapping
-    public void createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) throws OrderIsNotCreatedException{
+    public OrderDtoInfo createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) {
         log.debug("Заявка на создание заказа " + orderCreateRq);
-        Order order;
-        try{
-            //Создаем заказ
-            order = orderService.createOrder(orderCreateRq);
-        } catch (ResourceNotFoundException e){
-            log.error("Не удалось создать заказ " + e.getLocalizedMessage(), e);
-            throw new OrderIsNotCreatedException(e.getLocalizedMessage());
-        }
+        Order order = orderService.createOrder(orderCreateRq);
         log.info("Создан новый заказ " + order);
+        return orderConverter.entityToDtoInfo(order);
     }
     @Operation(
             summary = "Запрос на отмену заказа",

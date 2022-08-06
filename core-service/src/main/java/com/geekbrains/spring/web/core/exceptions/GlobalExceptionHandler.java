@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<AppError> catchOrderIsNotCreatedException(OrderIsNotCreatedException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new AppError("ORDER IS NOT CREATED",  e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new AppError("ORDER_IS_NOT_CREATED",  e.getMessage()), HttpStatus.CONFLICT);
     }
 
 
