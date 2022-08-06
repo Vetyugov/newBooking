@@ -46,17 +46,32 @@ public class  HostService {
         if (legalHostDto.getId() != null && hostRepository.existsById(legalHostDto.getId())) {
             log.info("нашел " + legalHostDto.getId());
             Host host = hostRepository.getById(legalHostDto.getId());
-            host.setSurname(legalHostDto.getSurname());
-            host.setName(legalHostDto.getName());
-            host.setPatronymic(legalHostDto.getPatronymic());
-            host.setInn(legalHostDto.getInn());
-            host.setCountry(legalHostDto.getCountry());
-            host.setOfficeAddress(legalHostDto.getOfficeAddress());
-            host.setPostcode(legalHostDto.getPostcode());
-            host.setAccount(legalHostDto.getAccount());
+            if (legalHostDto.getSurname() != null) {
+                host.setSurname(legalHostDto.getSurname());
+            }
+            if (legalHostDto.getName() != null) {
+                host.setName(legalHostDto.getName());
+            }
+            if (legalHostDto.getPatronymic() != null) {
+                host.setPatronymic(legalHostDto.getPatronymic());
+            }
+            if (legalHostDto.getInn() != null) {
+                host.setInn(legalHostDto.getInn());
+            }
+            if (legalHostDto.getCountry() != null) {
+                host.setCountry(legalHostDto.getCountry());
+            }
+            if (legalHostDto.getOfficeAddress() != null) {
+                host.setOfficeAddress(legalHostDto.getOfficeAddress());
+            }
+            if (legalHostDto.getPostcode() != null) {
+                host.setPostcode(legalHostDto.getPostcode());
+            }
+            if (legalHostDto.getAccount() != null) {
+                host.setAccount(legalHostDto.getAccount());
+            }
             hostRepository.save(host);
             log.info("сохранен " + host );
-            return;
         }
     }
 
@@ -65,16 +80,29 @@ public class  HostService {
         if (individualHostDto.getId() != null && hostRepository.existsById(individualHostDto.getId())) {
             log.info("нашел " + individualHostDto.getId());
             Host host = hostRepository.getById(individualHostDto.getId());
-            host.setSurname(individualHostDto.getSurname());
-            host.setName(individualHostDto.getName());
-            host.setPatronymic(individualHostDto.getPatronymic());
-            host.setCountry(individualHostDto.getCountry());
-            host.setAddress(individualHostDto.getAddress());
-            host.setPostcode(individualHostDto.getPostcode());
-            host.setAccount(individualHostDto.getAccount());
+            if (individualHostDto.getSurname() != null) {
+                host.setSurname(individualHostDto.getSurname());
+            }
+            if (individualHostDto.getName() != null) {
+                host.setName(individualHostDto.getName());
+            }
+            if (individualHostDto.getPatronymic() != null) {
+                host.setPatronymic(individualHostDto.getPatronymic());
+            }
+            if (individualHostDto.getCountry() != null) {
+                host.setCountry(individualHostDto.getCountry());
+            }
+            if (individualHostDto.getAddress() != null) {
+                host.setAddress(individualHostDto.getAddress());
+            }
+            if (individualHostDto.getPostcode() != null) {
+                host.setPostcode(individualHostDto.getPostcode());
+            }
+            if (individualHostDto.getSurname() != null) {
+                host.setAccount(individualHostDto.getAccount());
+            }
             hostRepository.save(host);
             log.info("сохранен " + host );
-            return;
         }
     }
 }

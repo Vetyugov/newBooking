@@ -17,6 +17,7 @@
                 <td>Количество спальных мест</td>
                 <td>Цена за ночь</td>
                 <td>Логин</td>
+                <td>Изменить</td>
             </tr>
             <tbody>
             <tr ng-repeat="apartment in myApartments">
@@ -32,76 +33,9 @@
                 <td>{{apartment.numberOfBeds}}</td>
                 <td>{{apartment.pricePerNight}}</td>
                 <td>{{apartment.username}}</td>
+                <td><button class="btn btn-success" style="width: 100%;" ng-click="transferToUpdate(apartment.id)">Изменить</button></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<form name="openForm()" novalidate>
-                    <div class="form-floating input-group-sm">
-                        <input type="text" class="form-control" id="id" ng-model="update_apartment.id" ng-model-options="{ getterSetter: true }">
-                        <label for="id">Id</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="text" class="form-control" id="title" placeholder="" ng-model="update_apartment.title">
-                        <label for="title">Название ваших апартаментов</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <select class="form-select form-select-lg" type="text" id="category"  ng-model="update_apartment.category"
-                                aria-label=".form-select-lg example">
-                            <option selected>Выберите один вариант:</option>
-                            <option value="Квартира">Квартира</option>
-                            <option value="Апартаменты">Апартаменты</option>
-                        </select>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="text" class="form-control" id="addressDto.city" placeholder="" ng-model="update_apartment.addressDto.city">
-                        <label for="addressDto.city">Город</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="text" class="form-control" id="addressDto.street" placeholder="" ng-model="update_apartment.addressDto.street">
-                        <label for="addressDto.street">Улица</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="addressDto.buildingNumber" placeholder="" ng-model="update_apartment.addressDto.buildingNumber">
-                        <label for="addressDto.buildingNumber">Номер дома</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="squareMeters" placeholder="" ng-model="update_apartment.squareMeters">
-                        <label for="squareMeters">Размер в кв. метрах</label>
-                    </div>
-                    <p></p>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="numberOfGuests" placeholder="" ng-model="update_apartment.numberOfGuests">
-                        <label for="numberOfGuests">Макс. кол-во гостей</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="numberOfRooms" placeholder="" ng-model="update_apartment.numberOfRooms">
-                        <label for="numberOfRooms">Кол-во комнат</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="numberOfBeds" placeholder="" ng-model="update_apartment.numberOfBeds">
-                        <label for="numberOfBeds">Кол-во спальных мест</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input type="number" class="form-control" id="pricePerNight" placeholder="" ng-model="update_apartment.pricePerNight">
-                        <label for="pricePerNight">Цена за одну ночь</label>
-                    </div>
-                    <p></p>
-                    <div class="form-floating input-group-sm">
-                        <input readonly type="text" class="form-control" id="username" ng-model="update_apartment.username = hostAccount.username" ng-model-options="{ getterSetter: true }">
-                        <label for="username">Логин</label>
-                    </div>
-    <td><button class="btn btn-outline-secondary btn-sm" style="width: 100%;" ng-click="tryToUpdateApartment()">Изменить</button></td>
-</form>

@@ -54,6 +54,10 @@
                 templateUrl: 'hosts_accounts/my_apartments_page.html',
                 controller: 'myApartmentController'
             })
+            .when('/update_my_apartment_page', {
+                templateUrl: 'hosts_accounts/update_my_apartment_page.html',
+                controller: 'updateMyApartmentController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

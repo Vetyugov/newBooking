@@ -31,14 +31,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    @ManyToMany
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Collection<Role> roles;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role name;
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "created_at")

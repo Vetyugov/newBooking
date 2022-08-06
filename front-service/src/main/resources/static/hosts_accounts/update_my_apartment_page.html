@@ -1,0 +1,105 @@
+<div class="col-sm-6 col-md-10">
+        <table class="table table-hover">
+            <tr>
+                <td>ID:      </td>
+                <td>{{apartment.id}}</td>
+                <td>
+                    <input readonly type="hidden" id="apartmentId" class="form-control" ng-model="update_apartment.id = apartment.id"  ng-model-options="{ getterSetter: true }"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Логин:   </td>
+                <td>{{apartment.username}}</td>
+                <td>
+                    <input readonly type="hidden" class="form-control" id="apartmentUsername" ng-model="update_apartment.username = apartment.username" ng-model-options="{ getterSetter: true }"
+                    aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Название ваших апартаментов:  </td>
+                <td>{{apartment.title}}</td>
+                <td>
+                    <input id="apartmentUpdateTitle" class="form-control" ng-model="update_apartment.title" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Категория:      </td>
+                <td>{{apartment.category}}</td>
+                <td>
+                    <select id="apartmentUpdateCategory" class="form-control" ng-model="update_apartment.category"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                        <option selected>Выберите один из двух вариантов:</option>
+                        <option value="Квартира">Квартира</option>
+                        <option value="Апартаменты">Апартаменты</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Город: </td>
+                <td>{{apartment.addressDto.city}}</td>
+                <td>
+                    <input id="apartmentUpdateCity" class="form-control" ng-model="update_apartment.addressDto.city" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Улица: </td>
+                <td>{{apartment.addressDto.street}}</td>
+                <td>
+                    <input id="apartmentUpdateStreet" class="form-control" ng-model="update_apartment.addressDto.street" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Номер дома:    </td>
+                <td>{{apartment.addressDto.buildingNumber}}      </td>
+                <td>
+                    <input id="apartmentUpdateBuildingNumber" class="form-control" ng-model="update_apartment.addressDto.building_number" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Количество квадратных метров: </td>
+                <td>{{apartment.squareMeters}}</td>
+                <td>
+                    <input id="apartmentUpdateSquareMeters" class="form-control" ng-model="update_apartment.square_meters" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Число гостей:      </td>
+                <td>{{apartment.numberOfGuests}}</td>
+                <td>
+                    <input id="updateApartmentNumberOfGuests" class="form-control" ng-model="update_apartment.number_of_guests" type="number"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Количество комнат: </td>
+                <td>{{apartment.numberOfRooms}}</td>
+                <td>
+                    <input id="updateApartmentNumberOfRooms" class="form-control" ng-model="update_apartment.number_of_rooms" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Количество спальных мест: </td>
+                <td>{{apartment.numberOfBeds}}</td>
+                <td>
+                    <input id="updateApartmentNumberOfBeds" class="form-control" ng-model="update_apartment.number_of_beds" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Цена за ночь: </td>
+                <td>{{apartment.pricePerNight}}</td>
+                <td>
+                    <input id="updateApartmentPricePerNight" class="form-control" ng-model="update_apartment.price_per_night" type="text"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-success btn-sm"  style="width: 100%;" ng-click="tryToUpdateApartment(update_apartment.id, update_apartment.username)">Изменить</button>
+    </div>

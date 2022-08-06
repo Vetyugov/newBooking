@@ -1,7 +1,9 @@
 package com.geekbrains.spring.web.auth.controllers;
 
+import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.dto.GuestDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.auth.converters.GuestConverter;
 import com.geekbrains.spring.web.auth.entities.Guest;
 import com.geekbrains.spring.web.auth.repositories.GuestRepository;
@@ -55,9 +57,9 @@ public class GuestController {
             }
     )
     public GuestDto getGuestByUsername(@RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
-        log.info("ПОПАЛ");
+        log.info("ищем гостя по имени " + username);
         Guest guest = guestService.findByUsername(username);
-        log.info("НАШЕЛ " + guest);
+        log.info("нашли гостя " + guest);
         return guestConverter.entityToGuestDto(guest);
     }
 
@@ -67,7 +69,7 @@ public class GuestController {
     @ApiResponse(responseCode = "404", description = "Не корректные параметры запроса",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AppError.class)))
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateGuest(@Valid @RequestBody GuestDto guestDto) {
         log.info("получен " + guestDto.getId());
         guestService.updateGuest(guestDto);
