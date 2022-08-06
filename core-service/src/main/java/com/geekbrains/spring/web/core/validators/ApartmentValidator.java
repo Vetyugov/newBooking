@@ -12,14 +12,14 @@ import java.util.List;
 public class ApartmentValidator {
     public void validate(ApartmentDto apartmentDto) {
         List<String> errors = new ArrayList<>();
-        if (apartmentDto.getPricePerNight().compareTo(BigDecimal.ONE) < 0) {
+        if (apartmentDto.getPricePerNight() == null & apartmentDto.getPricePerNight().compareTo(BigDecimal.ONE) < 0) {
             errors.add("Цена апартамента не может быть меньше 1");
         }
-        if (apartmentDto.getTitle().isBlank()) {
+        if (apartmentDto.getTitle() == null & apartmentDto.getTitle().isBlank()) {
             errors.add("Апартамент не может иметь пустое название");
         }
-        if (apartmentDto.getCategory().isBlank()) {
-            errors.add("Поле категоря не может быть пустым");
+        if (apartmentDto.getCategory() == null & apartmentDto.getCategory().isBlank()) {
+            errors.add("Поле категория не может быть пустым");
         }
         if (apartmentDto.getTitle().isBlank()) {
             errors.add("Апартамент не может иметь пустое название");

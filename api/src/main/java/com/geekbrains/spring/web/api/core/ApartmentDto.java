@@ -37,6 +37,8 @@ public class ApartmentDto {
     @Schema(description = "Имя пользователя", required = true, example = "bob")
     private String username;
 
+    private ApartmentDto(){
+    }
 
     public Long getId() {
         return id;
@@ -57,6 +59,7 @@ public class ApartmentDto {
     public AddressDto getAddressDto() {
         return addressDto;
     }
+
     public Integer getSquareMeters() {
         return squareMeters;
     }
