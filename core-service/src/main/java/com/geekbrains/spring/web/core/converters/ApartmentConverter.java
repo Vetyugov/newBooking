@@ -6,14 +6,17 @@ import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.entities.ApartmentCategory;
 import com.geekbrains.spring.web.core.services.ApartmentCategoriesService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ApartmentConverter {
     private final ApartmentCategoriesService apartmentCategoriesService;
 
     public Apartment apartmentDtoToEntity(ApartmentDto apartmentDto) {
+        log.info("Конвертация apartmentDtoToEntity");
         ApartmentCategory apartmentCategory = apartmentCategoriesService.getByTitle(apartmentDto.getCategory());
         Address address = new Address(apartmentDto.getAddressDto().getCity(),
                 apartmentDto.getAddressDto().getStreet(),
@@ -32,6 +35,7 @@ public class ApartmentConverter {
     }
 
     public ApartmentDto entityToApartmentDto(Apartment apartment) {
+        log.info("Конвертация entityToApartmentDto");
         return new ApartmentDto.Builder()
                 .id(apartment.getId())
                 .title(apartment.getTitle())

@@ -111,9 +111,9 @@ public class ApartmentsController {
 
     )
     @PutMapping()
-    public ApartmentDto updateApartment(@RequestBody @Parameter(description = "Dto апартамента", required = true) ApartmentDto apartmentDto) {
-        Apartment apartment = apartmentsService.update(apartmentDto);
-        return apartmentConverter.entityToApartmentDto(apartment);
+    public void updateApartment(@RequestBody @Parameter(description = "Dto апартамента", required = true) ApartmentDto apartmentDto) {
+        apartmentsService.update(apartmentDto);
+        log.info("Апартамент изменен");
     }
 
 

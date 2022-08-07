@@ -48,11 +48,13 @@ public class BookingDatesService {
     @Transactional
     public void delete(BookingApartmentDtoRq bookingApartmentDtoRq) throws ResourceNotFoundException {
         log.info("Удаление дней заказа " + bookingApartmentDtoRq);
-        bookingDatesRepository.delete(
-                bookingDatesRepository.findBookingDateByApartmentIdAndStartDateAndFinishDate(
-                        bookingApartmentDtoRq.getId(),
-                        bookingApartmentDtoRq.getBookingStartDate(),
-                        bookingApartmentDtoRq.getBookingFinishDate()).orElseThrow(() -> new ResourceNotFoundException("BookingDates not found, apartmentId: " + bookingApartmentDtoRq.getId())));
+       BookingDate bookingDate = bookingDatesRepository.findBookingDateByApartmentIdAndStartDateAndFinishDate(
+                bookingApartmentDtoRq.getId(),
+                bookingApartmentDtoRq.getBookingStartDate(),
+                bookingApartmentDtoRq.getBookingFinishDate()).orElseThrow(() -> new ResourceNotFoundException("BookingDates not found, apartmentId: " + bookingApartmentDtoRq.getId()));
+        log.info("Id bookingDate " + bookingDate.getId());
+       bookingDatesRepository.delete(bookingDate);
+        log.info("Id bookingDate " + bookingDate.getId() + " удален");
     }
 
 }
