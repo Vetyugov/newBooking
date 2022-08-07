@@ -1,8 +1,9 @@
 <div>
     <p></p>
     <h3>Список моих апартаментов</h3>
+    <h3 ng-show="myApartments.length == 0">Здесь пусто. Добавьте <a href="#!/add_new_apartment">апартамент</a></h3>
     <p></p>
-    <div class="col-sm-6 col-md-10">
+    <div ng-show="myApartments.length != 0" class="col-sm-6 col-md-10">
         <table class="table table-hover">
             <tr>
                 <td hidden>ID</td>
