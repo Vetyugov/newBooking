@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto { //нужен для регистрации новых пользователей и для записи и отображения данных на фронте
+public class UserDto {
 
     @Schema(description = "Идентификатор", example = "123")
     Long id;

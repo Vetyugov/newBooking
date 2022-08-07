@@ -1,14 +1,14 @@
 <div class="col-sm-6 col-md-10">
         <table class="table table-hover">
-            <tr>
+            <tr hidden>
                 <td>ID:      </td>
-                <td>{{apartment.id}}</td>
+                <td>{{apartment.id}} </td>
                 <td>
                     <input readonly type="hidden" id="apartmentId" class="form-control" ng-model="update_apartment.id = apartment.id"  ng-model-options="{ getterSetter: true }"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
-            <tr>
+            <tr hidden>
                 <td>Логин:   </td>
                 <td>{{apartment.username}}</td>
                 <td>
@@ -56,7 +56,7 @@
                 <td>Номер дома:    </td>
                 <td>{{apartment.addressDto.buildingNumber}}      </td>
                 <td>
-                    <input id="apartmentUpdateBuildingNumber" class="form-control" ng-model="update_apartment.addressDto.building_number" type="text"
+                    <input id="apartmentUpdateBuildingNumber" class="form-control" ng-model="update_apartment.addressDto.buildingNumber" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
@@ -64,7 +64,7 @@
                 <td>Количество квадратных метров: </td>
                 <td>{{apartment.squareMeters}}</td>
                 <td>
-                    <input id="apartmentUpdateSquareMeters" class="form-control" ng-model="update_apartment.square_meters" type="text"
+                    <input id="apartmentUpdateSquareMeters" class="form-control" ng-model="update_apartment.squareMeters" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
@@ -72,7 +72,7 @@
                 <td>Число гостей:      </td>
                 <td>{{apartment.numberOfGuests}}</td>
                 <td>
-                    <input id="updateApartmentNumberOfGuests" class="form-control" ng-model="update_apartment.number_of_guests" type="number"
+                    <input id="updateApartmentNumberOfGuests" class="form-control" ng-model="update_apartment.numberOfGuests" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
@@ -80,7 +80,7 @@
                 <td>Количество комнат: </td>
                 <td>{{apartment.numberOfRooms}}</td>
                 <td>
-                    <input id="updateApartmentNumberOfRooms" class="form-control" ng-model="update_apartment.number_of_rooms" type="text"
+                    <input id="updateApartmentNumberOfRooms" class="form-control" ng-model="update_apartment.numberOfRooms" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
@@ -88,7 +88,7 @@
                 <td>Количество спальных мест: </td>
                 <td>{{apartment.numberOfBeds}}</td>
                 <td>
-                    <input id="updateApartmentNumberOfBeds" class="form-control" ng-model="update_apartment.number_of_beds" type="text"
+                    <input id="updateApartmentNumberOfBeds" class="form-control" ng-model="update_apartment.numberOfBeds" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
@@ -96,10 +96,10 @@
                 <td>Цена за ночь: </td>
                 <td>{{apartment.pricePerNight}}</td>
                 <td>
-                    <input id="updateApartmentPricePerNight" class="form-control" ng-model="update_apartment.price_per_night" type="text"
+                    <input id="updateApartmentPricePerNight" class="form-control" ng-model="update_apartment.pricePerNight" type="number"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                 </td>
             </tr>
         </table>
-        <button class="btn btn-success btn-sm"  style="width: 100%;" ng-click="tryToUpdateApartment(update_apartment.id, update_apartment.username)">Изменить</button>
+        <button class="btn btn-success btn-sm"  style="width: 100%;" ng-click="tryToUpdateApartment(update_apartment)">Изменить</button>
     </div>

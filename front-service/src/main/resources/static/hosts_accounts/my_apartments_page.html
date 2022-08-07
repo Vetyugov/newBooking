@@ -5,7 +5,7 @@
     <div class="col-sm-6 col-md-10">
         <table class="table table-hover">
             <tr>
-                <td>ID</td>
+                <td hidden>ID</td>
                 <td>Название</td>
                 <td>Категория</td>
                 <td>Город</td>
@@ -16,12 +16,12 @@
                 <td>Количество комнат</td>
                 <td>Количество спальных мест</td>
                 <td>Цена за ночь</td>
-                <td>Логин</td>
+                <td hidden>Логин</td>
                 <td>Изменить</td>
             </tr>
             <tbody>
             <tr ng-repeat="apartment in myApartments">
-                <td>{{apartment.id}}</td>
+                <td hidden>{{apartment.id}}</td>
                 <td>{{apartment.title}}</td>
                 <td>{{apartment.category}}</td>
                 <td>{{apartment.addressDto.city}}</td>
@@ -32,7 +32,7 @@
                 <td>{{apartment.numberOfRooms}}</td>
                 <td>{{apartment.numberOfBeds}}</td>
                 <td>{{apartment.pricePerNight}}</td>
-                <td>{{apartment.username}}</td>
+                <td hidden>{{apartment.username}}</td>
                 <td><button class="btn btn-success" style="width: 100%;" ng-click="transferToUpdate(apartment.id)">Изменить</button></td>
             </tr>
             </tbody>

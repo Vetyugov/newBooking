@@ -27,6 +27,7 @@ public interface ApartmentsRepository extends JpaRepository<Apartment, Long>, Jp
     @Query("select a from Apartment a where a.id = ?1 and a.username = ?2 and a.status = ?3")
     Optional<Apartment> findByIdAndUsernameAndStatus(Long id, String username, ApartmentStatus status);
 
+    @Query("select a from Apartment a where a.id = ?1 and a.username = ?2")
     Optional<Apartment> findByIdAndUsername(Long id, String username);
 
 

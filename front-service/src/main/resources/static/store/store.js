@@ -39,7 +39,7 @@ angular.module('new-booking-front').controller('storeController', function ($sco
     $scope.addToBooking = function (apartmentId) {
         if ($scope.filter.city_part == null || $scope.filter.start_date == null || $scope.filter.finish_date == null) {
             alert("Укажите город и даты заезда и выезда для выбираемого апартамента");
-            return;//отрабатывает, только если введен хоть один параметр, т.к. функция не понимает, что это за параметры в $scope
+            return;
         };
         $http({
             url: 'http://localhost:5555/booking/api/v1/booking/'+ $localStorage.springWebIncognitoBookingId + '/add',
