@@ -49,14 +49,10 @@ public class BookingService {
 
     public void addToBooking(String bookingKey, Long apartmentId, String startDate, String finishDate) {
         log.info("Добавляем новый addToBooking");
-        String start = startDate.substring(0, startDate.indexOf("T"));
-        String finish = finishDate.substring(0, finishDate.indexOf("T"));
-
-        log.info(startDate + " " + finishDate + " " + start  + " " + finish);
 
         ApartmentDto apartmentDto = coreServiceIntegration.findById(apartmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + apartmentId));
-        execute(bookingKey, c -> c.add(bookingConverter.apartmentToBookingItemDto(apartmentDto, start, finish)));
+        execute(bookingKey, c -> c.add(bookingConverter.apartmentToBookingItemDto(apartmentDto, startDate, finishDate)));
     }
 
     public void clearBooking(String bookingKey) {
