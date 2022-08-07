@@ -65,24 +65,6 @@ public class Apartment {
     private LocalDateTime updatedAt;
 
 
-    @Override
-    public String toString() {
-        return "Apartment{" +
-                "id='" + id + '\'' +
-                "title='" + title + '\'' +
-                ", apartmentCategory=" + apartmentCategory.getTitle() +
-                ", city='" + address.getCity() + '\'' +
-                ", street='" + address.getStreet() + '\'' +
-                ", buildingNumber=" + address.getBuildingNumber() +
-                ", squareMeters=" + squareMeters +
-                ", numberOfGuests=" + numberOfGuests +
-                ", numberOfRooms=" + numberOfRooms +
-                ", numberOfBeds=" + numberOfBeds +
-                ", pricePerNight=" + pricePerNight +
-                ", username= '" + username + '\'' +
-                '}';
-    }
-
     public static class Builder {
         private final Apartment apartment;
 
@@ -105,7 +87,6 @@ public class Apartment {
             return this;
         }
 
-        //продумать выбор имеющейся категории
         public Builder apartmentCategory(ApartmentCategory apartmentCategory) {
             apartment.apartmentCategory = apartmentCategory;
             return this;

@@ -3,6 +3,7 @@ package com.geekbrains.spring.web.core.services;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.entities.Apartment;
+import com.geekbrains.spring.web.core.entities.ApartmentCategory;
 import com.geekbrains.spring.web.core.entities.ApartmentStatus;
 import com.geekbrains.spring.web.core.exceptions.ResourceIsForbiddenException;
 import com.geekbrains.spring.web.core.repositories.ApartmentsRepository;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +26,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ApartmentsService {
     private final ApartmentsRepository apartmentsRepository;
+    private final ApartmentCategoriesService apartmentCategoriesService;
 
-    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters,
-                                   Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms,
-                                   Integer numberOfBeds, String titlePart, String categoryPart,
-                                   String startDate, String finishDate, Integer page) {
+    public Page<Apartment> findAll(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, String startDate, String finishDate, Integer page) {
         Specification<Apartment> spec = Specification.where(null);
         spec = spec.and(ApartmentsSpecifications.statusEqual());
 
@@ -73,7 +71,7 @@ public class ApartmentsService {
         return apartmentsRepository.findAll(spec, PageRequest.of(page - 1, 8));
     }
 
-    public List<Apartment> findAllTest(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, LocalDateTime startDate, LocalDateTime finishDate) {
+    public List<Apartment> findAllTest(String cityPart, Integer minPrice, Integer maxPrice, Integer minSquareMeters, Integer maxSquareMeters, Integer numberOfGuests, Integer numbersOfRooms, Integer numberOfBeds, String titlePart, String categoryPart, String startDate, String finishDate) {
         Specification<Apartment> spec = Specification.where(null);
         spec = spec.and(ApartmentsSpecifications.statusEqual());
         if (cityPart != null) {
@@ -107,7 +105,10 @@ public class ApartmentsService {
             spec = spec.and(ApartmentsSpecifications.categoryLike(categoryPart));
         }
         if (startDate != null & finishDate != null) {
-           // spec = spec.and(ApartmentsSpecifications.freeBookingDates(startDate, finishDate));
+            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate start = LocalDate.parse(startDate.substring(0, startDate.indexOf("T")), pattern);
+            LocalDate finish = LocalDate.parse(finishDate.substring(0, finishDate.indexOf("T")), pattern);
+            spec = spec.and(ApartmentsSpecifications.freeBookingDates(start, finish));
         }
         return apartmentsRepository.findAll(spec);
     }
@@ -155,28 +156,33 @@ public class ApartmentsService {
     }
 
     @Transactional
-    public Apartment update(ApartmentDto apartmentDto) throws ResourceIsForbiddenException {
+    public void update(ApartmentDto apartmentDto) throws ResourceIsForbiddenException {
         Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(apartmentDto.getId(), apartmentDto.getUsername(), ApartmentStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", apartmentDto.getUsername())));
+        log.info("Изменяем аппартамент с id: " + apartmentDto.getId());
         if (apartmentDto.getTitle() != null) {
+            log.info("Изменяем название: " + apartmentDto.getTitle());
             apartment.setTitle(apartmentDto.getTitle());
         }
         if (apartmentDto.getCategory() != null) {
-            apartment.getApartmentCategory().setTitle(apartmentDto.getCategory());
+            log.info("Изменяем категорию: " + apartmentDto.getCategory());
+            ApartmentCategory apartmentCategory = apartmentCategoriesService.getByTitle(apartmentDto.getCategory());
+            apartment.setApartmentCategory(apartmentCategory);
         }
-        if (apartmentDto.getAddressDto().getCity() != null) {
+        if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getCity() != null) {
+            log.info("Изменяем город: " + apartmentDto.getAddressDto().getCity());
             apartment.getAddress().setCity(apartmentDto.getAddressDto().getCity());
         }
-        if (apartmentDto.getAddressDto().getStreet() != null) {
+        if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getStreet() != null) {
+            log.info("Изменяем улицу: " + apartmentDto.getAddressDto().getStreet());
             apartment.getAddress().setStreet(apartmentDto.getAddressDto().getStreet());
         }
-        if (apartmentDto.getAddressDto().getBuildingNumber() != null) {
-            apartment.getAddress().setBuildingNumber(apartmentDto.getAddressDto().getBuildingNumber());
-        }
-        if (apartmentDto.getAddressDto().getBuildingNumber() != null) {
+        if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getBuildingNumber() != null) {
+            log.info("Изменяем номер дома: " + apartmentDto.getAddressDto().getBuildingNumber());
             apartment.getAddress().setBuildingNumber(apartmentDto.getAddressDto().getBuildingNumber());
         }
         if (apartmentDto.getSquareMeters() != null) {
+            log.info("Изменяем кол-во кв.м: " + apartmentDto.getSquareMeters());
             apartment.setSquareMeters(apartmentDto.getSquareMeters());
         }
         if (apartmentDto.getNumberOfGuests() != null) {
@@ -191,6 +197,6 @@ public class ApartmentsService {
         if (apartmentDto.getPricePerNight() != null) {
             apartment.setPricePerNight(apartmentDto.getPricePerNight());
         }
-        return apartment;
+        log.info("Сохраняем обновления");
     }
 }

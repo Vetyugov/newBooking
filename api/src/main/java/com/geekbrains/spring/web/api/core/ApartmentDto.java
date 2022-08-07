@@ -37,7 +37,7 @@ public class ApartmentDto {
     @Schema(description = "Имя пользователя", required = true, example = "bob")
     private String username;
 
-    private ApartmentDto(){
+    private ApartmentDto() {
     }
 
     public Long getId() {
@@ -78,23 +78,6 @@ public class ApartmentDto {
 
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public String toString() {
-        return "ApartmentDto{" +
-                ", title= '" + title + '\'' +
-                ", pricePerNight= " + pricePerNight +
-                ", category= '" + category + '\'' +
-                ", city= '" + addressDto.getCity() + '\'' +
-                ", street= '" + addressDto.getStreet() + '\'' +
-                ", buildingNumber= " + addressDto.getBuildingNumber() +
-                ", squareMeters= " + squareMeters +
-                ", numberOfGuests= " + numberOfGuests +
-                ", numberOfRooms= " + numberOfRooms +
-                ", numberOfBeds= " + numberOfBeds +
-                ", username= '" + username + '\'' +
-                '}';
     }
 
     public static class Builder {
