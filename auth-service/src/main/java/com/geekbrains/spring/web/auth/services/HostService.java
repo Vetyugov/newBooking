@@ -98,7 +98,10 @@ public class  HostService {
             if (individualHostDto.getPostcode() != null) {
                 host.setPostcode(individualHostDto.getPostcode());
             }
-            if (individualHostDto.getSurname() != null) {
+            if (individualHostDto.getInn() != null) {
+                host.setInn(individualHostDto.getInn());
+            }
+            if (individualHostDto.getAccount() != null) {
                 host.setAccount(individualHostDto.getAccount());
             }
             hostRepository.save(host);
