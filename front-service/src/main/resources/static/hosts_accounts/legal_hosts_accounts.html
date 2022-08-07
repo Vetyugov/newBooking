@@ -76,7 +76,7 @@
                     <td>Почтовый индекс: </td>
                     <td>{{hostAccount.postcode}}</td>
                     <td>
-                        <input id="updatePostcodeHostField" class="form-control" ng-model="updateLegalHostAccount.postcode" type="text"
+                        <input id="updatePostcodeHostField" class="form-control" ng-model="updateLegalHostAccount.postcode" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
@@ -92,12 +92,12 @@
                     <td>Номер счета: </td>
                     <td>{{hostAccount.account}}</td>
                     <td>
-                        <input id="updateFinAccountHostField" class="form-control" ng-model="updateLegalHostAccount.account" type="text"
+                        <input id="updateFinAccountHostField" class="form-control" ng-model="updateLegalHostAccount.account" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
             </table>
-            <button class="btn btn-success" style="width: 100%;" ng-click="tryToUpdateLegalHostAccount()">Сохранить данные</button>
+            <button class="btn btn-success" style="width: 100%;" ng-click="tryToUpdateLegalHostAccount(updateLegalHostAccount)">Сохранить данные</button>
         </div>
     </div>
 </div>

@@ -5,11 +5,9 @@
 
     <table class="table table-hover">
         <td> <button class="btn btn-outline-secondary btn-sm" ng-click="transferToPageForAddNewApartment()">Перейти к добавлению апартаментов
-<!--            <a class="nav-link" href="#!/add_new_apartment"></a> -->
         </button>
         </td>
         <td> <button class="btn btn-outline-secondary btn-sm" ng-click="transferToMyApartmentsPage()">Перейти к списку моих апартаментов
-<!--            <a class="nav-link" href="#!/my_apartments_page"></a> -->
         </button>
         </td>
     </table>
@@ -58,7 +56,7 @@
                     <td>Почтовый индекс: </td>
                     <td>{{hostAccount.postcode}}</td>
                     <td>
-                        <input id="updatePostcodeIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.postcode" type="text"
+                        <input id="updatePostcodeIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.postcode" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
@@ -90,12 +88,12 @@
                     <td>Номер счета: </td>
                     <td>{{hostAccount.account}}</td>
                     <td>
-                        <input id="updateFinAccountIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.account" type="text"
+                        <input id="updateFinAccountIndividualHostField" class="form-control" ng-model="updateIndividualHostAccount.account" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
             </table>
-            <button class="btn btn-success"  style="width: 100%;" ng-click="tryToUpdateIndividualHostAccount()">Сохранить данные</button>
+            <button class="btn btn-success"  style="width: 100%;" ng-click="tryToUpdateIndividualHostAccount(updateIndividualHostAccount)">Сохранить данные</button>
         </div>
     </div>
 </div>

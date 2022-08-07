@@ -12,13 +12,13 @@ angular.module('new-booking-front').controller('ordersHostController', function 
 
     $scope.outCash = function (orderId) {
         $http({
-           url: contextPath + 'api/v1/orders/host/outCash/'+orderId,
-           method: 'GET'
+            url: contextPath + 'api/v1/orders/host/outCash/'+orderId,
+            method: 'GET'
         }).then(function (response) {
+            $scope.loadOrders();
             alert(response.data.message);
         });
-
-    }
+    };
 
     $scope.confirmOrder = function (orderId) {
                 $http({
