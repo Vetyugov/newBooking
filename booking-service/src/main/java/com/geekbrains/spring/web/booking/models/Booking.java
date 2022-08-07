@@ -43,7 +43,7 @@ public class Booking {
 
     public void remove(Long itemId) {
         for (BookingItem item : items) {
-            if (item.getApartmentId().equals(itemId)) {
+            if (item.getItemId().equals(itemId)) {
                 items.remove(item);
                 if(items.size() == 0)
                     itemIdNumerator = 1l;
@@ -54,7 +54,7 @@ public class Booking {
 
     public BookingItem getItem(Long itemId) {
         for (BookingItem item : items) {
-            if (item.getApartmentId().equals(itemId))
+            if (item.getItemId().equals(itemId))
                 return item;
         }
         return null;
