@@ -3,10 +3,10 @@ package com.geekbrains.spring.web.core.controllers;
 import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
-import com.geekbrains.spring.web.core.converters.ApartmentConverter;
 import com.geekbrains.spring.web.core.entities.Apartment;
-import com.geekbrains.spring.web.core.services.ApartmentsService;
 import com.geekbrains.spring.web.core.validators.ApartmentValidator;
+import com.geekbrains.spring.web.core.converters.ApartmentConverter;
+import com.geekbrains.spring.web.core.services.ApartmentsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,6 +80,21 @@ public class ApartmentsController {
         return apartmentConverter.entityToApartmentDto(apartment);
     }
 
+    @GetMapping("/inactive/{id}")
+    @Operation(
+            summary = "Запрос на получение неактивного апартамента по id",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ApartmentDto.class))
+                    )
+            }
+    )
+    public ApartmentDto getInactiveApartmentById(@PathVariable @Parameter(description = "Иденификатор апартамента", required = true) Long id) {
+        Apartment apartment = apartmentsService.findByIdWithInactiveStatus(id);
+        return apartmentConverter.entityToApartmentDto(apartment);
+    }
+
     @Operation(
             summary = "Запрос на добавление нового апартамента",
             responses = {
@@ -136,7 +150,7 @@ public class ApartmentsController {
     }
 
     @Operation(
-            summary = "Запрос на получение всех  неактивных апартаментов пользователя",
+            summary = "Запрос на получение всех неактивных апартаментов пользователя",
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
@@ -162,8 +176,9 @@ public class ApartmentsController {
             }
 
     )
-    @PatchMapping("/deactivate/{id}")
+    @GetMapping("/deactivate/{id}")
     public void deactivateById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id, @RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
+        log.info("Пришел patch-запрос " + id + " username: " + username);
         apartmentsService.deactivateById(id, username);
     }
 
@@ -176,7 +191,7 @@ public class ApartmentsController {
             }
 
     )
-    @PatchMapping("/activate/{id}")
+    @GetMapping("/activate/{id}")
     public void activateById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id, @RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         apartmentsService.activateById(id, username);
     }
@@ -190,7 +205,7 @@ public class ApartmentsController {
             }
 
     )
-    @PatchMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public void deleteById(@PathVariable @Parameter(description = "ID апартамента", required = true) Long id, @RequestHeader @Parameter(description = "Имя пользователя", required = true) String username) {
         apartmentsService.deleteById(id, username);
     }

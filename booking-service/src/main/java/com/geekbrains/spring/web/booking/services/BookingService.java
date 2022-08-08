@@ -9,7 +9,7 @@ import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.booking.converters.BookingConverter;
 import com.geekbrains.spring.web.booking.exceptions.BookingsBrokenException;
 import com.geekbrains.spring.web.booking.models.Booking;
-import com.geekbrains.spring.web.booking.models.CoreServiceIntegration;
+import com.geekbrains.spring.web.booking.integrations.CoreServiceIntegration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
