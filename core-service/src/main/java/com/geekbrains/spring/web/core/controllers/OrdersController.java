@@ -52,7 +52,7 @@ public class OrdersController {
     )
     @PostMapping
     public OrderDtoInfo createOrder(@RequestBody @Parameter(description = "Структура заказа", required = true) OrderCreateDtoRq orderCreateRq) {
-        log.debug("Заявка на создание заказа " + orderCreateRq);
+        log.info("Заявка на создание заказа " + orderCreateRq);
         Order order = orderService.createOrder(orderCreateRq);
         log.info("Создан новый заказ " + order);
         return orderConverter.entityToDtoInfo(order);
@@ -91,7 +91,7 @@ public class OrdersController {
     public ResponseEntity<OrderDtoInfo> payOrder(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
         log.info("Запрос на оплату заказа по id = " + orderId);
         Order order = orderService.payOrder(orderId);
-        log.debug("Оплачен заказ " + order);
+        log.info("Оплачен заказ " + order);
         return new ResponseEntity(orderConverter.entityToDtoInfo(order), HttpStatus.OK);
     }
 
@@ -123,6 +123,7 @@ public class OrdersController {
     public OrderDtoInfo confirmStay(@RequestHeader(required = false) @PathVariable @Parameter(description = "id заказа", required = true) Long orderId) throws ResourceNotFoundException{
         log.info("Запрос на подтверждение проживания по id заказа = " + orderId);
         Order order = orderService.confirmStay(orderId);
+        log.info("Проживание подтверждено " + order);
         return orderConverter.entityToDtoInfo(order);
     }
 
@@ -215,10 +216,8 @@ public class OrdersController {
     )
     @GetMapping("/host/outCash/{id}")
     public OrderOutCashRs outCash(@PathVariable @Parameter(description = "Идентификатор заказа", required = true) Long id) {
-        log.info("Запрос на вывод средств");
-        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404"));
-        if(order.getStatus().getDescription().equals("completed")){
-            //ToDo выводим средства
+        log.info("Запрос на вывод средств для заказа с id = " + id);
+        if(orderService.cashOut(id)){
             return new OrderOutCashRs("Средства выведены");
         } else {
             return new OrderOutCashRs("Арендатор ещё не подтвердил факт проживания");
