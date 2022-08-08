@@ -16,7 +16,6 @@ public class ApartmentConverter {
     private final ApartmentCategoriesService apartmentCategoriesService;
 
     public Apartment apartmentDtoToEntity(ApartmentDto apartmentDto) {
-        log.info("Конвертация apartmentDtoToEntity");
         ApartmentCategory apartmentCategory = apartmentCategoriesService.getByTitle(apartmentDto.getCategory());
         Address address = new Address(apartmentDto.getAddressDto().getCity(),
                 apartmentDto.getAddressDto().getStreet(),
@@ -35,7 +34,6 @@ public class ApartmentConverter {
     }
 
     public ApartmentDto entityToApartmentDto(Apartment apartment) {
-        log.info("Конвертация entityToApartmentDto");
         return new ApartmentDto.Builder()
                 .id(apartment.getId())
                 .title(apartment.getTitle())

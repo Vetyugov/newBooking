@@ -1,9 +1,7 @@
 package com.geekbrains.spring.web.core.apartment;
 
 import com.geekbrains.spring.web.core.SpringWebApplication;
-import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.repositories.ApartmentsRepository;
-import com.geekbrains.spring.web.core.repositories.BookingDatesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,8 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @DataJpaTest
 @ContextConfiguration(classes = {SpringWebApplication.class}) //тест запускается только если загружать контекст всего МС. Почему? Как исправить?

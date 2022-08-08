@@ -1,9 +1,19 @@
 angular.module('new-booking-front').controller('updateMyApartmentController', function ($scope, $http, $route, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/core/api/v1/apartments';
 
+    $scope.deactivateApartmentForUpdate = function () {
+        $http({
+            url: contextPath + '/deactivate/' + $localStorage.apartmentId,
+            method: 'GET'
+        }).then(function successCallback() {
+            alert('Success! Апартамент деактивирован. Внесите изменения.');
+            $scope.loadApartmentForUpdate();
+        });
+    };
+
     $scope.loadApartmentForUpdate = function () {
             $http({
-                url: contextPath + '/' + $localStorage.apartmentId,
+                url: contextPath + '/inactive/' + $localStorage.apartmentId,
                 method: 'GET'
             }).then(function (response) {
                 $scope.apartment = response.data;
@@ -19,7 +29,7 @@ angular.module('new-booking-front').controller('updateMyApartmentController', fu
         }
     )};
 
+    $scope.deactivateApartmentForUpdate();
 
-    $scope.loadApartmentForUpdate();
 
 });

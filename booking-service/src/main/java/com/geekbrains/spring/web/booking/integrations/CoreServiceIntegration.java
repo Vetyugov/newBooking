@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.booking.models;
+package com.geekbrains.spring.web.booking.integrations;
 
 //import com.geekbrains.spring.web.api.core.ApartmentDto;
 //import lombok.RequiredArgsConstructor;

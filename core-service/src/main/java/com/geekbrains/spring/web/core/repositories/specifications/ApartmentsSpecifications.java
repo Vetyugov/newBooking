@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Slf4j
 public class ApartmentsSpecifications {

@@ -123,7 +123,11 @@ public class ApartmentsService {
     }
 
     public Apartment findByIdWithActiveStatus(Long id) throws ResourceNotFoundException {
-        return apartmentsRepository.findWithActiveStatus(id, ApartmentStatus.ACTIVE).orElseThrow(() -> new ResourceNotFoundException(String.format("Данные апартаменты: %s недоступны для бронирования!", id)));
+        return apartmentsRepository.findWithStatus(id, ApartmentStatus.ACTIVE).orElseThrow(() -> new ResourceNotFoundException(String.format("Данные апартаменты: %s в статусе %s!", id, ApartmentStatus.NOT_ACTIVE)));
+    }
+
+    public Apartment findByIdWithInactiveStatus(Long id) throws ResourceNotFoundException {
+        return apartmentsRepository.findWithStatus(id, ApartmentStatus.NOT_ACTIVE).orElseThrow(() -> new ResourceNotFoundException(String.format("Данные апартаменты: %s в статусе %s!", id, ApartmentStatus.ACTIVE)));
     }
 
     public List<Apartment> findActiveApartmentsByUsername(String username) {
@@ -157,32 +161,26 @@ public class ApartmentsService {
 
     @Transactional
     public void update(ApartmentDto apartmentDto) throws ResourceIsForbiddenException {
-        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(apartmentDto.getId(), apartmentDto.getUsername(), ApartmentStatus.ACTIVE)
+        Apartment apartment = apartmentsRepository.findByIdAndUsernameAndStatus(apartmentDto.getId(), apartmentDto.getUsername(), ApartmentStatus.NOT_ACTIVE)
                 .orElseThrow(() -> new ResourceIsForbiddenException(String.format("Данный апартамент не пренадлежит пользователю: %s", apartmentDto.getUsername())));
         log.info("Изменяем аппартамент с id: " + apartmentDto.getId());
         if (apartmentDto.getTitle() != null) {
-            log.info("Изменяем название: " + apartmentDto.getTitle());
             apartment.setTitle(apartmentDto.getTitle());
         }
         if (apartmentDto.getCategory() != null) {
-            log.info("Изменяем категорию: " + apartmentDto.getCategory());
             ApartmentCategory apartmentCategory = apartmentCategoriesService.getByTitle(apartmentDto.getCategory());
             apartment.setApartmentCategory(apartmentCategory);
         }
         if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getCity() != null) {
-            log.info("Изменяем город: " + apartmentDto.getAddressDto().getCity());
             apartment.getAddress().setCity(apartmentDto.getAddressDto().getCity());
         }
         if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getStreet() != null) {
-            log.info("Изменяем улицу: " + apartmentDto.getAddressDto().getStreet());
             apartment.getAddress().setStreet(apartmentDto.getAddressDto().getStreet());
         }
         if (apartmentDto.getAddressDto() != null && apartmentDto.getAddressDto().getBuildingNumber() != null) {
-            log.info("Изменяем номер дома: " + apartmentDto.getAddressDto().getBuildingNumber());
             apartment.getAddress().setBuildingNumber(apartmentDto.getAddressDto().getBuildingNumber());
         }
         if (apartmentDto.getSquareMeters() != null) {
-            log.info("Изменяем кол-во кв.м: " + apartmentDto.getSquareMeters());
             apartment.setSquareMeters(apartmentDto.getSquareMeters());
         }
         if (apartmentDto.getNumberOfGuests() != null) {
@@ -197,6 +195,7 @@ public class ApartmentsService {
         if (apartmentDto.getPricePerNight() != null) {
             apartment.setPricePerNight(apartmentDto.getPricePerNight());
         }
+        apartment.setStatus(ApartmentStatus.ACTIVE);
         log.info("Сохраняем обновления");
     }
 }
