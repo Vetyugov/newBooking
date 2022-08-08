@@ -2,6 +2,7 @@ package com.geekbrains.spring.web.core.services;
 
 import com.geekbrains.spring.web.api.core.BookingApartmentDtoRq;
 import com.geekbrains.spring.web.api.core.OrderCreateDtoRq;
+import com.geekbrains.spring.web.api.core.OrderOutCashRs;
 import com.geekbrains.spring.web.api.core.OrderUpdateRq;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.entities.Order;
@@ -61,7 +62,7 @@ public class OrderService {
             throw new OrderIsNotCreatedException("Заказ не создан по причине: " + e.getMessage());
         }
 
-        log.debug("Даты забронированы для " + bookingApartmentDto);
+        log.info("Даты забронированы для " + bookingApartmentDto);
         return ordersRepository.save(order);
     }
 
@@ -103,7 +104,7 @@ public class OrderService {
                 .bookingFinishDate(order.getBookingFinishDate())
                 .build();
         bookingDatesService.delete(bookingApartmentDto);
-        log.debug("Сброшены даты бронирования для заказа " + order);
+        log.info("Сброшены даты бронирования для заказа " + order);
         OrderCreateDtoRq orderCreateDtoRq = OrderCreateDtoRq.builder()
                 .username(order.getUsername())
                 .bookingStartDate(order.getBookingStartDate())
@@ -112,9 +113,9 @@ public class OrderService {
                 .apartmentId(order.getApartment().getId())
                 .pricePerNight(order.getPrice()).build();
         bookingServiceIntegration.recoveryBookingItem(orderCreateDtoRq);
-        log.debug("Восстановлен в booking сервисе заказ " + orderCreateDtoRq);
+        log.info("Восстановлен в booking сервисе заказ " + orderCreateDtoRq);
         setStatusToOrder(order, "canceled");
-        log.debug("Установлен статус canceled для заказа " + order);
+        log.info("Установлен статус canceled для заказа " + order);
         return order;
     }
 
@@ -152,6 +153,27 @@ public class OrderService {
     public Order confirmStay(Long orderId) throws ResourceNotFoundException {
         Order order = findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти заказ с id " + orderId));
         return setStatusToOrder(order, "completed");
+    }
+
+    /**
+     * Метод выводит средства host-а
+     *
+     * @param orderId id заказа
+     * @return true - если перевод выполнен успешно, false - если не удалось выпольнить перевод
+     * @throws ResourceNotFoundException в случае, если заказ не удалось найти
+     */
+    public boolean cashOut(Long orderId) throws ResourceNotFoundException {
+        Order order = findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти заказ с id " + orderId));
+        log.info("Заказ по id найден: " + order);
+        if(order.getStatus().getDescription().equals("completed")){
+            //ToDo выводим средства
+            setStatusToOrder(order, "cash is out");
+            log.info("Средства выведены");
+            return true;
+        } else {
+            log.info("Арендатор ещё не подтвердил факт проживания");
+            return false;
+        }
     }
 
     /**

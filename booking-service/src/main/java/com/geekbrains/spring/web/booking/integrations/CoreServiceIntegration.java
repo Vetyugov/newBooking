@@ -45,7 +45,7 @@ public class CoreServiceIntegration {
     private final WebClient coreServiceWebClient;
 
     public Optional<ApartmentDto> findById(Long id) {
-        log.debug("CoreServiceWebClient findById " + id);
+        log.info("CoreServiceWebClient findById " + id);
         ApartmentDto apartmentDto = coreServiceWebClient.get()
                 .uri("/api/v1/apartments/" + id)
                 // .bodyValue(body) // for POST
@@ -56,7 +56,7 @@ public class CoreServiceIntegration {
     }
 
     public OrderDtoInfo checkOrder(OrderCreateDtoRq orderDto) throws BookingsBrokenException {
-        log.debug("CoreServiceWebClient checkOrder");
+        log.info("CoreServiceWebClient checkOrder");
         OrderDtoInfo orderChecked = coreServiceWebClient.post()
                 .uri("/api/v1/orders")
                 .bodyValue(orderDto) // for POST

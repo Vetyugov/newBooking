@@ -10,7 +10,8 @@ values ('awaiting payment', 'ожидает оплаты'),
        ('paid', 'оплачен'),
        ('booked', 'забронирован'),
        ('canceled', 'отменён'),
-       ('completed', 'выполнен');
+       ('completed', 'выполнен'),
+       ('cash is out', 'средства выведены');
 
 create table orders
 (
