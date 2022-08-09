@@ -52,7 +52,7 @@ public class ApartmentsSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("apartmentCategory").get("title"), String.format("%%%s%%", categoryPart));
     }
 
-    public static Specification<Apartment> freeBookingDates(String start, String finish) {
+    public static Specification<Apartment> freeBookingDates(LocalDate start, LocalDate finish) {
         return (root, query, cb) -> {
             if (finish == null) {
                 return null;
@@ -63,8 +63,8 @@ public class ApartmentsSpecifications {
             Subquery<BookingDate> subquery = query.subquery(BookingDate.class);
             Root<BookingDate> bookingDateRoot = subquery.from(BookingDate.class);
             return cb.not(cb.exists(subquery.select(bookingDateRoot)
-                    .where(cb.equal(root.get("id"), (bookingDateRoot.get("apartment").get("id"))), cb.and(cb.lessThan(bookingDateRoot.get("startDate"), LocalDate.parse(finish)),
-                            cb.greaterThan(bookingDateRoot.get("finishDate"), LocalDate.parse(start))))));
+                    .where(cb.equal(root.get("id"), (bookingDateRoot.get("apartment").get("id"))), cb.and(cb.lessThan(bookingDateRoot.get("startDate"), finish)),
+                            cb.greaterThan(bookingDateRoot.get("finishDate"), start))));
         };
     }
 

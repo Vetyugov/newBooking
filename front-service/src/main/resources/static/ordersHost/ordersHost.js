@@ -1,4 +1,4 @@
-angular.module('new-booking-front').controller('ordersHostController', function ($scope, $http, $location) {
+angular.module('new-booking-front').controller('ordersHostController', function ($scope, $route, $http, $location) {
     const contextPath = 'http://localhost:5555/core/';
 
     $scope.loadOrders  = function () {
@@ -12,13 +12,13 @@ angular.module('new-booking-front').controller('ordersHostController', function 
 
     $scope.outCash = function (orderId) {
         $http({
-           url: contextPath + 'api/v1/orders/host/outCash/'+orderId,
-           method: 'GET'
-        }).then(function (response) {
+            url: contextPath + 'api/v1/orders/host/outCash/'+orderId,
+            method: 'GET'
+        }).then(function successCallback(response) {
             alert(response.data.message);
+            $route.reload();
         });
-
-    }
+    };
 
     $scope.confirmOrder = function (orderId) {
                 $http({
@@ -26,7 +26,6 @@ angular.module('new-booking-front').controller('ordersHostController', function 
                    method: 'GET'
                 }).then(function (response) {
                    $scope.loadOrders();
-                   $scope.loadOrdersHistory();
                 });
     };
 

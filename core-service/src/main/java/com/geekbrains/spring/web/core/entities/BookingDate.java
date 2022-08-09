@@ -1,6 +1,8 @@
 package com.geekbrains.spring.web.core.entities;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,7 +12,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "booking_dates")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class BookingDate {
 
     @Id
@@ -18,10 +22,10 @@ public class BookingDate {
     @Column(name = "id")
     private Long id;
 
-    @Column (name = "booking_start_date")
+    @Column(name = "booking_start_date")
     private LocalDate startDate;
 
-    @Column (name = "booking_finish_date")
+    @Column(name = "booking_finish_date")
     private LocalDate finishDate;
 
     @ManyToOne

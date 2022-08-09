@@ -1,7 +1,8 @@
 <div>
     <p></p>
     <h3>Список бронирования</h3>
-    <table class="table table-hover">
+    <h3 ng-show="isUserLoggedIn() && booking.items.length == 0">Здесь пусто. Выберите <a href="#!/store">апартамент</a></h3>
+    <table ng-show="isUserLoggedIn() && booking.items.length > 0" class="table table-hover">
         <tr>
             <td>ID</td>
             <td>Апартамент</td>
@@ -34,17 +35,7 @@
         </tbody>
     </table>
     <p>
-        <button class="btn btn-secondary" ng-click="clearBooking()">Очистить список</button>
+        <button  ng-show="isUserLoggedIn() && booking.items.length > 0" class="btn btn-secondary" ng-click="clearBooking()">Очистить список</button>
     </p>
-
-    <p></p>
-    <h3>Детали заказа</h3>
-    <form novalidate>
-        <input class="form-control" type="text" placeholder="Номер телефона получателя" ng-model="orderDetails.phone">
-        <p></p>
-        <input class="form-control" type="text" placeholder="Адрес доставки" ng-model="orderDetails.address">
-        <p></p>
-    </form>
-
 
 </div>

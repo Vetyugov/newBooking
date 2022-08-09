@@ -6,8 +6,10 @@ import com.geekbrains.spring.web.core.entities.Apartment;
 import com.geekbrains.spring.web.core.entities.ApartmentCategory;
 import com.geekbrains.spring.web.core.services.ApartmentCategoriesService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ApartmentConverter {

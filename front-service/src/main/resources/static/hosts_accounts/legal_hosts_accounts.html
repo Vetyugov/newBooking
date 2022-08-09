@@ -3,17 +3,16 @@
     <h3>Личный кабинет</h3>
     <p></p>
 
-    <button class="btn btn-outline-secondary btn-sm" ng-click="transferToPageForAddNewApartment()">Перейти к добавлению апартаментов
-        <a class="nav-link" href="#!/add_new_apartment"></a> </button>
-    <p></p>
-    <button class="btn btn-outline-secondary btn-sm" ng-click="transferToMyApartmentsPage()">Перейти к списку моих апартаментов
-        <a class="nav-link" href="#!/my_apartments_page"></a> </button>
-    <p></p>
+    <table class="table table-hover">
+        <td> <button class="btn btn-outline-secondary btn-sm" ng-click="transferToPageForAddNewApartment()">Перейти к добавлению апартаментов</button></td>
+        <td> <button class="btn btn-outline-secondary btn-sm" ng-click="transferToMyApartmentsPage()">Перейти к списку моих апартаментов</button></td>
+    </table>
+
     <div class="row g-2">
 
         <div class="col-sm-6 col-md-10">
             <table class="table table-hover">
-                <tr>
+                <tr hidden>
                     <td>ID:      </td>
                     <td>{{hostAccount.id}}</td>
                     <td>
@@ -77,7 +76,7 @@
                     <td>Почтовый индекс: </td>
                     <td>{{hostAccount.postcode}}</td>
                     <td>
-                        <input id="updatePostcodeHostField" class="form-control" ng-model="updateLegalHostAccount.postcode" type="text"
+                        <input id="updatePostcodeHostField" class="form-control" ng-model="updateLegalHostAccount.postcode" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
@@ -93,12 +92,12 @@
                     <td>Номер счета: </td>
                     <td>{{hostAccount.account}}</td>
                     <td>
-                        <input id="updateFinAccountHostField" class="form-control" ng-model="updateLegalHostAccount.account" type="text"
+                        <input id="updateFinAccountHostField" class="form-control" ng-model="updateLegalHostAccount.account" type="number"
                                aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
                     </td>
                 </tr>
             </table>
-            <button class="btn btn-outline-secondary btn-sm" ng-click="tryToUpdateLegalHostAccount()">Сохранить данные</button>
+            <button class="btn btn-success" style="width: 100%;" ng-click="tryToUpdateLegalHostAccount(updateLegalHostAccount)">Сохранить данные</button>
         </div>
     </div>
 </div>

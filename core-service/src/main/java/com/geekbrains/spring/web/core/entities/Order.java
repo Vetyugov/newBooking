@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -33,10 +32,10 @@ public class Order {
     private Apartment apartment;
 
     @Column(name = "apartment_check_in")
-    private LocalDate apartmentCheckIn;
+    private LocalDate bookingStartDate;
 
     @Column(name = "apartment_check_out")
-    private LocalDate apartmentCheckOut;
+    private LocalDate bookingFinishDate;
 
     @Column (name = "price")
     private BigDecimal price;

@@ -1,17 +1,12 @@
 package com.geekbrains.spring.web.core.booking_date;
 
 import com.geekbrains.spring.web.core.SpringWebApplication;
-import com.geekbrains.spring.web.core.repositories.ApartmentCategoriesRepository;
-import com.geekbrains.spring.web.core.repositories.ApartmentsRepository;
 import com.geekbrains.spring.web.core.repositories.BookingDatesRepository;
-import com.geekbrains.spring.web.core.services.BookingDatesService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 

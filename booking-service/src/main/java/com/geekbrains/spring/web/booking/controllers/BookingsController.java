@@ -63,7 +63,12 @@ public class BookingsController {
                     @RequestParam(name = "finish_date") @Parameter(description = "Дата конца бронирования") String bookingFinishDate
                    ) {
         log.info("Пришел запрос на добавление");
-        bookingService.addToBooking(getCurrentBookingUuid(username, uuid), apartmentId, bookingStartDate, bookingFinishDate);
+        String start = bookingStartDate.substring(0, bookingStartDate.indexOf("T"));
+        String finish = bookingFinishDate.substring(0, bookingFinishDate.indexOf("T"));
+
+        log.info(bookingStartDate + " " + bookingFinishDate + " " + start  + " " + finish);
+
+        bookingService.addToBooking(getCurrentBookingUuid(username, uuid), apartmentId, start, finish);
     }
 
     @PostMapping("/recovery")

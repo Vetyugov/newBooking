@@ -52,7 +52,7 @@ public class BookingConverter {
 
         String info = apartmentDto.getCategory() + ", " +
                 apartmentDto.getTitle() + ", " +
-                apartmentDto.getNumberOfRooms() + " комн., на" +
+                apartmentDto.getNumberOfRooms() + " комн., на " +
                 apartmentDto.getNumberOfBeds() + " мест.";
 
         String address = apartmentDto.getAddressDto().getCity()  + ", " +

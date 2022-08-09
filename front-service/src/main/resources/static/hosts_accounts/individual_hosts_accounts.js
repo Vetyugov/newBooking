@@ -11,29 +11,20 @@
         };
 
     $scope.tryToUpdateIndividualHostAccount = function() {
-        $http.post(contextPath + 'individual/', $scope.updateIndividualHostAccount)
-            if ($scope.updateIndividualHostAccount.name == null || $scope.updateIndividualHostAccount.surname == null || $scope.updateIndividualHostAccount.patronymic == null
-            || $scope.updateIndividualHostAccount.inn == null || $scope.updateIndividualHostAccount.country == null || $scope.updateIndividualHostAccount.address == null
-            || $scope.updateIndividualHostAccount.postcode == null || $scope.updateIndividualHostAccount.account == null ) {
-            alert("Заполните все поля ввода!");
-            }
-            if ($scope.updateIndividualHostAccount.name != null && $scope.updateIndividualHostAccount.surname != null && $scope.updateIndividualHostAccount.patronymic != null
-            && $scope.updateIndividualHostAccount.inn != null && $scope.updateIndividualHostAccount.country != null && $scope.updateIndividualHostAccount.address != null
-            && $scope.updateIndividualHostAccount.postcode != null && $scope.updateIndividualHostAccount.account != null ) {
+        $http.put(contextPath + 'individual/', $scope.updateIndividualHostAccount)
                 $scope.updateIndividualHostAccount = null;
                 alert('Success! Данные обновлены');
                 $route.reload();
-            }
+                $route.reload();
     };
 
-//        $scope.tryToUpdateIndividualHostAccount = function() {
-//            $http.post(contextPath + '/individual/', $scope.updateIndividualHostAccount)
-//                .then(function successCallback(response) {
-//                    $scope.updateIndividualHostAccount = null;
-//                    alert('Success! Данные обновлены');
-//                    $location.path('/individual_hosts_account');
-//                }
-//        )};
+    $scope.transferToMyApartmentsPage  = function() {
+                $location.path('/my_apartments_page');
+    };
+
+    $scope.transferToPageForAddNewApartment = function() {
+                $location.path('/add_new_apartment');
+    };
 
     $scope.loadIndiHostAccount();
 

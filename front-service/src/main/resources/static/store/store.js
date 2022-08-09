@@ -22,6 +22,7 @@ angular.module('new-booking-front').controller('storeController', function ($sco
                 finish_date: $scope.filter ? $scope.filter.finish_date : null
             }
         }).then(function (response) {
+            $localStorage.filter_storage = $scope.filter;
             $scope.ApartmentsPage = response.data;
             $scope.paginationArray = $scope.generatePagesIndexes(1, $scope.ApartmentsPage.totalPages);
         });
@@ -36,15 +37,15 @@ angular.module('new-booking-front').controller('storeController', function ($sco
     }
 
     $scope.addToBooking = function (apartmentId) {
+        if ($scope.filter.city_part == null || $scope.filter.start_date == null || $scope.filter.finish_date == null) {
+            alert("Укажите город и даты заезда и выезда для выбираемого апартамента");
+            return;
+        };
         $http({
             url: 'http://localhost:5555/booking/api/v1/booking/'+ $localStorage.springWebIncognitoBookingId + '/add',
             method: 'GET',
             params: {
                 id: apartmentId,
-                // start_date: $scope.filter ? $scope.filter.start_date : null,
-                // finish_date: $scope.filter ? $scope.filter.finish_date : null
-                // start_date: "2022-08-01",//
-                // finish_date: "2022-08-03"//
                 start_date: $scope.filter.start_date,
                 finish_date: $scope.filter.finish_date
             }

@@ -40,12 +40,17 @@ public class GuestService {
         if (guestDto.getId() != null && guestRepository.existsById(guestDto.getId())) {
             log.info("нашел " + guestDto.getId());
             Guest guest = guestRepository.getById(guestDto.getId());
-            guest.setSurname(guestDto.getSurname());
-            guest.setName(guestDto.getName());
-            guest.setPatronymic(guestDto.getPatronymic());
+            if (guestDto.getSurname() != null) {
+                guest.setSurname(guestDto.getSurname());
+            }
+            if (guestDto.getName() != null) {
+                guest.setName(guestDto.getName());
+            }
+            if (guestDto.getPatronymic() != null) {
+                guest.setPatronymic(guestDto.getPatronymic());
+            }
             guestRepository.save(guest);
             log.info("сохранен " + guest);
-            return;
         }
     }
 }
