@@ -46,15 +46,15 @@ public class ApartmentValidator {
             errors.add("Адрес апартамента не заполнен");
             return;
         }
-            if(addressDto.getCity() == null && addressDto.getCity().isBlank()){
-                errors.add("Поле город не может быть пустым");
-            }
-            if(addressDto.getStreet() == null && addressDto.getStreet().isBlank()){
-                errors.add("Поле улица не может быть пустым");
-            }
-            if(addressDto.getBuildingNumber() == null && addressDto.getBuildingNumber() <=0){
-                errors.add("Поле номер дома не может быть пустым или меньше 1");
-            }
+        if(addressDto.getCity() == null && addressDto.getCity().isBlank()){
+            errors.add("Поле город не может быть пустым");
         }
+        if(addressDto.getStreet() == null && addressDto.getStreet().isBlank()){
+            errors.add("Поле улица не может быть пустым");
+        }
+        if(addressDto.getBuildingNumber() == null && addressDto.getBuildingNumber() <=0){
+            errors.add("Поле номер дома не может быть пустым или меньше 1");
+        }
+    }
 }
 
