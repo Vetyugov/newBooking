@@ -42,7 +42,10 @@ public class ApartmentValidator {
     }
 
     private void validateAddress(AddressDto addressDto){
-        if(addressDto != null){
+        if(addressDto == null){
+            errors.add("Адрес апартамента не заполнен");
+            return;
+        }
             if(addressDto.getCity() == null && addressDto.getCity().isBlank()){
                 errors.add("Поле город не может быть пустым");
             }
@@ -53,6 +56,5 @@ public class ApartmentValidator {
                 errors.add("Поле номер дома не может быть пустым или меньше 1");
             }
         }
-        errors.add("Адрес апартамента не заполнен");
-    }
 }
+
