@@ -1,0 +1,42 @@
+<div>
+    <p></p>
+    <h3>Список моих апартаментов</h3>
+    <h3 ng-show="myApartments.length == 0">Здесь пусто. Добавьте <a href="#!/add_new_apartment">апартамент</a></h3>
+    <p></p>
+    <div ng-show="myApartments.length != 0" class="col-sm-6 col-md-10">
+        <table class="table table-hover">
+            <tr>
+                <td hidden>ID</td>
+                <td>Название</td>
+                <td>Категория</td>
+                <td>Город</td>
+                <td>Улица</td>
+                <td>Номер дома</td>
+                <td>Количество квадратных метров</td>
+                <td>Число гостей</td>
+                <td>Количество комнат</td>
+                <td>Количество спальных мест</td>
+                <td>Цена за ночь</td>
+                <td hidden>Логин</td>
+                <td>Изменить</td>
+            </tr>
+            <tbody>
+            <tr ng-repeat="apartment in myApartments">
+                <td hidden>{{apartment.id}}</td>
+                <td>{{apartment.title}}</td>
+                <td>{{apartment.category}}</td>
+                <td>{{apartment.addressDto.city}}</td>
+                <td>{{apartment.addressDto.street}}</td>
+                <td>{{apartment.addressDto.buildingNumber}}</td>
+                <td>{{apartment.squareMeters}}</td>
+                <td>{{apartment.numberOfGuests}}</td>
+                <td>{{apartment.numberOfRooms}}</td>
+                <td>{{apartment.numberOfBeds}}</td>
+                <td>{{apartment.pricePerNight}}</td>
+                <td hidden>{{apartment.username}}</td>
+                <td><button class="btn btn-success" style="width: 100%;" ng-click="transferToUpdate(apartment.id)">Изменить</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

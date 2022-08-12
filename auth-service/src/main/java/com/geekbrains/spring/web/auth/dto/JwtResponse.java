@@ -10,4 +10,6 @@ import lombok.Data;
 public class JwtResponse {
     @Schema(description = "Значение")
     private String token;
+
+    private String role;
 }

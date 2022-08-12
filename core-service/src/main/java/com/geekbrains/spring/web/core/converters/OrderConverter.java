@@ -5,8 +5,6 @@ import com.geekbrains.spring.web.core.entities.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 public class OrderConverter {
@@ -19,9 +17,10 @@ public class OrderConverter {
         OrderDtoInfo out = OrderDtoInfo.builder()
                 .id(order.getId())
                 .username(order.getUsername())
-                .apartment_id(order.getApartment().getId())
-                .apartmentCheckIn(order.getApartmentCheckIn())
-                .apartmentCheckOut(order.getApartmentCheckOut())
+                .apartmentId(order.getApartment().getId())
+                .apartmentTitle(order.getApartment().getTitle())
+                .apartmentCheckIn(order.getBookingStartDate())
+                .apartmentCheckOut(order.getBookingFinishDate())
                 .price(order.getPrice())
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus().getDescriptionRU())

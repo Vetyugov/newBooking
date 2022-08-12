@@ -1,0 +1,61 @@
+<div>
+    <p></p>
+    <h3>Активные заказы</h3>
+    <p></p>
+
+    <table class="table table-hover">
+        <tr>
+            <td>ID заказа</td>
+            <td>Название жилья</td>
+            <td>Дата заселения</td>
+            <td>Дата выселения</td>
+            <td>Цена за одну ночь</td>
+            <td>Полная стоимость</td>
+            <td>Статус заказа</td>
+            <td></td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="order in MyOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.apartmentTitle}}</td>
+            <td>{{order.apartmentCheckIn}}</td>
+            <td>{{order.apartmentCheckOut}}</td>
+            <td>{{order.price}}</td>
+            <td>{{order.totalPrice}}</td>
+            <td>{{order.status}}</td>
+            <td>
+                <button class="btn btn-primary" ng-show="isStatusWaiting(order.status)" ng-click="payOrder(order.id)">Оплатить</button>
+                <button class="btn btn-danger"  ng-show="isStatusWaiting(order.status)"ng-click="cancelOrder(order.id)">Отменить</button>
+                <button class="btn btn-danger"  ng-show="isStatusBooked(order.status)"ng-click="confirmStay(order.id)">Подтвердить факт проживания</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p></p>
+    <h3>История заказов</h3>
+    <p></p>
+
+    <table class="table table-hover">
+        <tr>
+            <td>ID заказа</td>
+            <td>Название жилья</td>
+            <td>Дата заселения</td>
+            <td>Дата выселения</td>
+            <td>Цена за одну ночь</td>
+            <td>Полная стоимость</td>
+            <td>Статус заказа</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="orderH in MyOrdersHistory">
+            <td>{{orderH.id}}</td>
+            <td>{{orderH.apartmentTitle}}</td>
+            <td>{{orderH.apartmentCheckIn}}</td>
+            <td>{{orderH.apartmentCheckOut}}</td>
+            <td>{{orderH.price}}</td>
+            <td>{{orderH.totalPrice}}</td>
+            <td>{{orderH.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

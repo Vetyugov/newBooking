@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "apartments")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Apartment {
     @Id
@@ -26,14 +27,8 @@ public class Apartment {
     @JoinColumn (name = "apartment_category_id")
     private ApartmentCategory apartmentCategory;
 
-    @Column (name = "city")
-    private String city;
-
-    @Column (name = "street")
-    private String street;
-
-    @Column (name = "building_number")
-    private Integer buildingNumber;
+    @Embedded
+    private Address address;
 
     @Column (name = "square_meters")
     private Integer squareMeters;
@@ -53,6 +48,14 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<BookingDate> bookingDates;
 
+    @Column(name = "username")
+    private String username;
+
+    //TODO добавить поля check-in, check-out
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ApartmentStatus status;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -61,25 +64,6 @@ public class Apartment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void setBookingDates(List<BookingDate> bookingDates) {
-        this.bookingDates = bookingDates;
-    }
-
-    @Override
-    public String toString() {
-        return "Apartment{" +
-                "title='" + title + '\'' +
-                ", apartmentCategory=" + apartmentCategory.getTitle() +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNumber=" + buildingNumber +
-                ", squareMeters=" + squareMeters +
-                ", numberOfGuests=" + numberOfGuests +
-                ", numberOfRooms=" + numberOfRooms +
-                ", numberOfBeds=" + numberOfBeds +
-                ", pricePerNight=" + pricePerNight +
-                '}';
-    }
 
     public static class Builder {
         private final Apartment apartment;
@@ -103,26 +87,17 @@ public class Apartment {
             return this;
         }
 
-        //продумать выбор имеющейся категории
         public Builder apartmentCategory(ApartmentCategory apartmentCategory) {
             apartment.apartmentCategory = apartmentCategory;
             return this;
         }
 
-        public Builder city(String city) {
-            apartment.city = city;
+
+        public Builder address(Address address) {
+            apartment.address = address;
             return this;
         }
 
-        public Builder street(String street) {
-            apartment.street = street;
-            return this;
-        }
-
-        public Builder buildingNumber(Integer buildingNumber) {
-            apartment.buildingNumber = buildingNumber;
-            return this;
-        }
 
         public Builder squareMeters(Integer squareMeters) {
             apartment.squareMeters = squareMeters;
@@ -141,6 +116,11 @@ public class Apartment {
 
         public Builder numberOfBeds(Integer numberOfBeds) {
             apartment.numberOfBeds = numberOfBeds;
+            return this;
+        }
+
+        public Builder username(String username) {
+            apartment.username = username;
             return this;
         }
 

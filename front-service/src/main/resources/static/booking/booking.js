@@ -21,14 +21,29 @@ angular.module('new-booking-front').controller('bookingController', function ($s
             });
     }
 
-    $scope.checkOut = function () {
+    $scope.checkOut = function (id) {
         $http({
-            url: 'http://localhost:5555/core/api/v1/orders',
-            method: 'POST',
-            data: $scope.orderDetails
+            url: contextPath + 'api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/choose',
+            method: 'GET',
+            params: {
+                itemId: id
+            }
         }).then(function (response) {
             $scope.loadBooking();
-            $scope.orderDetails = null
+        });
+    };
+
+    $scope.removeBookingItem = function (apartmentId, startDate, finishDate) {
+        $http({
+            url: contextPath + 'api/v1/booking/' + $localStorage.springWebIncognitoBookingId + '/remove',
+            method: 'GET',
+            params: {
+                id: apartmentId,
+                start_date: startDate,
+                finish_date: finishDate
+            }
+        }).then(function (response) {
+            $scope.loadBooking();
         });
     };
 

@@ -35,14 +35,8 @@ public class Guest {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email", unique = true)
-    private String email;
-
     @Column(name = "username", unique = true)
     private String username;
-
-    @Column(name = "password")
-    private String password;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -52,14 +46,12 @@ public class Guest {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Guest(Long id, User user, String name, String patronymic, String surname, String email, String username, String password) {
+    public Guest(Long id, User user, String name, String patronymic, String surname,String username) {
         this.id = id;
         this.user = user;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
-        this.email = email;
         this.username = username;
-        this.password = password;
     }
 }

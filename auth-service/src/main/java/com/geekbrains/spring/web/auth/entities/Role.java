@@ -1,34 +1,18 @@
 package com.geekbrains.spring.web.auth.entities;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Collection;
 
-@Entity
-@Data
-@Table(name = "roles")
-@NoArgsConstructor
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public enum Role {
+    ROLE_GUEST, //пользователь, арендатор
+    ROLE_OWNER, //владелец сервиса, ему нужна статистика, отчеты, прибыль
+    ROLE_LEGAL_HOST, //арендодатель, владелец жилья, объекта (юр лицо), не может арендовывать
+    ROLE_INDIVIDUAL_HOST, //арендодатель, владелец жилья, объекта (физ лицо), может арендовывать
+    ROLE_ADMIN; //администратор сайта, поддержка
 
-    @Column(name = "name")
-    private String name;
+    public static boolean isUserHost(String role){
+        return Role.valueOf(role).equals(Role.ROLE_LEGAL_HOST) || Role.valueOf(role).equals(Role.ROLE_INDIVIDUAL_HOST);
+    }
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-//    private Collection<GrantedAuthority> authorities;
+    public static boolean isUserGuest(String role){
+        return Role.valueOf(role).equals(Role.ROLE_GUEST);
+    }
 }

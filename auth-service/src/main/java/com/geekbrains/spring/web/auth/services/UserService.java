@@ -1,29 +1,32 @@
 package com.geekbrains.spring.web.auth.services;
 
-import com.geekbrains.spring.web.api.core.ProfileDto;
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.auth.converters.UserConverter;
 import com.geekbrains.spring.web.auth.entities.Role;
 import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
     private final UserConverter userConverter;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final HostService hostService;
+    private final GuestService guestService;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -33,25 +36,30 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        ArrayList<Role> userArrayRole = new ArrayList();
-        userArrayRole.add(user.getRole());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(userArrayRole));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority(user.getRole().toString())));
     }
 
     @Transactional
-    public void saveUser(ProfileDto profileDto) {
-        if (profileDto.getId() != null && userRepository.existsById(profileDto.getId())) {
-            User user = userRepository.getById(profileDto.getId());
-            user.setEmail(profileDto.getEmail());
+    public void createOrUpdateUser(UserDto userDto) {
+        if (userDto.getId() != null) {
+            User user = userRepository.getById(userDto.getId());
+            user.setEmail(userDto.getEmail());
+            user.setRole(Role.valueOf(userDto.getRoleName()));
             userRepository.save(user);
             return;
         }
-        User user = userConverter.profileDtoToUserConverter(profileDto);
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
+        user.setRole(Role.valueOf(userDto.getRoleName()));
         userRepository.save(user);
+        if (Role.isUserHost(userDto.getRoleName())) {
+            hostService.createNewHost(userDto, user);
+        }
+        if (Role.isUserGuest(userDto.getRoleName())) {
+            guestService.createNewGuest(userDto, user);
+        }
     }
 
     public boolean existByEmail(String email) {
@@ -61,8 +69,4 @@ public class UserService implements UserDetailsService {
     public boolean existByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
-
-//    public boolean emailBelongsToThisUser(ProfileDto profileDto) {
-//        return findByUsername(profileDto.getUsername()).getEmail().equals(profileDto.getEmail());
-//    }
 }

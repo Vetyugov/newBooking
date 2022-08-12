@@ -1,29 +1,26 @@
 package com.geekbrains.spring.web.auth.services;
 
+import com.geekbrains.spring.web.api.core.UserDto;
 import com.geekbrains.spring.web.api.dto.IndividualHostDto;
 import com.geekbrains.spring.web.api.dto.LegalHostDto;
+import com.geekbrains.spring.web.auth.converters.HostConverter;
 import com.geekbrains.spring.web.auth.entities.Host;
-import com.geekbrains.spring.web.auth.entities.Role;
+import com.geekbrains.spring.web.auth.entities.User;
 import com.geekbrains.spring.web.auth.repositories.HostRepository;
-import com.geekbrains.spring.web.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class HostService {
+@Slf4j
+public class  HostService {
     private final HostRepository hostRepository;
+    private final HostConverter hostConverter;
 
     public Optional<Host> findById(Long id) {
         return hostRepository.findById(id);
@@ -38,15 +35,80 @@ public class HostService {
         return hostRepository.existsByUsername(username);
     }
 
-    public Boolean existByEmail(String email) {
-        return hostRepository.existsByEmail(email);
+    @Transactional
+    public void createNewHost(UserDto userDto, User user) {
+        Host host = hostConverter.hostDtoToEntity(userDto, user);
+        hostRepository.save(host);
     }
 
-    public Boolean emailBelongsToLegalHost (LegalHostDto legalHostDto){
-        return findByUsername(legalHostDto.getUsername()).getEmail().equals(legalHostDto.getEmail());
+    @Transactional
+    public void updateLegalHost(LegalHostDto legalHostDto) {
+        if (legalHostDto.getId() != null && hostRepository.existsById(legalHostDto.getId())) {
+            log.info("нашел " + legalHostDto.getId());
+            Host host = hostRepository.getById(legalHostDto.getId());
+            if (legalHostDto.getSurname() != null) {
+                host.setSurname(legalHostDto.getSurname());
+            }
+            if (legalHostDto.getName() != null) {
+                host.setName(legalHostDto.getName());
+            }
+            if (legalHostDto.getPatronymic() != null) {
+                host.setPatronymic(legalHostDto.getPatronymic());
+            }
+            if (legalHostDto.getTitleFirm() != null) {
+                host.setTitleFirm(legalHostDto.getTitleFirm());
+            }
+            if (legalHostDto.getInn() != null) {
+                host.setInn(legalHostDto.getInn());
+            }
+            if (legalHostDto.getCountry() != null) {
+                host.setCountry(legalHostDto.getCountry());
+            }
+            if (legalHostDto.getOfficeAddress() != null) {
+                host.setOfficeAddress(legalHostDto.getOfficeAddress());
+            }
+            if (legalHostDto.getPostcode() != null) {
+                host.setPostcode(legalHostDto.getPostcode());
+            }
+            if (legalHostDto.getAccount() != null) {
+                host.setAccount(legalHostDto.getAccount());
+            }
+            hostRepository.save(host);
+            log.info("сохранен " + host );
+        }
     }
 
-    public Boolean emailBelongsToIndividualHost (IndividualHostDto individualHostDto){
-        return findByUsername(individualHostDto.getUsername()).getEmail().equals(individualHostDto.getEmail());
+    @Transactional
+    public void updateIndividualHost(IndividualHostDto individualHostDto) {
+        if (individualHostDto.getId() != null && hostRepository.existsById(individualHostDto.getId())) {
+            log.info("нашел " + individualHostDto.getId());
+            Host host = hostRepository.getById(individualHostDto.getId());
+            if (individualHostDto.getSurname() != null) {
+                host.setSurname(individualHostDto.getSurname());
+            }
+            if (individualHostDto.getName() != null) {
+                host.setName(individualHostDto.getName());
+            }
+            if (individualHostDto.getPatronymic() != null) {
+                host.setPatronymic(individualHostDto.getPatronymic());
+            }
+            if (individualHostDto.getCountry() != null) {
+                host.setCountry(individualHostDto.getCountry());
+            }
+            if (individualHostDto.getAddress() != null) {
+                host.setAddress(individualHostDto.getAddress());
+            }
+            if (individualHostDto.getPostcode() != null) {
+                host.setPostcode(individualHostDto.getPostcode());
+            }
+            if (individualHostDto.getInn() != null) {
+                host.setInn(individualHostDto.getInn());
+            }
+            if (individualHostDto.getAccount() != null) {
+                host.setAccount(individualHostDto.getAccount());
+            }
+            hostRepository.save(host);
+            log.info("сохранен " + host );
+        }
     }
 }

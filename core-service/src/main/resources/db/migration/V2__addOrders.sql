@@ -6,12 +6,12 @@ create table order_status (
 );
 
 insert into order_status (description, descriptionRU)
-values ('selected', 'выбран'),
-       ('unselected', 'не выбран'),
-       ('awaiting payment', 'ожидает оплаты'),
+values ('awaiting payment', 'ожидает оплаты'),
+       ('paid', 'оплачен'),
        ('booked', 'забронирован'),
        ('canceled', 'отменён'),
-       ('completed', 'выполнен');
+       ('completed', 'выполнен'),
+       ('cash is out', 'средства выведены');
 
 create table orders
 (
@@ -30,6 +30,9 @@ create table orders
 
 
 insert into orders (user_name, apartment_id, apartment_check_in, apartment_check_out, price, total_price, status_id)
-values ('bob', 1, '2022-01-26', '2022-01-30', 2000.50, 2000.50, 1),
-       ('mike', 2, '2022-02-23', '2022-02-26', 1600.00, 1600.00, 4);
+values ('bob', 1, '2022-07-04', '2022-07-09', 2000.50, 8002.00, 2),
+       ('bob', 1, '2022-08-01', '2022-08-03', 1600.00, 4800.00, 3),
+       ('bob', 1, '2022-06-02', '2022-06-15', 1600.00, 4800.00, 2),
+       ('bob', 2, '2022-05-13', '2022-05-14', 1600.00, 4800.00, 2);;
+
 

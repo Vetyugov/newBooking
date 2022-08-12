@@ -1,6 +1,5 @@
 package com.geekbrains.spring.web.auth.entities;
 
-import com.geekbrains.spring.web.auth.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Table(name = "hosts")
 @Entity
@@ -25,10 +23,6 @@ public class Host {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "role_id", unique = true)
-    private Role role;
-
-    @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
@@ -41,14 +35,8 @@ public class Host {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email", unique = true)
-    private String email;
-
     @Column(name = "username", unique = true)
     private String username;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name = "title_firm")
     private String titleFirm;
@@ -68,14 +56,8 @@ public class Host {
     @Column(name = "inn")
     private Integer inn;
 
-    @Column(name = "account")// или отдельная таблица со счетами
-    private Integer account;
-
-//    @ManyToMany
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Collection<Role> roles;
+    @Column(name = "account")
+    private String account;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -85,19 +67,30 @@ public class Host {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Host(Long id, Role role, User user, String name, String patronymic, String surname, String email, String username, String password, String titleFirm, String country, String officeAddress, String postcode, Integer inn, Integer account) {
+    public Host(Long id, User user, String name, String patronymic, String surname, String username, String titleFirm, String country, String officeAddress, String postcode, Integer inn, String account) {
         this.id = id;
-        this.role = role;
         this.user = user;
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
-        this.email = email;
         this.username = username;
-        this.password = password;
         this.titleFirm = titleFirm;
         this.country = country;
         this.officeAddress = officeAddress;
+        this.postcode = postcode;
+        this.inn = inn;
+        this.account = account;
+    }
+
+    public Host(Long id, User user, String name, String patronymic, String surname, String username, String country, String address, String postcode, Integer inn, String account) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.surname = surname;
+        this.username = username;
+        this.country = country;
+        this.address = address;
         this.postcode = postcode;
         this.inn = inn;
         this.account = account;

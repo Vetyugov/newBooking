@@ -18,6 +18,10 @@ public class OrderStatusService {
         return orderStatusRepository.findById(id);
     }
 
+    public Optional<OrderStatus> findByDesc(String desc) {
+        return orderStatusRepository.findByDesc(desc);
+    }
+
     public List<OrderStatus> findAll(){
         return orderStatusRepository.findAll();
     }

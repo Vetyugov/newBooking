@@ -7,13 +7,16 @@
         <div class="col-6 col-md-2">
             <form novalidate ng-submit="loadApartments()">
                 <div class="form-floating input-group-sm">
-                    <input type="text" class="form-control" id="filterCategory" placeholder="" ng-model="filter.category_part">
-                    <label for="filterTitle">Категория</label>
+                    <input type="text" name="city" class="form-control" id="filterCity" placeholder="Город" ng-model="filter.city_part" required>
+                    <label for="filterCity" >Город</label>
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
-                    <label for="filterTitle">Категория</label>
+                    <input type="date" name="startDate" required="required" class="form-control" id="filterStartDate" placeholder="" ng-model="filter.start_date">
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input  type="date" name="finishDate" required="required" class="form-control" id="filterFinishDate" placeholder="" ng-model="filter.finish_date">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
@@ -26,13 +29,48 @@
                     <label for="filterMaxPrice">Макс. цена</label>
                 </div>
                 <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="number" class="form-control" id="filterMinSquare" placeholder="" ng-model="filter.min_square_meters">
+                    <label for="filterMinSquare">Мин. кол-во квадратных метров</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="number" class="form-control" id="filterMaxSquare" placeholder="" ng-model="filter.max_square_meters">
+                    <label for="filterMaxSquare">Макс. кол-во квадратных метров</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="text" class="form-control" id="filterGuests" placeholder="" ng-model="filter.number_of_guests">
+                    <label for="filterGuests">Кол-во гостей</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="text" class="form-control" id="filterRooms" placeholder="" ng-model="filter.number_of_rooms">
+                    <label for="filterRooms">Кол-во комнат</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="text" class="form-control" id="filterBeds" placeholder="" ng-model="filter.number_of_beds">
+                    <label for="filterBeds">Кол-во спальных мест</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
+                    <label for="filterTitle">Название</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input type="text" class="form-control" id="filterCategory" placeholder="" ng-model="filter.category_part">
+                    <label for="filterCategory">Категория</label>
+                </div>
+                <p></p>
                 <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
             </form>
         </div>
         <div class="col-sm-6 col-md-10">
             <table class="table table-hover">
                 <tr>
-                    <td>ID</td>
+                    <td hidden>ID</td>
                     <td>Категория</td>
                     <td>Название</td>
                     <td>Город</td>
@@ -45,17 +83,17 @@
                 </tr>
                 <tbody>
                 <tr ng-repeat="a in ApartmentsPage.content">
-                    <td>{{a.id}}</td>
-                    <td>{{a.categoryTitle}}</td>
+                    <td hidden>{{a.id}}</td>
+                    <td>{{a.category}}</td>
                     <td>{{a.title}}</td>
-                    <td>{{a.city}}</td>
-                    <td>{{a.street}}</td>
-                    <td>{{a.buildingNumber}}</td>
+                    <td>{{a.addressDto.city}}</td>
+                    <td>{{a.addressDto.street}}</td>
+                    <td>{{a.addressDto.buildingNumber}}</td>
                     <td>{{a.numberOfRooms}}</td>
                     <td>{{a.numberOfBeds}}</td>
                     <td>{{a.pricePerNight}}</td>
                     <td>
-                        <button class="btn btn-primary" ng-click="addToBooking(p.id)">Добавить в бронь</button>
+                        <button class="btn btn-primary" ng-show="city != 0" ng-click="addToBooking(a.id)">Добавить в бронь</button>
                     </td>
                 </tr>
                 </tbody>

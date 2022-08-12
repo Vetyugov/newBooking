@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.api.exceptions;
 
-public class AppError {
+public class AppError extends Throwable {
     private String code;
     private String message;
 

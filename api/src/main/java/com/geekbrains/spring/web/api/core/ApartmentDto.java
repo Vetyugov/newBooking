@@ -19,14 +19,8 @@ public class ApartmentDto {
     @Schema(description = "Категория апартамента", required = true, example = "Квартира")
     private String category;
 
-    @Schema(description = "Название города", required = true, example = "Москва")
-    private String city;
-
-    @Schema(description = "Назавние улицы", required = true, example = "Ленина")
-    private String street;
-
-    @Schema(description = "Номер дома", required = true, example = "4")
-    private Integer buildingNumber;
+    @Schema(description = "Адрес", required = true)
+    private AddressDto addressDto;
 
     @Schema(description = "Площадь помещения", required = true, example = "35")
     private Integer squareMeters;
@@ -40,6 +34,11 @@ public class ApartmentDto {
     @Schema(description = "Кол-во спальных мест", required = true, example = "4")
     private Integer numberOfBeds;
 
+    @Schema(description = "Имя пользователя", required = true, example = "bob")
+    private String username;
+
+    private ApartmentDto() {
+    }
 
     public Long getId() {
         return id;
@@ -57,16 +56,8 @@ public class ApartmentDto {
         return category;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public Integer getBuildingNumber() {
-        return buildingNumber;
+    public AddressDto getAddressDto() {
+        return addressDto;
     }
 
     public Integer getSquareMeters() {
@@ -85,20 +76,8 @@ public class ApartmentDto {
         return numberOfBeds;
     }
 
-    @Override
-    public String toString() {
-        return "ApartmentDto{" +
-                ", title='" + title + '\'' +
-                ", pricePerNight=" + pricePerNight +
-                ", category='" + category + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNumber=" + buildingNumber +
-                ", squareMeters=" + squareMeters +
-                ", numberOfGuests=" + numberOfGuests +
-                ", numberOfRooms=" + numberOfRooms +
-                ", numberOfBeds=" + numberOfBeds +
-                '}';
+    public String getUsername() {
+        return username;
     }
 
     public static class Builder {
@@ -128,20 +107,12 @@ public class ApartmentDto {
             return this;
         }
 
-        public Builder city(String city) {
-            apartmentDto.city = city;
+        public Builder addressDto(String city, String street, Integer buildingNumber) {
+            AddressDto addressDto = new AddressDto(city, street, buildingNumber);
+            apartmentDto.addressDto = addressDto;
             return this;
         }
 
-        public Builder street(String street) {
-            apartmentDto.street = street;
-            return this;
-        }
-
-        public Builder buildingNumber(Integer buildingNumber) {
-            apartmentDto.buildingNumber = buildingNumber;
-            return this;
-        }
 
         public Builder squareMeters(Integer squareMeters) {
             apartmentDto.squareMeters = squareMeters;
@@ -160,6 +131,11 @@ public class ApartmentDto {
 
         public Builder numberOfBeds(Integer numberOfBeds) {
             apartmentDto.numberOfBeds = numberOfBeds;
+            return this;
+        }
+
+        public Builder username(String username) {
+            apartmentDto.username = username;
             return this;
         }
 

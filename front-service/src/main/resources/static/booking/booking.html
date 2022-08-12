@@ -1,38 +1,41 @@
 <div>
     <p></p>
-    <h3>Корзина</h3>
-    <table class="table table-hover">
+    <h3>Список бронирования</h3>
+    <h3 ng-show="isUserLoggedIn() && booking.items.length == 0">Здесь пусто. Выберите <a href="#!/store">апартамент</a></h3>
+    <table ng-show="isUserLoggedIn() && booking.items.length > 0" class="table table-hover">
         <tr>
-            <td>Название апартамента</td>
-            <td>Количество</td>
-            <td>Цена</td>
+            <td>ID</td>
+            <td>Апартамент</td>
+            <td>Адрес</td>
+            <td>Период</td>
+            <td>Стоимость</td>
+            <td>Действия</td>
+
         </tr>
         <tbody>
         <tr ng-repeat="item in booking.items">
-            <td>{{item.apartmentTitle}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.pricePerApartment + ' x ' + item.quantity + ' = ' + item.price}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Итого</td>
-            <td>{{booking.totalPrice}}</td>
+            <td>{{item.itemId}}</td>
+            <td>{{item.apartmentInfo}}</td>
+            <td>{{item.apartmentAddress}}</td>
+            <td>{{'From: ' + item.bookingStartDate}}
+                <p> {{'To:   ' + item.bookingFinishDate}}</p>
+            <td>{{item.pricePerNight + ' x ' + item.bookingDuration}}
+                <p> {{item.pricePerOrder}}</p>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-sm"
+                        ng-click="removeBookingItem(item.apartmentId, item.bookingStartDate, item.bookingFinishDate)">
+                    Удалить
+                </button>
+                <button class="btn btn-primary btn-sm" ng-show="isUserLoggedIn()" ng-click="checkOut(item.itemId)">Оформить заказ</button>
+                <button class="btn btn-secondary btn-sm" ng-show="!isUserLoggedIn()" ng-click="disabledCheckOut()">Оформить</button>
+            </td>
+
         </tr>
         </tbody>
     </table>
     <p>
-        <button class="btn btn-secondary" ng-click="clearBooking()">Очистить корзину</button>
+        <button  ng-show="isUserLoggedIn() && booking.items.length > 0" class="btn btn-secondary" ng-click="clearBooking()">Очистить список</button>
     </p>
 
-    <p></p>
-    <h3>Детали заказа</h3>
-    <form novalidate>
-        <input class="form-control" type="text" placeholder="Номер телефона получателя" ng-model="orderDetails.phone">
-        <p></p>
-        <input class="form-control" type="text" placeholder="Адрес доставки" ng-model="orderDetails.address">
-        <p></p>
-    </form>
-
-    <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && booking.items.length > 0">Оформить заказ</button>
-    <button class="btn btn-secondary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && booking.items.length > 0">Оформить заказ</button>
 </div>

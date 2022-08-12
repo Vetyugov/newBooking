@@ -1,33 +1,25 @@
 package com.geekbrains.spring.web.api.bookings;
 
-import java.math.BigDecimal;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldDefaults;
+
 import java.util.List;
-
+@Data
+@NoArgsConstructor
+@Accessors(chain = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Schema(description = "Список объектов бронирования")
+@ToString
 public class BookingDto {
+
+    @Schema(description = "Список объектов бронирования")
     private List<BookingItemDto> items;
-    private BigDecimal totalPrice;
 
-    public List<BookingItemDto> getItems() {
-        return items;
-    }
-
-    public void setItems(List<BookingItemDto> items) {
+    public BookingDto(List<BookingItemDto> items) {
         this.items = items;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public BookingDto() {
-    }
-
-    public BookingDto(List<BookingItemDto> items, BigDecimal totalPrice) {
-        this.items = items;
-        this.totalPrice = totalPrice;
-    }
 }
