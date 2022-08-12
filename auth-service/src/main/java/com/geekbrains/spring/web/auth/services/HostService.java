@@ -55,6 +55,9 @@ public class  HostService {
             if (legalHostDto.getPatronymic() != null) {
                 host.setPatronymic(legalHostDto.getPatronymic());
             }
+            if (legalHostDto.getTitleFirm() != null) {
+                host.setTitleFirm(legalHostDto.getTitleFirm());
+            }
             if (legalHostDto.getInn() != null) {
                 host.setInn(legalHostDto.getInn());
             }
