@@ -30,6 +30,7 @@ public class ApartmentsServiceTest {
     @Autowired
     private ApartmentsService apartmentsService;
 
+
     @BeforeAll
     public static void createApartment(){
         ApartmentCategory apartmentCategory = new ApartmentCategory();

@@ -4,6 +4,7 @@ import com.geekbrains.spring.web.api.core.ApartmentDto;
 import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.core.entities.Apartment;
+import com.geekbrains.spring.web.core.exceptions.FieldsValidationError;
 import com.geekbrains.spring.web.core.validators.ApartmentValidator;
 import com.geekbrains.spring.web.core.converters.ApartmentConverter;
 import com.geekbrains.spring.web.core.services.ApartmentsService;
@@ -100,14 +101,16 @@ public class ApartmentsController {
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ApartmentDto.class))
-                    )
+                            content = @Content(schema = @Schema(implementation = ApartmentDto.class))),
+                            @ApiResponse(description = "Поля заполнены не корректно", responseCode = "400",
+                                    content = @Content(schema = @Schema(implementation = FieldsValidationError.class)))
             }
 
     )
     @PostMapping
     public ApartmentDto saveNewApartment(@RequestBody @Parameter(description = "Dto для создания апартамента", required = true) ApartmentDto apartmentDto) {
         apartmentValidator.validate(apartmentDto);
+        log.info("validation is complete");
         Apartment apartment = apartmentConverter.apartmentDtoToEntity(apartmentDto);
         apartment = apartmentsService.save(apartment);
         return apartmentConverter.entityToApartmentDto(apartment);
